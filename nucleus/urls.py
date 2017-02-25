@@ -24,9 +24,9 @@ from rango import views
 urlpatterns = [
     url(r'^$', views.sign_in, name='index'),
     url(r'^students/', views.all_students, name="all_students"),
-	url(r'^sign-in/',views.sign_in, name="sign_in"),
-	url(r'^register/',views.register, name="register"),
-	url(r'^forgot-password',views.forgot_password, name="forgot_password"),
-	url(r'^logout/$', views.user_logout, name='user_logout'),
+    url(r'^sign-in/',views.sign_in, name="sign_in"),
+    url(r'^register/',views.register, name="register"),
+    url(r'^forgot-password',views.forgot_password, name="forgot_password"),
+    url(r'^logout/$', views.user_logout, name='user_logout'),
     url(r'^admin/', admin.site.urls),
 ]
