@@ -6,21 +6,23 @@
 {% endblock %}
 
 {% block main_block %}
-  <h2>All Students</h2>
+  <div class="cont">
+    <h2>All Students</h2>
 
-  {% if students %}
-    <div>Number of registered students: {{ students|length }}</div>
-    <div>
-      <ul>
-        {% for student in students %}
-          <li>
-            {{ student }}
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% else %}
-    <strong>There are no registered students.</strong>
-  {% endif %}
-
+    {% if students %}
+      <div>Number of registered students: {{ students|length }}/168</div>
+      <div>Average number of tests passed: 50/69 </div>
+      <div>
+        <ul class="all_students">
+          {% for student in students %}
+            <li>
+              {{ student }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <strong>There are no registered students.</strong>
+    {% endif %}
+  </div>
 {% endblock %}
