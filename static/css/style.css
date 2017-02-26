@@ -27,10 +27,4 @@ body{
 
 .all_students{
   padding-top: 20px;
-  list-style: none;
-  font-size: 20px;
-}
-
-.all_students li{
-  padding-top: 5px;
 }
