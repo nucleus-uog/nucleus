@@ -12,14 +12,14 @@
     {% if students %}
       <div>Number of registered students: {{ students|length }}/168</div>
       <div>Average number of tests passed: 50/69 </div>
-      <ul class="list-group all_students">
+      <div class="list-group all_students">
         {% for student in students %}
           <a class="list-group-item justify-content-between list-group-item-action">
             {{ student.name }} ({{ student.guid }})
             <span class="badge badge-default badge-pill"> {{ student.score }}/69 </span>
           </a>
         {% endfor %}
-      </ul>
+      </div>
     {% else %}
       <strong>There are no registered students.</strong>
     {% endif %}
