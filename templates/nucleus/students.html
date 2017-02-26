@@ -16,7 +16,7 @@
         <ul class="all_students">
           {% for student in students %}
             <li>
-              {{ student }}
+              {{ student.guid }} - {{ student.name }} - {{ student.score }}/69
             </li>
           {% endfor %}
         </ul>
