@@ -6,18 +6,22 @@ body{
 }
 
 .navbar-brand{
-    font-size: 35px;
+    font-size: 40px;
 }
 
 .top{
-    width: 70%;
+    width: 80%;
     margin: 0 auto 0 auto;
 }
 
 .main{
     background-color: #fff;
-    width: 70%;
+    width: 80%;
     margin: 0 auto 0 auto;
     border: 1px solid #acacac;
     height: 300px; /* remove this */
+}
+
+.main *{
+  padding: 10px;
 }
