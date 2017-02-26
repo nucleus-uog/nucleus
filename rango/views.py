@@ -7,8 +7,8 @@ from rango.models import Student
 # add @login_required
 def all_students(request):
 
-    student_list = Student.objects.order_by('guid')
+    #student_list = Student.objects.order_by('guid')
 
-    context_dict = { 'students': student_list }
+    context_dict = { 'students': ['2198970T', '2198989X'] }
 
     return render(request, 'nucleus/students.html', context=context_dict)

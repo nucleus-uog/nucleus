@@ -2,25 +2,25 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Students
+  Students
 {% endblock %}
 
 {% block main_block %}
-    <h2>All Students</h2>
+  <h2>All Students</h2>
 
+  {% if students %}
+    <div>Number of registered students: {{ students|length }}</div>
     <div>
-        {% if students %}
-            <ul>
-                {% for student in students %}
-                  <li>
-                      <!-- <a href="{% url 'show_category' category.slug %}">{{ category.name }}</a> -->
-                      <!-- GUID - NAME - RECENT SCORE -->
-                  </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no registered students.</strong>
-        {% endif %}
+      <ul>
+        {% for student in students %}
+          <li>
+            {{ student }}
+          </li>
+        {% endfor %}
+      </ul>
     </div>
+  {% else %}
+    <strong>There are no registered students.</strong>
+  {% endif %}
 
 {% endblock %}
