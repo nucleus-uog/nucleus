@@ -14,8 +14,9 @@ body{
   border-color: darkgrey;
 }
 
-button:focus {outline:none;}
-
+button:focus {
+  outline: none;
+}
 
 .top{
     width: 80%;
@@ -25,8 +26,9 @@ button:focus {outline:none;}
 .main{
     background-color: #fff;
     width: 80%;
-    margin: 0 auto 0 auto;
+    margin: 0 auto 50px auto;
     border: 1px solid #acacac;
+    border-radius: 5px;
 }
 
 .all_students{

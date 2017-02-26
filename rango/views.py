@@ -15,6 +15,18 @@ def all_students(request):
                         {'guid': '2174939D', 'name': 'Jared Dunn', 'score': 50},
                         {'guid': '2598741W', 'name': 'William Wonka', 'score': 69},
                         {'guid': '2174057L', 'name': 'James Lorne', 'score': 11},
+                        {'guid': '2134567R', 'name': 'Ewan Redface', 'score': 43},
+                        {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69},
+                        {'guid': '2198989S', 'name': 'John Smith', 'score': 34},
+                        {'guid': '2174939D', 'name': 'Jared Dunn', 'score': 50},
+                        {'guid': '2598741W', 'name': 'William Wonka', 'score': 69},
+                        {'guid': '2174057L', 'name': 'James Lorne', 'score': 11},
+                        {'guid': '2134567R', 'name': 'Ewan Redface', 'score': 43},
+                        {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69},
+                        {'guid': '2198989S', 'name': 'John Smith', 'score': 34},
+                        {'guid': '2174939D', 'name': 'Jared Dunn', 'score': 50},
+                        {'guid': '2598741W', 'name': 'William Wonka', 'score': 69},
+                        {'guid': '2174057L', 'name': 'James Lorne', 'score': 11},
                         {'guid': '2134567R', 'name': 'Ewan Redface', 'score': 43}]
                     }
 
