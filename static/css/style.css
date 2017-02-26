@@ -5,9 +5,20 @@ body{
     font-family: "Quicksand", sans-serif;
 }
 
+/*.navbar{
+  display: inline;
+}*/
+
 .navbar-brand{
     font-size: 40px;
 }
+
+.navbar .btn-primary{
+  background-color: grey;
+  border-color: darkgrey;
+
+}
+
 
 .top{
     width: 80%;
