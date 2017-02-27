@@ -8,11 +8,13 @@ from django.contrib.auth.decorators import user_passes_test
 from rango.models import Student
 from rango.forms import UserForm
 
+
 def staff(user):
     stafflist=['1']		#List of all staff users allowed to access all students details
     if (user.username in stafflist):
         return True
 	
+
 @user_passes_test(staff)
 def all_students(request):
     #student_list = Student.objects.order_by('guid')
@@ -93,4 +95,13 @@ def sign_in(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('sign_in'))
+
+
+# add @login_required
+def student(request):
+    #student_list = Student.objects.order_by('guid')
+
+    context_dict = {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69}
+
+    return render(request, 'nucleus/student.html', context=context_dict)
 

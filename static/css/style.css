@@ -26,7 +26,7 @@ button:focus {
 .main{
     background-color: #fff;
     width: 80%;
-    margin: 0 auto 50px auto;
+    margin: 15px auto 50px auto;
     border: 1px solid #acacac;
     border-radius: 5px;
 }
