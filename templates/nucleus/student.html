@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-  Student (GUID)
+  Student Tests
 {% endblock %}
 
 {% block top_block %}
@@ -12,7 +12,22 @@
 {% block main_block %}
   <div class="card">
     <div class="card-block">
-      <h2 class="card-title">Student: {{ student.name }}</h2>
+      <h4 class="card-title">{{ name }} ({{ guid }})</h4>
+
+      {% if tests %}
+        <button type="button" class="btn btn-success btn-lg run_button">Run Tests</button>
+
+        <div class="list-group all_students">
+          {% for student in students %}
+            <a class="list-group-item justify-content-between list-group-item-action">
+              {{ student.name }} ({{ student.guid }})
+              <span class="badge badge-default badge-pill"> {{ student.score }}/69 </span>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <strong>No tests have been ran for this student.</strong>
+      {% endif %}
 
     </div>
   </div>
