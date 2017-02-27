@@ -101,7 +101,31 @@ def user_logout(request):
 def student(request):
     #student_list = Student.objects.order_by('guid')
 
-    context_dict = {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69}
+    context_dict = {
+        'student': {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69},
+        'tests': [
+            {
+                'date': "Sunday April 12th 2015", 'version': "1.2b",
+                'time': "2 mins 30 seconds", "url": "https://github.com/pied-piper/thebox.git",
+                'passed': 69
+            },
+            { 
+                'date': "Sunday April 6th 2014", 'version': "1.1a",
+                'time': "1 mins 45 seconds", "url": "https://github.com/pied-piper/thebox.git",
+                'passed': 23
+            },
+            {
+                'date': "Sunday April 12th 2015", 'version': "1.2b",
+                'time': "2 mins 30 seconds", "url": "https://github.com/pied-piper/thebox.git",
+                'passed': 45
+            },
+            {
+                'date': "Sunday April 6th 2014", 'version': "1.1a",
+                'time': "1 mins 45 seconds", "url": "https://github.com/pied-piper/thebox.git",
+                'passed': 32
+            },
+        ]
+    }
 
     return render(request, 'nucleus/student.html', context=context_dict)
 
