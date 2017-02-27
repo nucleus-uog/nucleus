@@ -28,5 +28,7 @@ urlpatterns = [
     url(r'^register/',views.register, name="register"),
     url(r'^forgot-password',views.forgot_password, name="forgot_password"),
     url(r'^logout/$', views.user_logout, name='user_logout'),
+    url(r'^student/', views.student, name="student"),
     url(r'^admin/', admin.site.urls),
 ]
+
