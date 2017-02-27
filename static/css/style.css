@@ -36,7 +36,15 @@ button:focus {
   margin: 20px auto 20px auto;
   display: block;
 }
+
 .register_button{
   margin: 20px auto 20px auto;
   display: block;
   width: 15%;
+}
+
+.test_data {
+  font-size: 14px;
+  color: grey;
+}
+
