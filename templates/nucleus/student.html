@@ -19,18 +19,17 @@
 
         <div class="list-group student_test_list">
           {% for test in tests %}
-            <!-- <a class="list-group-item justify-content-between list-group-item-action" href="#">
-              <dt>{{ test.date }}</dt>
-              <span class="badge badge-default badge-pill"> {{ test.passed }}/69 </span>
-            </a> -->
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-              <dt class="mb-1">{{ test.date }}</dt>
+
+              <div class="d-flex w-100 justify-content-between">
+                <dt class="mb-1">{{ test.date }}</dt>
+                <span class="badge badge-default badge-pill"> {{ test.passed }}/69 </span>
+              </div>
               <div class="test_data">
                 Test Version: &ensp; {{ test.version }}<br>
                 Time Taken: &ensp; {{ test.time }}<br>
                 Git URL: &ensp; {{ test.url }}
               </div>
-              <span class="badge badge-default badge-pill"> {{ test.passed }}/69 </span>
             </a>
           {% endfor %}
         </div>
