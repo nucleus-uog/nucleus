@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
 body{
-    background-color: #e8e8e8;
+    background-color: #f4f4f4;
     font-family: "Quicksand", sans-serif;
 }
 
@@ -9,14 +9,14 @@ body{
     font-size: 40px;
 }
 
-.navbar .btn-primary{
+/*.navbar .btn-primary{
   background-color: grey;
   border-color: darkgrey;
 }
 
 button:focus {
   outline: none;
-}
+}*/
 
 .top{
     width: 80%;
@@ -27,8 +27,13 @@ button:focus {
     background-color: #fff;
     width: 80%;
     margin: 15px auto 50px auto;
-    border: 1px solid #acacac;
-    border-radius: 5px;
+    /*border: 1px solid #acacac;
+    border-radius: 5px;*/
+}
+
+.card{
+  border-radius: 0px;
+  box-shadow: 0 0 20px 10px rgba(0,0,0,0.1);
 }
  
 .run_button{

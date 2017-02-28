@@ -23,15 +23,13 @@
           <button class="navbar-toggler navbar-toggler-right mt-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand ml-1" href="#">Nucleus</a>
+          <a class="navbar-brand ml-1" href="#"><img src="" alt="nucleus logo"/></a>
           <!-- add if statement once there is authentication -->
 		  {% if user.is_authenticated %}
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto mt-1 mt-md-0">
-              
 			  <a href="#" class="btn btn-primary nav-item mr-2 " role="button">My Account</a>
 			  <a href="{% url 'user_logout' %}" class="btn btn-primary nav-item mr-2 " role="button">Logout</a>
-              
             </ul>
           </div>
 		  {% endif %}
