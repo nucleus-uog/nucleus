@@ -1,0 +1,20 @@
+{
+  "name": "nucleus",
+  "version": "1.0.0",
+  "description": "Rango Submission Tool",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/devine-industries/nucleus.git"
+  },
+  "author": "Devine Industries",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/devine-industries/nucleus/issues"
+  },
+  "homepage": "https://gitlab.com/devine-industries/nucleus#README",
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "gulp": "^3.9.1"
+  }
+}
