@@ -39,12 +39,16 @@
           </button>
           <a class="navbar-brand ml-1" href="#">Nucleus</a>
           <!-- add if statement once there is authentication -->
+		  {% if user.is_authenticated %}
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ml-auto mt-1 mt-md-0">
-              <button class="btn btn-primary nav-item mr-2 " href="#" role="button">My Account</button>
-              <button class="btn btn-primary nav-item mr-2 " href="#" role="button">Logout</button>
+              
+			  <a href="#" class="btn btn-primary nav-item mr-2 " role="button">My Account</a>
+			  <a href="{% url 'user_logout' %}" class="btn btn-primary nav-item mr-2 " role="button">Logout</a>
+              
             </ul>
           </div>
+		  {% endif %}
         </nav>
 
         <div>
