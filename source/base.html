@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+    <head lang="en">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <title>
+            Nucleus -
+            {% block title_block %}
+            {% endblock %}
+        </title>
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-toggleable-sm navbar-light">
+          <div class="container">
+            <a class="navbar-brand ml-1" href="#"><img src="{% static 'svg/nucleusLogo.svg' %}" alt="nucleus logo" class="img"/></a>
+            <button class="navbar-toggler navbar-toggler-right mt-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- add if statement once there is authentication -->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+              <ul class="navbar-nav ml-auto mt-1 mt-md-0">
+                <button class="btn btn-secondary nav-item mr-2 " href="#" role="button">My Account</button>
+                <button class="btn btn-secondary nav-item mr-2 " href="#" role="button">Logout</button>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+            <div class="top">
+                {% block  top_block %} <!-- return buttons/git submit -->
+                {% endblock %}
+            </div>
+
+            <div class="main">
+                {% block main_block %} <!-- main section of page -->
+                {% endblock %}
+            </div>
+        </div>
+
+        <script src="https://use.fontawesome.com/736a578193.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    </body>
+</html>
