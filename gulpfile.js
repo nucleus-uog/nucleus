@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 
 var sass = require('gulp-sass');
-var browserSync = require('browser-sync');
+var browserSync = require('browser-sync').create();
 var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 var imagemin = require('gulp-imagemin');
@@ -26,7 +26,7 @@ gulp.task('browserSync', function() {
 // Build
 
 gulp.task('build:css', function(){
-  return gulp.src("source/scss/**/*.scss")
+  return gulp.src("source/css/**/*.scss")
     .pipe(sass())
     .pipe(concat('style.min.css'))
     .pipe(autoprefixer({
@@ -34,6 +34,9 @@ gulp.task('build:css', function(){
       cascade: false
     }))
     .pipe(cleancss())
+    .pipe(browserSync.reload({
+      stream: true
+    }))
     .pipe(gulp.dest("static/css"));
 });
 
@@ -63,23 +66,31 @@ gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates'],
 
 // Clean
 
-gulp.task('clean:static', function() {
-  return del.sync('static');
+gulp.task('clean:css', function() {
+  return del.sync('static/css');
 });
 
 gulp.task('clean:templates', function(){
   return del.sync('templates');
 });
 
-gulp.task('clean', ['clean:static', 'clean:templates'], function(){});
+gulp.task('clean:js', function(){
+  return del.sync('static/js');
+});
+
+gulp.task('clean:images', function(){
+  return del.sync('static/images');
+});
+
+gulp.task('clean', ['clean:css', 'clean:templates', 'clean:js', 'clean:images'], function(){});
 
 // watch
-gulp.task('watch', () => {
+gulp.task('watch', function(){
     runSequence('clean', 'build');
 
     // CSS
     watch([
-        'source/css/**/*.sass'
+        'source/css/**/*.scss'
     ], (events) => {
         runSequence('clean:css', 'build:css');
     });
@@ -100,7 +111,7 @@ gulp.task('watch', () => {
 
     // Templates
     watch([
-        'source/*.html'
+        'source/templates/**/*.html'
     ], (events) => {
         runSequence('clean:templates', 'build:templates');
     });
