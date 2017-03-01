@@ -10,6 +10,8 @@ var runSequence = require('run-sequence');
 var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var autoprefixer = require('gulp-autoprefixer');
+var del = require('del');
+var watch = require('gulp-watch');
 
 // browserSync
 
@@ -48,12 +50,12 @@ gulp.task('build:js', function(){
 gulp.task('build:images', function(){
     return gulp.src('source/images/**/*.+(png|jpg|jpeg|gif|svg)')
                .pipe(imagemin())
-               .pipe(gulp.dest('static/images');
+               .pipe(gulp.dest('static/images'));
 });
 
 gulp.task('build:templates', function(){
-    return gulp.src('source.html')
-               .pipe(gulp.dest('templates'));
+    return gulp.src('source/templates/**/*.html')
+               .pipe(gulp.dest('templates/nucleus'));
 });
 
 gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates'], function(){});
