@@ -21,7 +21,7 @@ var watch = require('gulp-watch');
 
 // Build
 gulp.task('build:css', function(){
-  return gulp.src(pkg.settings.src.css)
+  return gulp.src([pkg.settings.src.css, "./node_modules/bootstrap/dist/css/bootstrap.min.css"])
     .pipe(sass())
     .pipe(concat(pkg.settings.filenames.css))
     .pipe(autoprefixer({
