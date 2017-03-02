@@ -9,9 +9,7 @@ var gulp = require('gulp');
 // Plugins
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
-var gulpIf = require('gulp-if');
 var imagemin = require('gulp-imagemin');
-var cache = require('gulp-cache');
 var runSequence = require('run-sequence');
 var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
