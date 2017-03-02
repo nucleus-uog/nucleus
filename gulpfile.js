@@ -7,19 +7,19 @@ var gulp = require('gulp');
 
 
 // Plugins
-var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var imagemin = require('gulp-imagemin');
-var runSequence = require('run-sequence');
+var autoprefixer = require('gulp-autoprefixer');
 var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
-var autoprefixer = require('gulp-autoprefixer');
 var del = require('del');
+var imagemin = require('gulp-imagemin');
+var runSequence = require('run-sequence');
+var sass = require('gulp-sass');
+var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
 // Build
 gulp.task('build:css', function(){
-  return gulp.src([pkg.settings.src.css, "./node_modules/bootstrap/dist/css/bootstrap.min.css"])
+  return gulp.src(["./node_modules/bootstrap/dist/css/bootstrap.min.css", pkg.settings.src.css])
     .pipe(sass())
     .pipe(concat(pkg.settings.filenames.css))
     .pipe(autoprefixer({
@@ -31,10 +31,10 @@ gulp.task('build:css', function(){
 });
 
 gulp.task('build:js', function(){
-  return gulp.src([pkg.settings.src.js,
-                   "./node_modules/jquery/dist/jquery.js",
+  return gulp.src(["./node_modules/jquery/dist/jquery.js",
                    "./node_modules/tether/dist/js/tether.js",
-                   "./node_modules/bootstrap/dist/js/bootstrap.js"])
+                   "./node_modules/bootstrap/dist/js/bootstrap.js",
+                   pkg.settings.src.js])
     .pipe(concat(pkg.settings.filenames.js))
     .pipe(uglify())
     .pipe(gulp.dest(pkg.settings.out.js));
