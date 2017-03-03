@@ -11,6 +11,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var del = require('del');
+var fontAwesome = require('node-font-awesome');
 var imagemin = require('gulp-imagemin');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
@@ -19,8 +20,10 @@ var watch = require('gulp-watch');
 
 // Build
 gulp.task('build:css', function(){
-  return gulp.src(["./node_modules/bootstrap/dist/css/bootstrap.min.css", pkg.settings.src.css])
-    .pipe(sass())
+  return gulp.src(pkg.settings.src.css)
+    .pipe(sass({
+      includePaths: [fontAwesome.scssPath]
+    }))
     .pipe(concat(pkg.settings.filenames.css))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
@@ -51,7 +54,12 @@ gulp.task('build:templates', function(){
                .pipe(gulp.dest(pkg.settings.out.templates));
 });
 
-gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates'], function(){});
+gulp.task('build:fonts', function(){
+    return gulp.src([fontAwesome.fonts, pkg.settings.src.fonts])
+               .pipe(gulp.dest(pkg.settings.out.fonts));
+});
+
+gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates', 'build:fonts'], function(){});
 
 
 // Clean
@@ -72,7 +80,11 @@ gulp.task('clean:images', function(){
   return del.sync(pkg.settings.out.images);
 });
 
-gulp.task('clean', ['clean:css', 'clean:templates', 'clean:js', 'clean:images'], function(){});
+gulp.task('clean:fonts', function(){
+  return del.sync(pkg.settings.out.fonts);
+});
+
+gulp.task('clean', ['clean:css', 'clean:templates', 'clean:js', 'clean:images', 'clean:fonts'], function(){});
 
 // watch
 gulp.task('watch', function(){
@@ -104,6 +116,13 @@ gulp.task('watch', function(){
         pkg.settings.src.templates
     ], (events) => {
         runSequence('clean:templates', 'build:templates');
+    });
+
+    // Fonts
+    watch([
+        pkg.settings.src.fonts
+    ], (events) => {
+        runSequence('clean:fonts', 'build:fonts');
     });
 });
 

@@ -26,6 +26,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^2.0.1",
     "gulp-watch": "^4.3.11",
+    "node-font-awesome": "^1.0.2",
     "run-sequence": "^1.2.2"
   },
   "settings": {
@@ -33,13 +34,15 @@
       "css": "./source/css/**/*.scss",
       "js": "./source/js/**/*.js",
       "images": "./source/images/*",
-      "templates": "./source/templates/**/*.html"
+      "templates": "./source/templates/**/*.html",
+      "fonts": "./source/fonts/*"
     },
     "out": {
       "css": "./static/css",
       "js": "./static/js",
       "images": "./static/images",
-      "templates": "./templates/nucleus"
+      "templates": "./templates/nucleus",
+      "fonts": "./static/fonts"
     },
     "filenames": {
       "css": "style.min.css",
