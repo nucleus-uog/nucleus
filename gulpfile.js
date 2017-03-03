@@ -5,7 +5,6 @@ var pkg = JSON.parse(fs.readFileSync('./package.json'));
 // Gulp
 var gulp = require('gulp');
 
-
 // Plugins
 var autoprefixer = require('gulp-autoprefixer');
 var cleancss = require('gulp-clean-css');
@@ -15,21 +14,25 @@ var fontAwesome = require('node-font-awesome');
 var imagemin = require('gulp-imagemin');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var watch = require('gulp-watch');
 
 // Build
+
 gulp.task('build:css', function(){
-  return gulp.src(pkg.settings.src.css)
+  return gulp.src(["./node_modules/bootstrap/dist/css/bootstrap.min.css", pkg.settings.src.css])
+    .pipe(sourcemaps.init())
     .pipe(sass({
       includePaths: [fontAwesome.scssPath]
-    }))
+    }).on('error', sass.logError))
     .pipe(concat(pkg.settings.filenames.css))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
     }))
     .pipe(cleancss())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(pkg.settings.out.css));
 });
 
@@ -38,8 +41,10 @@ gulp.task('build:js', function(){
                    "./node_modules/tether/dist/js/tether.js",
                    "./node_modules/bootstrap/dist/js/bootstrap.js",
                    pkg.settings.src.js])
+    .pipe(sourcemaps.init())
     .pipe(concat(pkg.settings.filenames.js))
     .pipe(uglify())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(pkg.settings.out.js));
 });
 
