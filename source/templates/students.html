@@ -13,7 +13,7 @@
       {% if students %}
         <div class="card-text">Number of registered students: {{ students|length }}/168</div>
         <div class="card-text">Average number of tests passed: 50/69 </div>
-        <button role="button" class="btn btn-success btn-lg run_button" href="#">Run All Tests</button>
+        <a role="button" class="btn btn-success btn-lg run_button" href="#">Run All Tests</a>
 
         <div class="list-group all_students">
           {% for student in students %}
