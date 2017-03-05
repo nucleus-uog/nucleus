@@ -26,6 +26,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
+    def guid(self):
+        '''
+        Returns the first eight characters of the email address, this should be
+        the guid of the student email.
+
+        ie. '2198230W@student.gla.ac.uk' -> '2198230W'
+        '''
+        if not email.endswith('@student.gla.ac.uk'):
+            return None
+        return email[:8]
+
     def get_full_name(self):
         '''
         Returns the first_name plus the last_name, with a space in between.
