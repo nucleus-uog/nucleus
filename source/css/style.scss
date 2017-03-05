@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
-//@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+// @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
 
 body{
     background-color: #f4f4f4;
@@ -25,11 +26,11 @@ body{
   box-shadow: 0 0 20px 10px rgba(0,0,0,0.1);
 }
 
-.run_button{
-  width: 50%;
-  margin: 20px auto 20px auto;
-  display: block;
-}
+// .run_button{
+//   width: 50%;
+//   margin: 0px auto 20px auto;
+//   display: block;
+// }
 
 .test_data{
   font-size: 14px;
