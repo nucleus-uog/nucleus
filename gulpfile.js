@@ -21,7 +21,7 @@ var watch = require('gulp-watch');
 // Build
 
 gulp.task('build:css', function(){
-  return gulp.src(["./node_modules/bootstrap/dist/css/bootstrap.min.css", pkg.settings.src.css])
+   return gulp.src(["./node_modules/bootstrap/dist/css/bootstrap.min.css", pkg.settings.src.css])
     .pipe(sourcemaps.init())
     .pipe(sass({
       includePaths: [fontAwesome.scssPath]
