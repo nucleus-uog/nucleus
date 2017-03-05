@@ -12,25 +12,22 @@ body{
   width: 200px;
 }
 
-.top{
-    margin: 0 auto 0 auto;
-}
-
 .main{
     background-color: #fff;
     margin: 15px auto 50px auto;
+    box-shadow: 0 0 20px 10px rgba(0,0,0,0.1);
+    padding: 20px;
 }
 
-.card{
-  border-radius: 0px;
-  box-shadow: 0 0 20px 10px rgba(0,0,0,0.1);
+.run_button{
+  width: 50%;
+  margin: 0px auto 20px auto;
+  display: block;
 }
 
-// .run_button{
-//   width: 50%;
-//   margin: 0px auto 20px auto;
-//   display: block;
-// }
+.list-group{
+  border: none;
+}
 
 .test_data{
   font-size: 14px;
