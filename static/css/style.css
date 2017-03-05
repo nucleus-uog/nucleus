@@ -30,9 +30,13 @@ button:focus {
     border: 1px solid #acacac;
     border-radius: 5px;
 }
-
+ 
 .run_button{
   width: 50%;
   margin: 20px auto 20px auto;
   display: block;
 }
+.register_button{
+  margin: 20px auto 20px auto;
+  display: block;
+  width: 15%;
