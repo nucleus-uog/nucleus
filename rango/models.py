@@ -44,3 +44,30 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class TestCategory(models.Model):
+    name = models.CharField(_('name'), blank=False, max_length=30)
+
+
+class Test(models.Model):
+    case = models.CharField(_('case'), blank=False, max_length=80)
+    test = models.CharField(_('test'), blank=False, max_length=80)
+    description = models.TextField(_('description'), blank=True)
+    category = models.ForeignKey(TestCategory, on_delete=models.DO_NOTHING)
+
+
+class TestRun(models.Model):
+    repository_url = models.CharField(_('repository url'), max_length=60, blank=False)
+    date_run = models.DateTimeField(_('date run'), auto_now_add=True)
+    test_version = models.CharField(_('tests version'), max_length=10, blank=False)
+    log = models.TextField(_('log'), blank=False)
+    time_taken = models.PositiveIntegerField(_('time taken'), blank=False)
+    status = models.CharField(_('status'), max_length=15, blank=False)
+
+
+class TestRunDetail(models.Model):
+    record = models.ForeignKey(TestRun, on_delete=models.DO_NOTHING)
+    test = models.ForeignKey(Test, on_delete=models.DO_NOTHING)
+    passed = models.BooleanField(_('passed'), default=False)
+    log = models.TextField(_('log'), blank=False)
