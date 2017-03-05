@@ -65,7 +65,7 @@ class Test(models.Model):
     case = models.CharField(_('case'), blank=False, max_length=80)
     test = models.CharField(_('test'), blank=False, max_length=80)
     description = models.TextField(_('description'), blank=True)
-    category = models.ForeignKey(TestCategory, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(TestCategory, null=True, on_delete=models.SET_NULL)
 
 
 class TestRun(models.Model):
@@ -78,7 +78,7 @@ class TestRun(models.Model):
 
 
 class TestRunDetail(models.Model):
-    record = models.ForeignKey(TestRun, on_delete=models.DO_NOTHING)
-    test = models.ForeignKey(Test, on_delete=models.DO_NOTHING)
+    record = models.ForeignKey(TestRun, on_delete=models.PROTECT)
+    test = models.ForeignKey(Test, on_delete=models.PROTECT)
     passed = models.BooleanField(_('passed'), default=False)
     log = models.TextField(_('log'), blank=False)
