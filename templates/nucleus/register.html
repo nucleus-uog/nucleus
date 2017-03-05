@@ -11,7 +11,11 @@
 		<center>
 		<h2 class="card-title">Register</h2>
 		{% if registered %}
-			<div class="card-text">You are already registered!</div>
+			<div class="card-text">
+				You are registered!<br />
+				<a href="{% url 'sign_in' %}">Click here to sign in!</a>
+			</div>
+			<a href=" click here to sign in
 		{% else %}
 		
 			<form id="user_form" method="post" action="{%url 'register'%}">
@@ -25,7 +29,7 @@
 				<br /> 
 				<input type="password" name="confirmPW" placeholder="Confirm Password" size="50" /> 
 				<br />-->
-				<input type="submit" value="Register" /> 
+				<input type="submit" class="btn btn-success btn-lg register_button" value="Register" /> 
 			</form> 
 		{% endif %}
         </center>

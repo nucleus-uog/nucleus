@@ -75,7 +75,10 @@ def sign_in(request):
 		if user: 
 			if user.is_active:
 				login(request, user) 
-				return HttpResponseRedirect(reverse('all_students')) 
+				if (staff(user)):	#if user is staff send them toall students page
+					return HttpResponseRedirect(reverse('all_students')) 
+				else:
+					return HttpResponseRedirect(reverse('student')) 
 			else: 
 				return HttpResponse("Your account is disabled.") 
 		else:
