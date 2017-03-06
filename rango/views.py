@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from rango.models import Student
+from rango.models import User
 from rango.forms import UserForm
 
 
@@ -17,7 +17,7 @@ def staff(user):
 
 @user_passes_test(staff)
 def all_students(request):
-    #student_list = Student.objects.order_by('guid')
+    #student_list = User.objects.order_by('guid')
 
     context_dict = { 
         'students': [
@@ -49,7 +49,7 @@ def register(request):
     registered = False
     if request.method =='POST':
         user_form=UserForm(data=request.POST)
-        if user_form.is_valid()and user_form.cleaned_data['password']==user_form.cleaned_data['confirmPW']:
+        if user_form.is_valid() and user_form.cleaned_data['password'] == user_form.cleaned_data['confirmPW']:
             user=user_form.save()
             user.set_password(user.password)
             user.save()
@@ -86,9 +86,9 @@ def sign_in(request):
         else:
             print("Invalid login details: {0}, {1}".format(username, password)) 
             invalid = 'Invalid login details supplied.'
-            return render(request, 'nucleus/sign-in.html', {'invalid':invalid})
-        else:
-            return render(request, 'nucleus/sign-in.html', {})
+            return render(request, 'nucleus/sign-in.html', {'invalid': invalid})
+    else:
+        return render(request, 'nucleus/sign-in.html', {})
 
 
 @login_required		
@@ -99,7 +99,7 @@ def user_logout(request):
 
 # add @login_required
 def student(request):
-    #student_list = Student.objects.order_by('guid')
+    #student_list = User.objects.order_by('guid')
 
     context_dict = {
         'student': {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69},
