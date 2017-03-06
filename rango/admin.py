@@ -41,15 +41,24 @@ class TestCategoryAdmin(admin.ModelAdmin):
 
 
 class TestAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields=('test', 'case',)
 
+    def has_add_permission(self, request):
+            return False
 
 class TestRunAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields=('repository_url', 'date_run', 'test_version',
+                     'log', 'time_taken', 'status', 'student',)
+
+    def has_add_permission(self, request):
+            return False
 
 
 class TestRunDetailAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields=('record', 'test', 'passed', 'log',)
+
+    def has_add_permission(self, request):
+            return False
 
 
 admin.site.register(User, CustomUserAdmin)
