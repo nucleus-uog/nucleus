@@ -168,3 +168,8 @@ tags
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+node_modules
+static/
+templates/
+!source/templates

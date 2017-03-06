@@ -1,0 +1,83 @@
+{
+  "name": "nucleus",
+  "version": "1.0.0",
+  "description": "Rango Submission Tool",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/devine-industries/nucleus.git"
+  },
+  "author": "Devine Industries",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/devine-industries/nucleus/issues"
+  },
+  "homepage": "https://gitlab.com/devine-industries/nucleus#README",
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^3.0.3",
+    "gulp-concat": "2.6.0",
+    "gulp-favicons": "^2.2.7",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-run-sequence": "^0.3.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "2.2.0",
+    "gulp-uglify": "^2.0.1",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
+    "node-font-awesome": "^1.0.2",
+    "run-sequence": "^1.2.2"
+  },
+  "settings": {
+    "favicon": {
+      "appName": "Nucleus",
+      "description": "Rango Submission Tool",
+      "developerName": "Devine Industries",
+      "developerURL": "https://devine.industries",
+      "background": "#2965b9",
+      "path": "favicons/",
+      "url": "https://devine.industries",
+      "display": "standalone",
+      "orientation": "portrait",
+      "start_url": "/",
+      "version": 1,
+      "logging": true,
+      "online": false,
+      "icons": {
+        "android": true,
+        "appleIcon": true,
+        "appleStartup": true,
+        "coast": {
+          "offset": 25
+        },
+        "favicons": true,
+        "firefox": true,
+        "windows": true,
+        "yandex": true
+      }
+    },
+    "src": {
+      "css": "./source/css/**/*.scss",
+      "js": "./source/js/**/*.js",
+      "images": "./source/images/*",
+      "templates": "./source/templates/**/*.html",
+      "fonts": "./source/fonts/*",
+      "favicon": "./source/images/nucleusIcon.svg"
+    },
+    "out": {
+      "css": "./static/css",
+      "js": "./static/js",
+      "images": "./static/images",
+      "templates": "./templates/nucleus",
+      "fonts": "./static/fonts",
+      "favicon": "./static/favicon"
+    },
+    "filenames": {
+      "css": "style.min.css",
+      "js": "script.min.js"
+    }
+  }
+}
