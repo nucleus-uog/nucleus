@@ -14,8 +14,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=False)
     last_name = models.CharField(_('last name'), max_length=30, blank=False)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
-    is_active = models.BooleanField(_('active'), default=True)
     repository_url = models.CharField(_('repository url'), max_length=60, blank=False)
+    is_staff = models.BooleanField(_('staff status'), default=False,
+                                   help_text=_('Designates whether the user can log into this admin '
+                                               'site.'))
+    is_active = models.BooleanField(_('active'), default=True,
+                                    help_text=_('Designates whether this user should be treated as '
+                                                'active. Unselect this instead of deleting accounts.'))
 
     objects = UserManager()
 
@@ -69,6 +74,7 @@ class Test(models.Model):
 
 
 class TestRun(models.Model):
+    student = models.ForeignKey(User, on_delete=models.PROTECT)
     repository_url = models.CharField(_('repository url'), max_length=60, blank=False)
     date_run = models.DateTimeField(_('date run'), auto_now_add=True)
     test_version = models.CharField(_('tests version'), max_length=10, blank=False)
