@@ -65,6 +65,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 class TestCategory(models.Model):
     name = models.CharField(_('name'), blank=False, max_length=30)
 
+    class Meta:
+        verbose_name_plural = 'Test Categories'
+
+    def __str__(self):
+        return self.name
 
 class Test(models.Model):
     case = models.CharField(_('case'), blank=False, max_length=80)
@@ -72,6 +77,11 @@ class Test(models.Model):
     description = models.TextField(_('description'), blank=True)
     category = models.ForeignKey(TestCategory, null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        verbose_name_plural = 'Tests'
+
+    def __str__(self):
+        return '{}.{}'.format(self.case, self.test)
 
 class TestRun(models.Model):
     student = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -82,9 +92,21 @@ class TestRun(models.Model):
     time_taken = models.PositiveIntegerField(_('time taken'), blank=False)
     status = models.CharField(_('status'), max_length=15, blank=False)
 
+    class Meta:
+        verbose_name_plural = 'Test Runs'
+
+    def __str__(self):
+        return '{}.{}'.format(self.repository_url, self.date_run)
 
 class TestRunDetail(models.Model):
     record = models.ForeignKey(TestRun, on_delete=models.PROTECT)
     test = models.ForeignKey(Test, on_delete=models.PROTECT)
     passed = models.BooleanField(_('passed'), default=False)
     log = models.TextField(_('log'), blank=False)
+
+    class Meta:
+        verbose_name_plural = 'Test Run Details'
+
+    def __str__(self):
+        return '{} - {}'.format(str(self.record), str(self.test))
+
