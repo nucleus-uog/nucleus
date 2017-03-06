@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load template_tags %}
+{% load staticfiles %}
 
 <html lang="en">
     <head lang="en">
@@ -9,39 +9,64 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
         <title>
-            Nucleus
+            Nucleus -
             {% block title_block %}
-                Home
             {% endblock %}
         </title>
     </head>
-    
+
     <body>
-        
-        <nav class="navbar">
-            <h1 class="navbar-brand">Nucleus</h1>
-            {% block nav_block %} <!-- for account/logout buttons -->
-            {% endblock %}
+
+        <!-- <nav class="navbar navbar-toggleable-md">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand">Nucleus</a>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            add if statement once there is authentication
+            <ul class="ml-auto">
+              <a class="btn btn-primary nav-item" href="#" role="button">My Account</a>
+              <a class="btn btn-primary nav-item" href="#" role="button">Logout</a>
+            </ul>
+          </div>
+        </nav> -->
+
+        <nav class="navbar navbar-toggleable-sm navbar-light">
+          <button class="navbar-toggler navbar-toggler-right mt-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand ml-1" href="#">Nucleus</a>
+          <!-- add if statement once there is authentication -->
+		  {% if user.is_authenticated %}
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto mt-1 mt-md-0">
+              
+			  <a href="#" class="btn btn-primary nav-item mr-2 " role="button">My Account</a>
+			  <a href="{% url 'user_logout' %}" class="btn btn-primary nav-item mr-2 " role="button">Logout</a>
+              
+            </ul>
+          </div>
+		  {% endif %}
         </nav>
-        
+
         <div>
             <div class="top">
-                {% block  top_block %} <!-- return buttons/git submit --> 
-                {% endblock %} 
+                {% block  top_block %} <!-- return buttons/git submit -->
+                {% endblock %}
             </div>
-            
+
             <div class="main">
                 {% block main_block %} <!-- main section of page -->
                 {% endblock %}
             </div>
         </div>
-    
+
         <!-- jQuery first, then Tether, then Bootstrap JS. -->
         <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> 
-        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
     </body>
 </html>

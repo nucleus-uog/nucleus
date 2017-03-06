@@ -1,0 +1,38 @@
+{% extends 'nucleus/base.html'  %}
+{% load staticfiles %}
+
+{% block title_block %}
+  Login
+{% endblock %}
+
+{% block main_block %}
+  <div class="card">
+    <div class="card-block">
+		<center>
+		<h2 class="card-title">Register</h2>
+		{% if registered %}
+			<div class="card-text">
+				You are registered!<br />
+				<a href="{% url 'sign_in' %}">Click here to sign in!</a>
+			</div>
+			<a href=" click here to sign in
+		{% else %}
+		
+			<form id="user_form" method="post" action="{%url 'register'%}">
+				{% csrf_token %} 
+			
+				{{user_form.as_p }}
+			
+	<!--		<input type="text" name="guid" placeholder="GUID" size="50" /> 
+				<br /> 
+				<input type="password" name="password" placeholder="Password" size="50" /> 
+				<br /> 
+				<input type="password" name="confirmPW" placeholder="Confirm Password" size="50" /> 
+				<br />-->
+				<input type="submit" class="btn btn-success btn-lg register_button" value="Register" /> 
+			</form> 
+		{% endif %}
+        </center>
+    </div>
+  </div>
+{% endblock %}
