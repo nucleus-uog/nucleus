@@ -9,13 +9,7 @@ from rango.models import User
 from rango.forms import UserForm
 
 
-def staff(user):
-    stafflist=['1']		#List of all staff users allowed to access all students details
-    if (user.username in stafflist):
-        return True
-	
-
-@user_passes_test(staff)
+@user_passes_test(lambda u: u.is_staff)
 def all_students(request):
     #student_list = User.objects.order_by('guid')
 
@@ -77,7 +71,7 @@ def sign_in(request):
         if user: 
             if user.is_active:
                 login(request, user) 
-                if (staff(user)):	#if user is staff send them toall students page
+                if (user.is_staff):	#if user is staff send them toall students page
                     return HttpResponseRedirect(reverse('all_students')) 
                 else:
                     return HttpResponseRedirect(reverse('student')) 
@@ -98,7 +92,7 @@ def user_logout(request):
 
 
 # add @login_required
-def student(request):
+def student(request, student_guid):
     #student_list = User.objects.order_by('guid')
 
     context_dict = {
