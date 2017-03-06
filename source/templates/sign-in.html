@@ -12,11 +12,11 @@
 			<strong>{{invalid}}</strong>
 
 			<input type="text" name="username" placeholder="GUID" class="form-control mb-2">
-			<input type="password" name="password" placeholder="Password" class="form-control mb-2">
-			<input type="submit" class="btn btn-success mb-1" value="Sign In"><br>
+			<input type="password" name="password" placeholder="Password" class="form-control mb-3">
+			<input type="submit" class="btn btn-success btn-block mb-1" value="Sign In"><br>
 
-			<a href="{% url 'register' %}">Register</a><br>
-			<a href="{% url 'forgot_password' %}">Forgot Password?</a>
+			<a class="text-muted" href="{% url 'register' %}">Register</a><br>
+			<a class="text-muted" href="{% url 'forgot_password' %}">Forgot Password?</a>
 		</form>
 	</div>
 {% endblock %}

@@ -44,7 +44,7 @@
                 {% endblock %}
             </div>
 
-            <div class="main">
+            <div class="{% if user.is_authenticated %} main {% endif %}">
                 {% block main_block %} <!-- main section of page -->
                 {% endblock %}
             </div>
