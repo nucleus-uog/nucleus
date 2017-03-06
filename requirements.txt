@@ -10,10 +10,10 @@ docker-pycreds==0.2.1
 kombu==4.0.2
 olefile==0.44
 Pillow==4.0.0
-pkg-resources==0.0.0
 pycparser==2.17
 pytz==2016.10
 requests==2.13.0
 six==1.10.0
 vine==1.1.3
 websocket-client==0.40.0
+django_gulp==2.5.0

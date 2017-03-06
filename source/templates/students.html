@@ -1,0 +1,32 @@
+{% extends 'nucleus/base.html'  %}
+{% load staticfiles %}
+
+{% block title_block %}Students{% endblock %}
+
+{% block main_block %}
+
+  {% if students %}
+    <div class="row align-items-center">
+      <div class="col-md mb-3">
+        <h2>All Students</h2>
+        Number of registered students: {{ students|length }}/168<br>
+        Average number of tests passed: 50/69
+      </div>
+      <div class="col-md text-center mb-3">
+        <a role="button" class="btn btn-success btn-lg w-50 " href="#">Run All Tests</a>
+      </div>
+    </div>
+
+    <div class="list-group all_students">
+      {% for student in students %}
+        <a class="list-group-item justify-content-between list-group-item-action" href="{% url 'student' student.guid %}">
+          {{ student.name }} ({{ student.guid }})
+          <span class="badge badge-default badge-pill {% if student.score == 69 %} badge-success {% endif %}"> {{ student.score }}/69 </span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <strong>There are no registered students.</strong>
+  {% endif %}
+
+{% endblock %}
