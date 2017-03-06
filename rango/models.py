@@ -1,11 +1,9 @@
 from __future__ import unicode_literals
-
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
-
 from .managers import UserManager
 
 
@@ -71,6 +69,7 @@ class TestCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class Test(models.Model):
     case = models.CharField(_('case'), blank=False, max_length=80)
     test = models.CharField(_('test'), blank=False, max_length=80)
@@ -82,6 +81,7 @@ class Test(models.Model):
 
     def __str__(self):
         return '{}.{}'.format(self.case, self.test)
+
 
 class TestRun(models.Model):
     student = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -98,6 +98,7 @@ class TestRun(models.Model):
     def __str__(self):
         return '{}.{}'.format(self.repository_url, self.date_run)
 
+
 class TestRunDetail(models.Model):
     record = models.ForeignKey(TestRun, on_delete=models.PROTECT)
     test = models.ForeignKey(Test, on_delete=models.PROTECT)
@@ -106,7 +107,4 @@ class TestRunDetail(models.Model):
 
     class Meta:
         verbose_name_plural = 'Test Run Details'
-
-    def __str__(self):
-        return '{} - {}'.format(str(self.record), str(self.test))
 

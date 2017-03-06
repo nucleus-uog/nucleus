@@ -28,3 +28,14 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = ("repository_url",)
+
+	
+class UserForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'GUID'}), label="")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}), label="")
+    confirmPW = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password'}), label="")
+	
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
