@@ -10,12 +10,14 @@ var autoprefixer = require('gulp-autoprefixer');
 var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var del = require('del');
+var favicons = require('gulp-favicons');
 var fontAwesome = require('node-font-awesome');
 var imagemin = require('gulp-imagemin');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
+var util = require('gulp-util');
 var watch = require('gulp-watch');
 
 // Build
@@ -64,7 +66,14 @@ gulp.task('build:fonts', function(){
                .pipe(gulp.dest(pkg.settings.out.fonts));
 });
 
-gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates', 'build:fonts'], function(){});
+gulp.task('build:favicon', function(){
+    return gulp.src(pkg.settings.src.favicon)
+               .pipe(favicons(pkg.settings.favicon))
+               .on('error', util.log)
+               .pipe(gulp.dest(pkg.settings.out.favicon));
+});
+
+gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates', 'build:fonts', 'build:favicon'], function(){});
 
 
 // Clean
