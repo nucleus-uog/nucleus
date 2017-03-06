@@ -1,0 +1,28 @@
+{% extends 'nucleus/base.html'  %}
+{% load staticfiles %}
+
+{% block title_block %}Sign In{% endblock %}
+
+{% block main_block %}
+<div class="card">
+	<div class="card-block">
+		<center>
+			<h2 class="card-title">Sign In</h2>
+			<strong>{{invalid}}</strong>
+			<form id="sign_in_form" method="post" action="{% url 'sign_in' %}">
+
+				{% csrf_token %} 
+
+				<input type="text" name="username" placeholder="GUID" size="50" /> 
+				<br/>
+				<input type="password" name="password" placeholder="password" size="50" /> 
+				<br /> 
+				<input type="submit" class="btn btn-success btn-lg register_button" value="Sign In" /> 
+			</form>
+			<a href="{% url 'register' %}">Register</a><br/>
+			<a href="{% url 'forgot_password' %}">Forgot Password?</a>
+
+		</center>
+	</div>
+</div>
+{% endblock %}

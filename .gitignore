@@ -170,5 +170,6 @@ tags
 !.vscode/extensions.json
 
 node_modules
-static
-templates
+static/
+templates/
+!source/templates
