@@ -1,3 +1,4 @@
+from channels import Channel
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -5,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from rango.models import User
+from rango.models import User, TestRun
 from rango.forms import UserForm
 
 
@@ -123,3 +124,12 @@ def student(request, student_guid):
 
     return render(request, 'nucleus/student.html', context=context_dict)
 
+
+@login_required
+def test(request):
+    run = TestRun(student=request.user,
+                  repository_url='https://github.com/davidtwco/uog-wad2.git')
+    run.save()
+
+    Channel('run-tests').send({'id': run.id})
+    return HttpResponseRedirect(reverse('index'))
