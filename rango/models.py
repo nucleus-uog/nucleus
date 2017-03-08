@@ -87,10 +87,10 @@ class TestRun(models.Model):
     student = models.ForeignKey(User, on_delete=models.PROTECT)
     repository_url = models.CharField(_('repository url'), max_length=60, blank=False)
     date_run = models.DateTimeField(_('date run'), auto_now_add=True)
-    test_version = models.CharField(_('tests version'), max_length=10, blank=False)
-    log = models.TextField(_('log'), blank=False)
-    time_taken = models.PositiveIntegerField(_('time taken'), blank=False)
-    status = models.CharField(_('status'), max_length=15, blank=False)
+    test_version = models.CharField(_('tests version'), max_length=10, blank=True, null=True)
+    log = models.TextField(_('log'), blank=True, null=True)
+    time_taken = models.DurationField(_('time taken'), blank=True, null=True)
+    status = models.CharField(_('status'), max_length=15, default='Pending')
 
     class Meta:
         verbose_name_plural = 'Test Runs'
