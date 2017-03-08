@@ -14,6 +14,7 @@ constantly==15.1.0
 daphne==1.0.3
 Django==1.10.5
 django-gulp==2.5.0
+docker==2.1.0
 docker-py==1.10.6
 docker-pycreds==0.2.1
 env-tools==2.0.0
