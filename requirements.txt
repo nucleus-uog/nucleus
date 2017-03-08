@@ -24,6 +24,7 @@ olefile==0.44
 Pillow==4.0.0
 psutil==4.3.0
 pycparser==2.17
+pypiwin32==220
 redis==2.10.5
 requests==2.13.0
 six==1.10.0
