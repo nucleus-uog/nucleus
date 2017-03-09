@@ -7,7 +7,6 @@
 	<div class="container text-center">
 		<form class="form-signin" id="user_form" method="post" action="{% url 'register' %}">
 			{% csrf_token %}
-			<h2 class="mb-3">Register</h2>
 
 			{% if registered %}
 				<div>
@@ -15,7 +14,21 @@
 					<a href="{% url 'sign_in' %}">Click here to sign in!</a>
 				</div>
 			{% else %}
-				{{ user_form }}
+
+			<div class="form-group">
+		    <label for="emailInput" class="pull-left text-muted"><small>Student Email</small></label>
+				{{ user_form.email }}
+		  </div>
+			<div class="form-group">
+		    <label for="passInput" class="pull-left text-muted"><small>Password</small></label>
+				{{ user_form.password }}
+		  </div>
+			<div class="form-group">
+		    <label for="confirmPassInput" class="pull-left text-muted"><small>Confirm Password</small></label>
+				{{ user_form.confirmPW }}
+		  </div>
+
+
 				<input type="submit" class="btn btn-success btn-block" value="Register" />
 			{% endif %}
 		</form>
