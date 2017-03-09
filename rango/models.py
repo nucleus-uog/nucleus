@@ -71,15 +71,18 @@ class TestCategory(models.Model):
 
 
 class Test(models.Model):
+    name = models.CharField(_('name'), blank=True, max_length=80)
     case = models.CharField(_('case'), blank=False, max_length=80)
     test = models.CharField(_('test'), blank=False, max_length=80)
     description = models.TextField(_('description'), blank=True)
-    category = models.ForeignKey(TestCategory, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(TestCategory, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name_plural = 'Tests'
 
     def __str__(self):
+        if self.name:
+            return self.name
         return '{}.{}'.format(self.case, self.test)
 
 
@@ -110,5 +113,5 @@ class TestRunDetail(models.Model):
         verbose_name_plural = 'Test Run Details'
 
     def __str__(self):
-        return str(self.test) + ' ' + str(self.record)
+        return str(self.test) + ' - ' + str(self.record)
 
