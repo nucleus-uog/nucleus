@@ -43,7 +43,7 @@ Then, it is recommended that you create a virtual environment to hold the Python
 **Linux:**
 ```sh
 $ python -m venv venv
-$ venv/bin/activate
+$ source venv/bin/activate
 ```
 
 **Windows:**
@@ -71,7 +71,7 @@ $ cd nucleus
 $ npm install -g gulp-cli
 $ npm install
 $ python -m venv venv
-$ venv/bin/activate
+$ source venv/bin/activate
 $ pip install -r requirements.txt
 $ python manage.py runserver
 ```
