@@ -96,7 +96,8 @@ class TestRun(models.Model):
         verbose_name_plural = 'Test Runs'
 
     def __str__(self):
-        return '{}.{}'.format(self.repository_url, self.date_run)
+        return '{} ({}) - {} - {}'.format(self.student.email, self.repository_url, self.status,
+                                          self.date_run.strftime('%d/%m/%y %H:%M'))
 
 
 class TestRunDetail(models.Model):
@@ -107,4 +108,7 @@ class TestRunDetail(models.Model):
 
     class Meta:
         verbose_name_plural = 'Test Run Details'
+
+    def __str__(self):
+        return str(self.test) + ' ' + str(self.record)
 
