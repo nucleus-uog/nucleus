@@ -1,12 +1,14 @@
 import logging
 import time
 import os
-from channels import Group
+from datetime import timedelta
 import docker
+from django.template.defaultfilters import slugify
+from channels import Group
 from .models import TestRun
 
 
-IMAGE_URL = 'registry.gitlab.com/devine-industries/nucleus-tests:master'
+IMAGE_URL = 'registry.gitlab.com/devine-industries/nucleus-tests:latest'
 VOLUMES = {
     './results/': {
         'bind': '/nucleus/results',
@@ -72,7 +74,7 @@ def run_tests(message):
     # As the logs come in, stream them back to the 
     # listening websocket, if it exists.
     for line in container.logs(stream=True):
-        Group(student_email).send({
+        Group(slugify(student_email)).send({
             'status': 'Running',
             'next_line': line
         })
@@ -84,7 +86,7 @@ def run_tests(message):
     # with the details from the container.
     run.log = container.logs()
     run.status = 'Finished'
-    run.time_taken = end - start
+    run.time_taken = timedelta(seconds=end-start)
 
     # Save the instance.
     run.save()
