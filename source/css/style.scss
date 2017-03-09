@@ -1,5 +1,5 @@
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
-// @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+//@import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
 
 body{
@@ -40,4 +40,17 @@ body{
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+}
+
+.form-control{
+  background-color: inherit;
+  border: 0;
+  border-bottom: 2px solid #d2d2d2;
+  border-radius: 0px;
+
+  &:focus {
+    background-color: inherit;
+    border-color: #2965b9;
+    transition: 1s all ease;
+  }
 }

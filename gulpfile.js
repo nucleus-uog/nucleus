@@ -25,10 +25,10 @@ var watch = require('gulp-watch');
 gulp.task('build:css', function(){
    return gulp.src(["./node_modules/bootstrap/dist/css/bootstrap.min.css", pkg.settings.src.css])
     .pipe(sourcemaps.init())
+    .pipe(concat(pkg.settings.filenames.css))
     .pipe(sass({
       includePaths: [fontAwesome.scssPath]
     }).on('error', sass.logError))
-    .pipe(concat(pkg.settings.filenames.css))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
@@ -73,7 +73,9 @@ gulp.task('build:favicon', function(){
                .pipe(gulp.dest(pkg.settings.out.favicon));
 });
 
-gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates', 'build:fonts', 'build:favicon'], function(){});
+// gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates', 'build:fonts', 'build:favicon'], function(){});
+gulp.task('build', ['build:css', 'build:js', 'build:images', 'build:templates', 'build:fonts'], function(){});
+
 
 
 // Clean

@@ -8,11 +8,17 @@
 		<form class="form-signin" id="sign_in_form" method="post" action="{% url 'sign_in' %}">
 			{% csrf_token %}
 
-			<h2 class="mb-3">Sign In</h2>
-			<strong mb-2>{{invalid}}</strong>
+			<strong>{{invalid}}</strong>
 
-			<input type="text" name="email" placeholder="Student Email" class="form-control mb-2">
-			<input type="password" name="password" placeholder="Password" class="form-control mb-3">
+			<div class="form-group">
+		    <label for="emailInput" class="pull-left text-muted"><small>Student Email</small></label>
+				<input type="text" name="email" id="emailInput" class="form-control mb-2">
+		  </div>
+			<div class="form-group">
+		    <label for="passInput" class="pull-left text-muted"><small>Password</small></label>
+				<input type="password" name="password" id="passInput" class="form-control mb-3">
+		  </div>
+
 			<input type="submit" class="btn btn-success btn-block mb-1" value="Sign In">
 
 			<small>

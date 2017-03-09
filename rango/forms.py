@@ -32,9 +32,9 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class UserForm(forms.ModelForm):
-    email = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Student Email', 'class':"form-control mb-2"}), label="")
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password', 'class':"form-control mb-2"}), label="")
-    confirmPW = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password', 'class':"form-control mb-3"}), label="")
+    email = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2", 'id':"emailInput"}), label="Student Email")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control mb-2", 'id':"passInput"}), label="Password")
+    confirmPW = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control mb-3", 'id':"confirmPassInput"}), label="Confirm Password")
 
     class Meta:
         model = User
