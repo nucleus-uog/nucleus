@@ -18,7 +18,7 @@ from .forms import UserForm
 def all_students(request):
     #student_list = User.objects.order_by('guid')
 
-    context_dict = { 
+    context_dict = {
         'students': [
             {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69},
             {'guid': '2198989S', 'name': 'John Smith', 'score': 34},
@@ -43,7 +43,7 @@ def all_students(request):
 
     return render(request, 'nucleus/students.html', context=context_dict)
 
-	
+
 def register(request):
     registered = False
     if request.method =='POST':
@@ -59,38 +59,38 @@ def register(request):
             print(user_form.errors)
     else:
         user_form=UserForm()
-    
+
     return render(request, 'nucleus/register.html',{'user_form':user_form, 'registered':registered})
 
 
 def forgot_password(request):
     return render(request, 'nucleus/sign-in.html')
-	
 
-def sign_in(request): 	
+
+def sign_in(request):
     if request.method == 'POST':
-        username = request.POST.get('username') 
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
-        if user: 
+        user = authenticate(username=email, password=password)
+        if user:
             if user.is_active:
-                login(request, user) 
+                login(request, user)
                 if (user.is_staff):	#if user is staff send them toall students page
-                    return HttpResponseRedirect(reverse('all_students')) 
+                    return HttpResponseRedirect(reverse('all_students'))
                 else:
-                    return HttpResponseRedirect(reverse('student')) 
-            else: 
-                return HttpResponse("Your account is disabled.") 
+                    return HttpResponseRedirect(reverse('student'))
+            else:
+                return HttpResponse("Your account is disabled.")
         else:
-            print("Invalid login details: {0}, {1}".format(username, password)) 
+            print("Invalid login details: {0}, {1}".format(email, password))
             invalid = 'Invalid login details supplied.'
             return render(request, 'nucleus/sign-in.html', {'invalid': invalid})
     else:
         return render(request, 'nucleus/sign-in.html', {})
 
 
-@login_required		
+@login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('sign_in'))
@@ -108,7 +108,7 @@ def student(request, student_guid):
                 'time': "2 mins 30 seconds", "url": "https://github.com/pied-piper/thebox.git",
                 'passed': 69
             },
-            { 
+            {
                 'date': "Sunday April 6th 2014", 'version': "1.1a",
                 'time': "1 mins 45 seconds", "url": "https://github.com/pied-piper/thebox.git",
                 'passed': 23
