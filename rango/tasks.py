@@ -1,6 +1,7 @@
 import logging
 import time
 import os
+from os.path import join
 from datetime import timedelta
 import docker
 from django.template.defaultfilters import slugify
@@ -9,8 +10,13 @@ from .models import TestRun
 
 
 IMAGE_URL = 'registry.gitlab.com/devine-industries/nucleus-tests:latest'
+CURRENT_DIRECTORY = os.getcwd()
+# We keep track of the path in the regular Windows format for later.
+OUTPUT_DIRECTORY_WIN = join(CURRENT_DIRECTORY, 'results')
+# Docker expects our Windows paths to be in the form: /c/Users/Batman/...
+OUTPUT_DIRECTOR_DOCKER = OUTPUT_DIRECTORY_WIN.replace('C:\\', '/c/').replace('\\', '/')
 VOLUMES = {
-    './results/': {
+    OUTPUT_DIRECTORY_DOCKER: {
         'bind': '/nucleus/results',
         'mode': 'rw'
     }
