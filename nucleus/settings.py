@@ -136,6 +136,6 @@ STATIC_URL = '/static/'
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "rango.routing.channel_routing",
+        "ROUTING": "rango.routes.channel_routing",
     },
 }

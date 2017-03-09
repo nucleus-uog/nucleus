@@ -8,6 +8,8 @@ from datetime import timedelta
 import docker
 from django.template.defaultfilters import slugify
 from channels import Group
+from channels.routing import route
+from channels.auth import http_session_user, channel_session_user, channel_session_user_from_http
 
 from .models import (
     TestRun,
@@ -33,6 +35,18 @@ VOLUMES = {
 
 
 client = docker.from_env()
+
+
+@channel_session_user_from_http
+def ws_connect(message):
+    message.reply_channel.send({'accept': True})
+    _send_message(message.user.email, 'Connected', 'Socket connection established...');
+    Group(slugify(message.user.email)).add(message.reply_channel)
+
+
+@channel_session_user
+def ws_disconnect(message):
+    Group(slugify(message.user.email)).discard(message.reply_channel)
 
 
 def run_tests(message):
@@ -68,6 +82,9 @@ def run_tests(message):
     student_email = run.student.email
     repository_url = run.repository_url
 
+    # Send status to websocket.
+    _send_message(student_email, 'Starting', ':: Loading test run details..')
+
     # Log the start time.
     start = time.time()
 
@@ -83,6 +100,9 @@ def run_tests(message):
     if exists(student_directory):
         shutil.rmtree(student_directory)
 
+    # Send status to websocket.
+    _send_message(student_email, 'Running', ':: Starting container...')
+
     # Run the container.
     image = client.images.pull(REPOSITORY, tag=TAG, auth_config={
         'username': os.environ['NUCLEUS_REGISTRY_USERNAME'],
@@ -94,10 +114,7 @@ def run_tests(message):
     # As the logs come in, stream them back to the 
     # listening websocket, if it exists.
     for line in container.logs(stream=True):
-        Group(slugify(student_email)).send({
-            'status': 'Running',
-            'next_line': line
-        })
+        _send_message(student_email, 'Running', line)
 
     # Get the end time.
     end = time.time()
@@ -109,6 +126,9 @@ def run_tests(message):
     run.test_version = 'N/A'
     run.time_taken = timedelta(seconds=end-start)
     run.save()
+
+    # Send status to websocket.
+    _send_message(student_email, 'Running', ':: Gathering results..')
 
     _collect_results(student_email, run)
 
@@ -123,6 +143,9 @@ def _collect_results(student_email, run):
     _check_path(path=join(OUTPUT_DIRECTORY_WIN, student_email, 'results.json'),
                 error='Can\'t find results.json for {}'.format(student_email),
                 run=run)
+
+    # Send status to websocket.
+    _send_message(student_email, 'Running', ':: Processing results..')
 
     # Load the json from the primary results.json file.
     with open(join(OUTPUT_DIRECTORY_WIN, student_email, 'results.json')) as f:
@@ -155,6 +178,9 @@ def _collect_results(student_email, run):
         detail = TestRunDetail(record=run, test=test, passed=passed, log=log)
         detail.save()
 
+    # Send status to websocket.
+    _send_message(student_email, 'Complete', 'Finished testing.')
+
     # Update the version number.
     run.test_version = data['version']
     run.status = 'Complete'
@@ -168,3 +194,21 @@ def _check_path(path, error, run):
         run.status = 'Failed'
         run.save()
         raise NucleusException(error)
+
+
+def _send_message(student_email, status, message):
+    # We can only send a dict with text, accept, close and bytes
+    # so we dump some json to a string and send it in the text
+    # field.
+    data = {
+        'status': status,
+        'message': message
+    }
+    Group(slugify(student_email)).send({'text': json.dumps(data)})
+
+
+channel_routing = [
+    route('run-tests', run_tests),
+    route('websocket.connect', ws_connect),
+    route('websocket.disconnect', ws_disconnect)
+]

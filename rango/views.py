@@ -3,11 +3,15 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse 
+from django.http import (
+    HttpResponseRedirect,
+    HttpResponse,
+    JsonResponse
+)
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from rango.models import User, TestRun
-from rango.forms import UserForm
+from .models import User, TestRun
+from .forms import UserForm
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -126,10 +130,15 @@ def student(request, student_guid):
 
 
 @login_required
-def test(request):
+def demo(request):
+    return render(request, 'nucleus/demo.html', context={})
+
+
+@login_required
+def demo_run(request):
     run = TestRun(student=request.user,
                   repository_url='https://github.com/davidtwco/uog-wad2.git')
     run.save()
 
     Channel('run-tests').send({'id': run.id})
-    return HttpResponseRedirect(reverse('index'))
+    return JsonResponse({'status': 'Started..', 'message': 'Started..'})
