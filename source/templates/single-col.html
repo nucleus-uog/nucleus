@@ -1,0 +1,23 @@
+{% extends 'nucleus/base.html'  %}
+{% load staticfiles %}
+
+{% block body %}
+
+<div class="container text-center" style="height: 100vh;">
+
+
+
+  <div class="row justify-content-center align-items-center signin-col">
+    <div class="col-4">
+      <img src="{% static 'images/nucleusLogo.svg' %}" alt="nucleus logo" id="logo" class="img-fluid"/>
+      {% block form %}
+      {% endblock %}
+    </div>
+  </div>
+
+
+</div>
+
+
+
+{% endblock %}
