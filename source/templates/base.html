@@ -18,35 +18,7 @@
 
   <body>
 
-    <div class="container">
-      <nav class="navbar navbar-toggleable-sm navbar-light">
-        <a class="navbar-brand ml-1 {% if not user.is_authenticated %} mx-auto {% endif %}" href="#"><img src="{% static 'images/nucleusLogo.svg' %}" alt="nucleus logo" class="img"/></a>
-
-        {% if user.is_authenticated %}
-          <button class="navbar-toggler navbar-toggler-right mt-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav ml-auto mt-1 mt-md-0">
-              <a class="btn btn-secondary nav-item mr-2 " href="#" role="button">My Account</a>
-              <a class="btn btn-secondary nav-item mr-2 " href="{% url 'user_logout' %}" role="button">Logout</a>
-            </ul>
-          </div>
-        {% endif %}
-      </nav>
-    </div>
-    
-
-    <div class="container">
-      {% block  top_block %} <!-- return buttons/git submit -->
-      {% endblock %}
-
-      <div class="{% if user.is_authenticated %} main {% endif %}">
-        {% block main_block %} <!-- main section of page -->
-        {% endblock %}
-      </div>
-    </div>
+    {% block body %}{% endblock %}
 
     <script src="{% static 'js/script.min.js' %}"></script>
   </body>
