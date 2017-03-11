@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^logout/$', views.user_logout, name='user_logout'),
     url(r'^student/(?P<student_guid>[\w\-]+)/$', views.student, name='student'),
     url(r'^admin/', admin.site.urls),
-    url(r'^demo/', views.demo, name='demo'),
-    url(r'^demo/run', views.demo_run, name='demo_run')
+    url(r'^demo/$', views.demo, name='demo'),
+    url(r'^demo/run/$', views.demo_run, name='demo_run')
 ]
 
