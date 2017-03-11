@@ -58,6 +58,20 @@ Next, you'll want to install the Python depdendencies using pip into your virtua
 $ pip install -r requirements.txt
 ```
 
+You'll need to set some environment variables so the application can login as your GitLab account and get the tests:
+
+**Linux:**
+```
+$ export NUCLEUS_REGISTRY_USERNAME=<GitLab Username>
+$ export NUCLEUS_REGISTRY_PASSWORD=<GitLab Password>
+```
+
+**Windows:**
+```
+$ set NUCLEUS_REGISTRY_USERNAME=<GitLab Username>
+$ set NUCLEUS_REGISTRY_PASSWORD=<GitLab Password>
+```
+
 Finally, you can run the migrations then the application:
 
 ```
@@ -113,6 +127,8 @@ If you wish to run the tasks with redis as a backend instead of in-memory, you m
 Then, switch `CHANNEL_LAYERS` configuration in [the settings module](nucleus/settings.py). There will be a commented configuration for Redis.
 
 Then, when running the application, you'll also need to run some workers. In different terminals, run `python manage.py runserver` once and `python manage.py runworker` many times.
+
+You'll need to set the registry environment variables on every terminal.
 
 You can also run workers to handle specific channels, for example, run `python manage.py runserver` once and also run `python manage.py runworker`, `python manage.py runworker --include-channels=run-tests` and `python manage.py runworker --include-channels=websockets.*`.
 
