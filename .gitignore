@@ -169,7 +169,9 @@ tags
 !.vscode/launch.json
 !.vscode/extensions.json
 
+### Project ###
 node_modules
 static/
 templates/
 !source/templates
+results/

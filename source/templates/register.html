@@ -4,24 +4,20 @@
 {% block title_block %}Login{% endblock %}
 
 {% block main_block %}
-<div class="card">
-	<div class="card-block">
-		<center>
-			<h2 class="card-title">Register</h2>
+	<div class="container text-center">
+		<form class="form-signin" id="user_form" method="post" action="{% url 'register' %}">
+			{% csrf_token %}
+			<h2 class="mb-3">Register</h2>
+
 			{% if registered %}
-				<div class="card-text">
-					You are registered!<br />
+				<div>
+					You are registered!<br>
 					<a href="{% url 'sign_in' %}">Click here to sign in!</a>
 				</div>
-				<a href=" click here to sign in"></a>
 			{% else %}
-				<form id="user_form" method="post" action="{%url 'register' %}">
-					{% csrf_token %} 
-					{{user_form.as_p }}
-					<input type="submit" class="btn btn-success btn-lg register_button" value="Register" /> 
-				</form> 
+				{{ user_form }}
+				<input type="submit" class="btn btn-success btn-block" value="Register" />
 			{% endif %}
-		</center>
+		</form>
 	</div>
-</div>
 {% endblock %}

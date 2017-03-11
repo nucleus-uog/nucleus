@@ -1,0 +1,56 @@
+{% extends 'nucleus/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}Test Runner Demo{% endblock %}
+
+{% block main_block %}
+<p>Pressing the button below will start a test run for `https://github.com/davidtwco/uog-wad2.git`. You will be able to view the incoming websocket details by observing the console in DevTools - this information will be used to provide live logs and status indicators.</p>
+
+<p><strong>Status: </strong><span id="status">Not Yet Started</span></p>
+
+<p><strong>Log</strong></p>
+<pre id="log" style="overflow: visible;">
+</pre>
+
+<button class="btn btn-primary" disabled id="start">Start Test Run</button>
+
+<script type="text/javascript">
+var socket; // Declare outside so we can use it in DevTools.
+document.addEventListener("DOMContentLoaded", function(event) {
+    console.log(':: Ready...')
+    var statusElement = document.getElementById('status');
+    var buttonElement = document.getElementById('start');
+    var logElement = document.getElementById('log');
+    console.log(statusElement);
+    console.log(buttonElement);
+
+    // Enable the button once the page is ready.
+    buttonElement.onclick = function() {
+        var req = new XMLHttpRequest();
+        console.log(':: Sending request...')
+        req.open('GET', window.location.protocol + '//' + window.location.host + '/demo/run');
+        req.send(null);
+
+        console.log(':: Disabled button...')
+        buttonElement.disabled = true;
+    };
+    console.log(':: Enabled button...')
+    buttonElement.disabled = false;
+
+    console.log(':: Starting socket connection...')
+    socket = new WebSocket("ws://" + window.location.host);
+    socket.onmessage = function(e) {
+        console.log(':: Receiving...');
+
+        var data = JSON.parse(e.data);
+        console.log(data);
+        statusElement.innerHTML = data['status'];
+
+        var newLineElement = document.createElement('code');
+        var newLineContent = document.createTextNode(data['message']);
+        newLineElement.appendChild(newLineContent);
+        logElement.appendChild(newLineElement);
+    }
+});
+</script>
+{% endblock %}

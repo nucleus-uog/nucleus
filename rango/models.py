@@ -71,15 +71,18 @@ class TestCategory(models.Model):
 
 
 class Test(models.Model):
+    name = models.CharField(_('name'), blank=True, max_length=80)
     case = models.CharField(_('case'), blank=False, max_length=80)
     test = models.CharField(_('test'), blank=False, max_length=80)
     description = models.TextField(_('description'), blank=True)
-    category = models.ForeignKey(TestCategory, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(TestCategory, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name_plural = 'Tests'
 
     def __str__(self):
+        if self.name:
+            return self.name
         return '{}.{}'.format(self.case, self.test)
 
 
@@ -87,16 +90,17 @@ class TestRun(models.Model):
     student = models.ForeignKey(User, on_delete=models.PROTECT)
     repository_url = models.CharField(_('repository url'), max_length=60, blank=False)
     date_run = models.DateTimeField(_('date run'), auto_now_add=True)
-    test_version = models.CharField(_('tests version'), max_length=10, blank=False)
-    log = models.TextField(_('log'), blank=False)
-    time_taken = models.PositiveIntegerField(_('time taken'), blank=False)
-    status = models.CharField(_('status'), max_length=15, blank=False)
+    test_version = models.CharField(_('tests version'), max_length=10, blank=True, null=True)
+    log = models.TextField(_('log'), blank=True, null=True)
+    time_taken = models.DurationField(_('time taken'), blank=True, null=True)
+    status = models.CharField(_('status'), max_length=15, default='Pending')
 
     class Meta:
         verbose_name_plural = 'Test Runs'
 
     def __str__(self):
-        return '{}.{}'.format(self.repository_url, self.date_run)
+        return '{} ({}) - {} - {}'.format(self.student.email, self.repository_url, self.status,
+                                          self.date_run.strftime('%d/%m/%y %H:%M'))
 
 
 class TestRunDetail(models.Model):
@@ -107,4 +111,7 @@ class TestRunDetail(models.Model):
 
     class Meta:
         verbose_name_plural = 'Test Run Details'
+
+    def __str__(self):
+        return str(self.test) + ' - ' + str(self.record)
 
