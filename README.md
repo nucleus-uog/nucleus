@@ -58,9 +58,10 @@ Next, you'll want to install the Python depdendencies using pip into your virtua
 $ pip install -r requirements.txt
 ```
 
-Finally, you can run the application:
+Finally, you can run the migrations then the application:
 
 ```sh
+$ python manage.py migrate
 $ python manage.py runserver
 ```
 
@@ -73,6 +74,7 @@ $ npm install
 $ python -m venv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
+$ python manage.py migrate
 $ python manage.py runserver
 ```
 
