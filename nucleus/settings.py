@@ -135,6 +135,10 @@ STATIC_URL = '/static/'
 # Channels
 CHANNEL_LAYERS = {
     "default": {
+        # "BACKEND": "asgi_redis.RedisChannelLayer",
+        # "CONFIG": {
+        #     "hosts": [("localhost", 6379)],
+        # },
         "BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "rango.routes.channel_routing",
     },
