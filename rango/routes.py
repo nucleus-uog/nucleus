@@ -72,9 +72,11 @@ def run_tests(message):
             id=message.content.get('id'),
         )
     except TestRun.DoesNotExist:
+        _send_message(message.user.email, 'Failed', ':: Could not find test run instance.');
         raise NucleusException('Test Run instance not found.')
 
     if run.status == 'Complete':
+        _send_message(message.user.email, 'Complete', ':: Test Run already complete.');
         raise NucleusException('Started TestRun for a instance '
                                'that is already complete.')
 
@@ -96,6 +98,7 @@ def run_tests(message):
     }
 
     # Remove previous results
+    _send_message(student_email, 'Running', ':: Removing previous results directory..')
     student_directory = join(OUTPUT_DIRECTORY_WIN, student_email)
     if exists(student_directory):
         shutil.rmtree(student_directory)
@@ -114,7 +117,7 @@ def run_tests(message):
     # As the logs come in, stream them back to the 
     # listening websocket, if it exists.
     for line in container.logs(stream=True):
-        _send_message(student_email, 'Running', line)
+        _send_message(student_email, 'Running', line.decode('utf-8'))
 
     # Get the end time.
     end = time.time()
@@ -190,6 +193,7 @@ def _collect_results(student_email, run):
 def _check_path(path, error, run):
     # Check if we can find the results directory for the student.
     if not exists(path):
+        _send_message(student_email, 'Failed', ':: {}'.format(error))
         run.log += '\n{}\n'.format(error)
         run.status = 'Failed'
         run.save()
@@ -200,6 +204,9 @@ def _send_message(student_email, status, message):
     # We can only send a dict with text, accept, close and bytes
     # so we dump some json to a string and send it in the text
     # field.
+    if not message.endswith('\n'):
+        message += '\n'
+
     data = {
         'status': status,
         'message': message
