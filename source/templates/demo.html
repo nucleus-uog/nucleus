@@ -8,6 +8,10 @@
 
 <p><strong>Status: </strong><span id="status">Not Yet Started</span></p>
 
+<p><strong>Log</strong></p>
+<pre id="log" style="overflow: visible;">
+</pre>
+
 <button class="btn btn-primary" disabled id="start">Start Test Run</button>
 
 <script type="text/javascript">
@@ -16,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log(':: Ready...')
     var statusElement = document.getElementById('status');
     var buttonElement = document.getElementById('start');
+    var logElement = document.getElementById('log');
     console.log(statusElement);
     console.log(buttonElement);
 
@@ -40,11 +45,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var data = JSON.parse(e.data);
         console.log(data);
         statusElement.innerHTML = data['status'];
+
+        var newLineElement = document.createElement('code');
+        var newLineContent = document.createTextNode(data['message']);
+        newLineElement.appendChild(newLineContent);
+        logElement.appendChild(newLineElement);
     }
-    socket.onopen = function() {
-        socket.send("Hello!");
-    }
-    if (socket.readyState == WebSocket.OPEN) socket.onopen();
 });
 </script>
 {% endblock %}
