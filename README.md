@@ -21,52 +21,52 @@ If you opt to run this manually, you'll need the following installed:
 
 Firstly, clone the repository:
 
-```sh
+```
 $ git clone git@gitlab.com:devine-industries/nucleus.git
 $ cd nucleus
 ```
 
 Now, using npm, you'll need to install `gulp-cli`, as follows:
 
-```sh
+```
 $ npm install -g gulp-cli
 ```
 
 You'll also need to install the npm dependencies by running:
 
-```sh
+```
 $ npm install
 ```
 
 Then, it is recommended that you create a virtual environment to hold the Python dependencies:
 
 **Linux:**
-```sh
+```
 $ python -m venv venv
 $ source venv/bin/activate
 ```
 
 **Windows:**
-```sh
+```
 $ python -m venv venv
 $ venv\Scripts\activate.bat
 ```
 
 Next, you'll want to install the Python depdendencies using pip into your virtual environment.
 
-```sh
+```
 $ pip install -r requirements.txt
 ```
 
 Finally, you can run the migrations then the application:
 
-```sh
+```
 $ python manage.py migrate
 $ python manage.py runserver
 ```
 
 #### TL;DR
-```sh
+```
 $ git clone git@gitlab.com:devine-industries/nucleus.git
 $ cd nucleus
 $ npm install -g gulp-cli
@@ -82,4 +82,38 @@ $ python manage.py runserver
 Coming soon.
 
 ## How do I run the test task?
-Coming soon.
+In order to get the tests to run, create a `TestRun` instance with the repository url and student whose tests will run, as demonstrated below:
+
+```python
+run = TestRun(student=request.user,
+              repository_url='https://github.com/davidtwco/uog-wad2.git')
+run.save()
+```
+
+Then, one can send a message on the `test-run` channel with the id of the previously created run.
+
+```python
+Channel('run-tests').send({'id': run.id})
+```
+
+From the frontend, a websocket connection can be created to `/` from a logged in user, this connection will then get updates on the status of any job for that student. 
+
+```javascript
+socket = new WebSocket("ws://" + window.location.host);
+socket.onmessage = function(e) {
+    var data = JSON.parse(e.data);
+    // data['status'] => Running
+    // data['message'] => Cloning repo..
+}
+```
+
+### Using Redis
+If you wish to run the tasks with redis as a backend instead of in-memory, you must first install Redis - for Linux and Mac systems, follow the instructions on [the Redis website](https://redis.io/download); on Windows machines, install from [the MSOpenTech repository](https://github.com/MSOpenTech/redis/releases).
+
+Then, switch `CHANNEL_LAYERS` configuration in [the settings module](nucleus/settings.py). There will be a commented configuration for Redis.
+
+Then, when running the application, you'll also need to run some workers. In different terminals, run `python manage.py runserver` once and `python manage.py runworker` many times.
+
+You can also run workers to handle specific channels, for example, run `python manage.py runserver` once and also run `python manage.py runworker`, `python manage.py runworker --include-channels=run-tests` and `python manage.py runworker --include-channels=websockets.*`.
+
+Using Redis will improve the performance of some of the application's realtime functionality - the application will struggle to send messages back during the test run if not using Redis.
