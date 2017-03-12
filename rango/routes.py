@@ -87,6 +87,10 @@ def run_tests(message):
     # Send status to websocket.
     _send_message(student_email, 'Starting', ':: Loading test run details..')
 
+    # Update status.
+    run.status = 'Running'
+    run.save()
+
     # Log the start time.
     start = time.time()
 
