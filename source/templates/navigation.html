@@ -2,18 +2,18 @@
 {% load staticfiles %}
 
 {% block body %}
-  <div class="container">
-    <nav class="navbar navbar-toggleable-sm navbar-light">
-      <a class="navbar-brand ml-1" href="#"><img src="{% static 'images/nucleusLogo.svg' %}" alt="nucleus logo" class="img"/></a>
+  <div class="container pl-0 pr-0 mt-2">
+    <nav class="navbar navbar-toggleable-sm navbar-light pl-0 pr-0">
+      <a class="navbar-brand pl-0" href="#"><img src="{% static 'images/nucleusLogo.svg' %}" alt="nucleus logo" class="img"/></a>
 
-      <button class="navbar-toggler navbar-toggler-right mt-3 mr-2" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler navbar-toggler-right mt-4" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav ml-auto mt-1 mt-md-0">
-          <a class="btn btn-secondary nav-item mr-2 " href="#" role="button">My Account</a>
-          <a class="btn btn-secondary nav-item mr-2 " href="{% url 'user_logout' %}" role="button">Logout</a>
+        <ul class="navbar-nav ml-auto pl-2 pr-2">
+          <a class="btn btn-secondary nav-item mr-1 ml-1" href="#" role="button">My Account</a>
+          <a class="btn btn-secondary nav-item mr-1 ml-1" href="{% url 'user_logout' %}" role="button">Logout</a>
         </ul>
       </div>
 
