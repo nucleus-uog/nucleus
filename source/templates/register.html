@@ -15,22 +15,26 @@
 				</div>
 
 			{% else %}
-			<div class="form-group">
-				{{ user_form.name }}
-				<label for="nameInput" class="pull-left text-muted"><small>Full Name</small></label>
-			</div>
-			<div class="form-group">
-				{{ user_form.email }}
-				<label for="emailInput" class="pull-left text-muted"><small>Student Email</small></label>
-			</div>
-			<div class="form-group">
-				{{ user_form.password }}
-				<label for="passInput" class="pull-left text-muted"><small>Password</small></label>
-			</div>
-			<div class="form-group">
-				{{ user_form.confirmPW }}
-				<label for="confirmPassInput" class="pull-left text-muted"><small>Confirm Password</small></label>
-			</div>
+				<div class="form-group">
+					{{ user_form.first_name }}
+					<label for="fNameInput" class="pull-left text-muted"><small>First Name</small></label>
+				</div>
+				<div class="form-group">
+					{{ user_form.last_name }}
+					<label for="lNameInput" class="pull-left text-muted"><small>Last Name</small></label>
+				</div>
+				<div class="form-group">
+					{{ user_form.email }}
+					<label for="emailInput" class="pull-left text-muted"><small>Student Email</small></label>
+				</div>
+				<div class="form-group">
+					{{ user_form.password }}
+					<label for="passInput" class="pull-left text-muted"><small>Password</small></label>
+				</div>
+				<div class="form-group">
+					{{ user_form.confirmPW }}
+					<label for="confirmPassInput" class="pull-left text-muted"><small>Confirm Password</small></label>
+				</div>
 
 				<input type="submit" class="btn btn-success btn-block" value="Register" />
 				<small><a class="text-muted" href="{% url 'sign_in' %}">Already registered? Sign in</a></small>
