@@ -36,9 +36,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         ie. '2198230W@student.gla.ac.uk' -> '2198230W'
         '''
-        if not email.endswith('@student.gla.ac.uk'):
+        if not self.email.endswith('@student.gla.ac.uk'):
             return None
-        return email[:8]
+        return self.email[:8]
 
     def get_full_name(self):
         '''
@@ -114,4 +114,3 @@ class TestRunDetail(models.Model):
 
     def __str__(self):
         return str(self.test) + ' - ' + str(self.record)
-
