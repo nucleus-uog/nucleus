@@ -13,19 +13,6 @@ from django.contrib.auth.decorators import user_passes_test
 from .models import User, TestRun
 from .forms import UserForm
 
-
-@user_passes_test(lambda u: u.is_staff)
-def all_students(request):
-    context_dict={'students': []}
-
-    student_list = User.objects.all().order_by("last_name")
-    for student in student_list:
-        if not student.is_staff and student.is_active:
-            context_dict['students'].append( {'guid': student.guid, 'name': student.get_full_name} )
-
-    return render(request, 'nucleus/students.html', context=context_dict)
-
-
 def register(request):
     registered = False
     if request.method =='POST':
@@ -43,10 +30,6 @@ def register(request):
         user_form=UserForm()
 
     return render(request, 'nucleus/register.html',{'user_form':user_form, 'registered':registered})
-
-
-def forgot_password(request):
-    return render(request, 'nucleus/sign-in.html')
 
 
 def sign_in(request):
@@ -76,6 +59,22 @@ def sign_in(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('sign_in'))
+
+
+def forgot_password(request):
+    return render(request, 'nucleus/sign-in.html')
+
+
+@user_passes_test(lambda u: u.is_staff)
+def all_students(request):
+    context_dict={'students': []}
+
+    student_list = User.objects.all().order_by("last_name")
+    for student in student_list:
+        if not student.is_staff and student.is_active:
+            context_dict['students'].append( {'guid': student.guid, 'name': student.get_full_name} )
+
+    return render(request, 'nucleus/students.html', context=context_dict)
 
 
 @login_required
