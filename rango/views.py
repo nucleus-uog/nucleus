@@ -18,7 +18,7 @@ from .forms import UserForm
 def all_students(request):
     context_dict={'students': []}
 
-    student_list = User.objects.all()
+    student_list = User.objects.all().order_by("last_name")
     for student in student_list:
         if not student.is_staff and student.is_active:
             context_dict['students'].append( {'guid': student.guid, 'name': student.get_full_name} )
@@ -78,35 +78,20 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('sign_in'))
 
 
-# add @login_required
+@login_required
 def student(request, student_guid):
-    #student_list = User.objects.order_by('guid')
+    context_dict={'tests': []}
 
-    context_dict = {
-        'student': {'guid': '2198970T', 'name': 'Charlie Thomas', 'score': 69},
-        'tests': [
-            {
-                'date': "Sunday April 12th 2015", 'version': "1.2b",
-                'time': "2 mins 30 seconds", "url": "https://github.com/pied-piper/thebox.git",
-                'passed': 69
-            },
-            {
-                'date': "Sunday April 6th 2014", 'version': "1.1a",
-                'time': "1 mins 45 seconds", "url": "https://github.com/pied-piper/thebox.git",
-                'passed': 23
-            },
-            {
-                'date': "Sunday April 12th 2015", 'version': "1.2b",
-                'time': "2 mins 30 seconds", "url": "https://github.com/pied-piper/thebox.git",
-                'passed': 45
-            },
-            {
-                'date': "Sunday April 6th 2014", 'version': "1.1a",
-                'time': "1 mins 45 seconds", "url": "https://github.com/pied-piper/thebox.git",
-                'passed': 32
-            },
-        ]
-    }
+    student = User.objects.get(email=student_guid+"@student.gla.ac.uk")
+    context_dict['student'] = {'guid': student_guid, 'name': student.get_full_name}
+    test_runs = TestRun.objects.all().filter(student=student)
+
+    for test_run in test_runs:
+        context_dict['tests'].append( {'date': test_run.date_run,
+                                       'version': test_run.version,
+                                       'time': test_run.time_taken,
+                                       'url': test_run.repository_url
+                                       } )
 
     return render(request, 'nucleus/student.html', context=context_dict)
 
