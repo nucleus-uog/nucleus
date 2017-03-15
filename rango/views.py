@@ -150,7 +150,25 @@ def student(request, student_guid):
 
 #login required.
 def testlog(request, student_guid):
-    return render(request,'nucleus/test-run.html', {})
+    context_dict = {
+        'testInfo':{'date': "Sunday April 6th 2014", 'version': "1.1a", 'timeTaken': "1 mins 45 secs", 
+                    'url': "https://github.com/pied-piper/video-chat.git"},
+
+        'tests': [
+            {
+                'header': "Created new category via the admin site",
+                'description': "The objective is to create a new category using Django administration pages. ",
+                'mark': "PASS"
+            },
+
+            {
+                'header': "Category navigates to desired page",
+                'description': "This test is about navigating and accessing categories defined in the population script",
+                'mark': "FAIL"
+            },
+        ]
+    }
+    return render(request,'nucleus/test-run.html', context=context_dict)
 
 @login_required
 def check_status(request, runid):
