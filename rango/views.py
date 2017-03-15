@@ -148,6 +148,9 @@ def student(request, student_guid):
          })
     return render(request, 'nucleus/student.html', context=context_dict)
 
+#login required.
+def testlog(request, student_guid):
+    return render(request,'nucleus/test-run.html', {})
 
 @login_required
 def check_status(request, runid):
