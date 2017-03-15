@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block top %}
-  <a href="{% url 'all_students' %}" role="button" class="btn btn-warning"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Return to All Students</a>
+  {% if user.is_staff %}
+    <a href="{% url 'all_students' %}" role="button" class="btn btn-warning"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Return to All Students</a>
+  {% endif %}
 {% endblock %}
 
 {% block main %}
