@@ -13,6 +13,7 @@ from .models import User, TestRun, TestRunDetail
 from .forms import UserForm
 from django.db.models import Count
 
+
 @login_required
 def index(request):
     if request.user.is_staff:
@@ -45,7 +46,22 @@ def all_students(request):
     student_list = User.objects.all().order_by("last_name")
     for student in student_list:
         if not student.is_staff and student.is_active:
-            context_dict['students'].append( {'guid': student.guid, 'name': student.get_full_name} )
+
+            try:
+                test_run = TestRun.objects.filter(student=student).order_by('-date_run')[0]
+                test_details = TestRunDetail.objects.filter(record=test_run)
+                max_score = test_details.count()
+                score = test_details.filter(passed=True).count()
+            except:
+                max_score = -1
+                score = -1
+
+            context_dict['students'].append({
+                    'guid': student.guid,
+                    'name': student.get_full_name,
+                    'max_score': max_score,
+                    'score': score
+                })
 
     return render(request, 'nucleus/students.html', context=context_dict)
 
@@ -60,18 +76,15 @@ def student(request, student_guid):
 
     for test_run in test_runs:
 
-        #test_details = TestRunDetail.objects.filter(
-                #record=test_run).annotate(max_score=Count('passed'))
-                # .filter(
-                # passed=True).annotate(score=Count('passed'))
+        test_details = TestRunDetail.objects.filter(record=test_run)
 
         context_dict['tests'].append({
             'date': test_run.date_run,
             'version': test_run.test_version,
             'time': test_run.time_taken,
             'url': test_run.repository_url,
-            #'score': test_details.score,
-            #'max_score': test_details.max_score
+            'score': test_details.filter(passed=True).count(),
+            'max_score': test_details.count()
          })
 
     return render(request, 'nucleus/student.html', context=context_dict)

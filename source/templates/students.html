@@ -9,7 +9,7 @@
     <div class="row align-items-center">
       <div class="col-md mb-3">
         <h2>All Students</h2>
-        Number of registered students: {{ students|length }}/168<br>
+        Number of registered students: {{ students|length }}<br>
         Average number of tests passed: 50/69
       </div>
       <div class="col-md text-center mb-3">
@@ -21,7 +21,13 @@
       {% for student in students %}
         <a class="list-group-item justify-content-between list-group-item-action" href="{% url 'student' student.guid %}">
           {{ student.name }} ({{ student.guid }})
-          <span class="badge badge-default badge-pill {% if student.score == 69 %} badge-success {% endif %}"> {{ student.score }}/69 </span>
+          <span class="badge badge-default badge-pill {% if student.score == 69 %} badge-success {% endif %}">
+            {% if student.score != -1 %}
+              {{ student.score }}/{{ student.max_score }}
+            {% else %}
+              N/A
+            {% endif %}
+          </span>
         </a>
       {% endfor %}
     </div>
