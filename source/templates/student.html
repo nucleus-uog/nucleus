@@ -15,7 +15,6 @@
 
   <h4>{{ student.name }} ({{ student.guid }})</h4>
 
-
   <a role="button" class="btn btn-success btn-lg run_button" href="#">Run Tests</a>
 
   {% if tests %}
@@ -25,7 +24,7 @@
 
           <div class="d-flex w-100 justify-content-between">
             <dt class="mb-1">{{ test.date }}</dt>
-            <span class="badge badge-default badge-pill {% if test.passed == 69 %} badge-success {% endif %}"> {{ test.score }}/ {{ test.max_score }} </span>
+            <span class="badge badge-default badge-pill {% if test.passed == 69 %} badge-success {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
           </div>
           <div class="test_data">
             Test Version: &ensp; {{ test.version }}<br>
