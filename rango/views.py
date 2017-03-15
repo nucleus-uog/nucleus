@@ -8,10 +8,16 @@ from django.http import (
     HttpResponse,
     JsonResponse
 )
-from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import user_passes_test
-from .models import User, TestRun
+from .models import User, TestRun, TestRunDetail
 from .forms import UserForm
+from django.db.models import Count
+
+@login_required
+def index(request):
+    if request.user.is_staff:
+        return HttpResponseRedirect(reverse('all_students'))
+    return HttpResponseRedirect(reverse('student', kwargs={"student_guid":request.user.guid()}))
 
 def register(request):
     registered = False
@@ -32,39 +38,6 @@ def register(request):
     return render(request, 'nucleus/register.html',{'user_form':user_form, 'registered':registered})
 
 
-def sign_in(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        user = authenticate(username=email, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                if (user.is_staff):	#if user is staff send them toall students page
-                    return HttpResponseRedirect(reverse('all_students'))
-                else:
-                    return HttpResponseRedirect(reverse('student'))
-            else:
-                return HttpResponse("Your account is disabled.")
-        else:
-            print("Invalid login details: {0}, {1}".format(email, password))
-            invalid = 'Invalid login details supplied.'
-            return render(request, 'nucleus/sign-in.html', {'invalid': invalid})
-    else:
-        return render(request, 'nucleus/sign-in.html', {})
-
-
-@login_required
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('sign_in'))
-
-
-def forgot_password(request):
-    return render(request, 'nucleus/sign-in.html')
-
-
 @user_passes_test(lambda u: u.is_staff)
 def all_students(request):
     context_dict={'students': []}
@@ -83,14 +56,23 @@ def student(request, student_guid):
 
     student = User.objects.get(email=student_guid+"@student.gla.ac.uk")
     context_dict['student'] = {'guid': student_guid, 'name': student.get_full_name}
-    test_runs = TestRun.objects.all().filter(student=student)
+    test_runs = TestRun.objects.filter(student=student)
 
     for test_run in test_runs:
-        context_dict['tests'].append( {'date': test_run.date_run,
-                                       'version': test_run.version,
-                                       'time': test_run.time_taken,
-                                       'url': test_run.repository_url
-                                       } )
+
+        #test_details = TestRunDetail.objects.filter(
+                #record=test_run).annotate(max_score=Count('passed'))
+                # .filter(
+                # passed=True).annotate(score=Count('passed'))
+
+        context_dict['tests'].append({
+            'date': test_run.date_run,
+            'version': test_run.test_version,
+            'time': test_run.time_taken,
+            'url': test_run.repository_url,
+            #'score': test_details.score,
+            #'max_score': test_details.max_score
+         })
 
     return render(request, 'nucleus/student.html', context=context_dict)
 
