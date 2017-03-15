@@ -16,21 +16,29 @@ Including another URLconf
 
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 from rango import views
 
 urlpatterns = [
-    url(r'^$', views.sign_in, name='index'),
-    url(r'^students/', views.all_students, name="all_students"),
-    url(r'^sign-in/',views.sign_in, name="sign_in"),
-    url(r'^register/',views.register, name="register"),
-    url(r'^forgot-password',views.forgot_password, name="forgot_password"),
-    url(r'^logout/$', views.user_logout, name='user_logout'),
+    url(r'^$', views.index, name='index'),
+    url(r'^students/$', views.all_students, name="all_students"),
     url(r'^student/(?P<student_guid>[\w\-]+)/$', views.student, name='student'),
+    # Auth
+    url(r'^sign-in$',auth_views.login, {'template_name': 'nucleus/sign-in.html'}, name="sign_in"),
+    url(r'^logout$', auth_views.logout, name='user_logout'),
+    url(r'^register$',views.register, name="register"),
+    url(r'^forgot-password$',auth_views.password_change, name="forgot_password"),
+    url(r'^forgot-password/done$',auth_views.password_change_done, name="forgot_password"),
+    url(r'^password_reset$', auth_views.password_reset, name='password_reset'),
+    url(r'^password_reset/done$', auth_views.password_reset_done, name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+
     url(r'^admin/', admin.site.urls),
     url(r'^demo/$', views.demo, name='demo'),
     url(r'^demo/run/$', views.demo_run, name='demo_run')
 ]
-
