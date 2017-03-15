@@ -12,10 +12,14 @@
 {% endblock %}
 
 {% block main %}
-
-  <h4>{{ student.name }} ({{ student.guid }})</h4>
-
-  <a role="button" class="btn btn-success btn-lg run_button" href="#">Run Tests</a>
+  <div class="row align-items-center">
+    <div class="col-md mb-3">
+      <h4>{{ student.name }} ({{ student.guid }})</h4>
+    </div>
+    <div class="col-md text-center mb-3">
+      <a role="button" class="btn btn-success btn-lg w-75" href="#">Run Tests</a>
+    </div>
+  </div>
 
   {% if tests %}
     <div class="list-group student_test_list">
