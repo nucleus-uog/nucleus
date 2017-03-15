@@ -16,25 +16,39 @@
     </a>
 
 
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" id = "myTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" href="#">Log</a>
+        <a class="nav-link active" data-toggle="tab" href="#tests" role = "tab" aria-controls="tests">Tests</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Tests</a>
+        <a class="nav-link" data-toggle="tab" href="#log" role = "tab" aria-controls="log">Log</a>
     </li>
     </ul>
+
     <div class="list-group">
-    
-    {% for test in tests %}
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{test.header}}</h5>
-            <small class="text-muted">{{test.mark}}</small>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="tests" role="tabpanel">
+        {% for test in tests %}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{test.header}}</h5>
+                <small class="text-muted">{{test.mark}}</small>
+                </div>
+                <p class="mb-1">{{test.description}}</p>
+                
+            </a>
+        {% endfor %}
+        </div>
+
+        <div class="tab-pane" id="log" role="tabpanel">
+            <div class="container" style="background-color: black; height: 800px; width: 1200px; color: white;">
+                Error Log of All Tests Run!
             </div>
-            <p class="mb-1">{{test.description}}</p>
-            
-        </a>
-    {% endfor %}
+        </div>
+
+    </div>
+    
 
 {% endblock %}
