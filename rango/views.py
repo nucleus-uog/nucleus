@@ -170,6 +170,18 @@ def testlog(request, student_guid):
     }
     return render(request,'nucleus/test-run.html', context=context_dict)
 
+#login required 
+def specificTest(request, student_guid):
+    context_dict = {
+        'test':
+            {
+                'header': "Category navigates to desired page",
+                'description': "This test is about navigating and accessing categories defined in the population script",
+                'mark': "FAIL"
+            },
+    }
+    return render(request, 'nucleus/test-feedback.html', context_dict)
+
 @login_required
 def check_status(request, runid):
     status = TestRun.objects.get(id=runid).status
