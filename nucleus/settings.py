@@ -28,7 +28,7 @@ SECRET_KEY = 'd!e0$e+exxf))$h)!wv@07*_(ls+d_-2awcksnjy+wji281g6z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'nucleus.devine.industries']
 
 
 # Application definition
