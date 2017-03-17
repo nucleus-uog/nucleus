@@ -9,7 +9,12 @@ from django.http import (
     JsonResponse
 )
 from django.contrib.auth.decorators import user_passes_test
-from .models import User, TestRun, TestRunDetail
+from .models import (
+    User,
+    Test,
+    TestRun,
+    TestRunDetail
+)
 from .forms import UserForm
 from django.db.models import Count
 
@@ -50,6 +55,7 @@ def all_students(request):
     context_dict={'students': []}
 
     student_list = User.objects.all().order_by("last_name")
+    totalScore = 0
     for student in student_list:
         if not student.is_staff and student.is_active:
 
@@ -68,6 +74,10 @@ def all_students(request):
                     'max_score': max_score,
                     'score': score
                 })
+
+            totalScore += score
+    context_dict["average"] = totalScore/ len(context_dict['students'])
+    context_dict["totalTests"] = Test.objects.all().count()
 
     return render(request, 'nucleus/students.html', context=context_dict)
 
