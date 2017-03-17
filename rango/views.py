@@ -148,7 +148,7 @@ def student(request, student_guid):
          })
     return render(request, 'nucleus/student.html', context=context_dict)
 
-#login required.
+@login_required
 def testlog(request, student_guid):
     context_dict = {
         'testInfo':{'date': "Sunday April 6th 2014", 'version': "1.1a", 'timeTaken': "1 mins 45 secs", 
@@ -170,7 +170,7 @@ def testlog(request, student_guid):
     }
     return render(request,'nucleus/test-run.html', context=context_dict)
 
-#login required 
+#'@login_required
 def specificTest(request, student_guid):
     context_dict = {
         'test':
@@ -215,7 +215,7 @@ def demo(request):
     return render(request, 'nucleus/demo.html', context={})
 
 
-@login_required
+#@login_required
 def demo_run(request):
     run = TestRun(student=request.user,
                   repository_url='https://github.com/davidtwco/uog-wad2.git')
