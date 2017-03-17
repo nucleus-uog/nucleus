@@ -8,6 +8,7 @@ SECRET_KEY = os.environ['NUCLEUS_SECRET_KEY']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['NUCLEUS_DB_NAME'],
         'USER': os.environ['NUCLEUS_DB_USERNAME'],
         'PASSWORD': os.environ['NUCLEUS_DB_PASSWORD'],
         'HOST': os.environ['NUCLEUS_DB_HOST'],
