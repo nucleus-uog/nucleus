@@ -1,0 +1,32 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./nucleus.env
+  web:
+    image: nucleus:local
+    ports:
+      - "2376:2376"
+      - "8000:8000"
+    links:
+      - redis
+      - db
+    env_file:
+      - ./nucleus.env
+    command: daphne -b 0.0.0.0 -p 8000 nucleus.asgi:channel_layer
+  worker:
+    image: nucleus:local
+    links:
+      - redis
+      - db
+    env_file:
+      - ./nucleus.env
+    command: python3 manage.py runworker
+
