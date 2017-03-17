@@ -1,30 +1,8 @@
 FROM python:3.6-alpine
 MAINTAINER Devine Industries
 
-# === Expected environment variables: ===
-# Set these to the username and password
-# that has access to the GitLab
-# registries.
-# NUCLEUS_REGISTRY_USERNAME changeme
-# NUCLEUS_REGISTRY_PASSWORD changeme
-#
-# Update this to match the host container
-# for docker-in-docker and add a volume
-# if required.
-# DOCKER_HOST /var/www/docker.sock
-#
-# Set the secret key.
-# NUCLEUS_SECRET_KEY changeme
-#
-# Set the PostgreSQL connection settings.
-# NUCLEUS_DB_USERNAME root
-# NUCLEUS_DB_PASSWORD changeme
-# NUCLEUS_DB_HOST localhost
-# NUCLEUS_DB_PORT 5432
-#
-# Set the Redis connection settings.
-# NUCLEUS_REDIS_HOST localhost
-# NUCLEUS_REDIS_PORT 6379
+# Check the nucleus.env.example file for what
+# environment variables this container expects.
 
 # Use the production settings.
 ENV DJANGO_SETTINGS_MODULE nucleus.production_settings
