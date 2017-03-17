@@ -1,0 +1,39 @@
+{% extends 'nucleus/single-col.html'  %}
+{% load staticfiles %}
+
+{% block title %}
+  My Account
+{% endblock %}
+
+{% block form %}
+
+  <div class="form-signin">
+    <div class="accountBox mb-5">
+      <div class="form-group">
+        <input type="text" value="{{ email }}" id="accountEmail" class="form-control mb-2" disabled>
+        <label for="accountEmail" class="pull-left text-muted"><small>Email</small></label>
+      </div>
+      <div class="form-group">
+        <input type="password" value="***********" id="accountPass" class="form-control" disabled>
+        <label for="accountPass" class="pull-left text-muted"><small>Password</small></label>
+      </div>
+
+      <a class="btn btn-success btn-block" href="{% url 'password_reset' %}">Change Password</a>
+    </div>
+
+    <form class="accountBox">
+      <div class="form-group">
+        <input type="text" placeholder="{{ repository_url }}" id="accountRepo" class="form-control">
+        <label for="accountRepo" class="pull-left text-muted"><small>Git Repository</small></label>
+      </div>
+
+      <button type="submit" class="btn btn-success btn-block">Update Repository URL</button>
+    </form>
+  </div>
+
+  <small>
+    <a class="text-muted" href="{% url 'index' %}">Return To Tests</a> &emsp;
+    <a class="text-muted" href="{% url 'user_logout' %}">Logout</a>
+  </small>
+
+{% endblock %}
