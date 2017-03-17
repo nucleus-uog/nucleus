@@ -74,8 +74,9 @@ def all_students(request):
                     'max_score': max_score,
                     'score': score
                 })
-
-            totalScore += score
+            if max_score != 0:
+                totalScore += score
+                
     context_dict["average"] = totalScore/ len(context_dict['students'])
     context_dict["totalTests"] = Test.objects.all().count()
 
