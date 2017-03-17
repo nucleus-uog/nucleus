@@ -28,11 +28,17 @@
 
           <div class="d-flex w-100 justify-content-between">
             <dt class="mb-1">{{ test.date }}</dt>
-            <span class="badge badge-default badge-pill {% if test.passed == 69 %} badge-success {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
+            {% if test.max_score == 0 %}
+              <span class="badge badge-default badge-pill badge-danger"> ERROR </span>
+            {% else %}
+              <span class="badge badge-default badge-pill {% if test.score == test.max_score %} badge-success {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
+            {% endif %}
           </div>
           <div class="test_data">
-            Test Version: &ensp; {{ test.version }}<br>
-            Time Taken: &ensp; {{ test.time }}<br>
+            {% if test.max_score != 0 %}
+              Test Version: &ensp; {{ test.version }}<br>
+              Time Taken: &ensp; {{ test.time }}<br>
+            {% endif %}
             Git URL: &ensp; {{ test.url }}
           </div>
         </a>
