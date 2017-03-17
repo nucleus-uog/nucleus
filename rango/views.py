@@ -39,6 +39,12 @@ def register(request):
     return render(request, 'nucleus/register.html',{'user_form':user_form, 'registered':registered})
 
 
+@login_required
+def account(request):
+    context_dict = {'email': request.user.email, 'repository_url': request.user.repository_url}
+    return render(request, 'nucleus/account.html', context_dict)
+
+
 @user_passes_test(lambda u: u.is_staff)
 def all_students(request):
     context_dict={'students': []}

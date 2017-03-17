@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^sign-in$',auth_views.login, {'template_name': 'nucleus/sign-in.html'}, name="sign_in"),
     url(r'^logout$', auth_views.logout, name='user_logout'),
     url(r'^register$',views.register, name="register"),
+    url(r'^account$',views.account, name="account"),
     url(r'^forgot-password$',auth_views.password_change, name="forgot_password"),
     url(r'^forgot-password/done$',auth_views.password_change_done, name="forgot_password"),
     url(r'^password_reset$', auth_views.password_reset, name='password_reset'),
