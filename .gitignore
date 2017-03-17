@@ -170,8 +170,16 @@ tags
 !.vscode/extensions.json
 
 ### Project ###
+# Frontend Dependencies
 node_modules
+
+# Build Output
 static/
 templates/
 !source/templates
+
+# Test Runner Output
 results/
+
+# Deployment
+deploy/*.env
