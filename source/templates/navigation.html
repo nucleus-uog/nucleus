@@ -4,7 +4,7 @@
 {% block body %}
   <div class="container pl-0 pr-0 mt-2">
     <nav class="navbar navbar-toggleable-sm navbar-light pl-0 pr-0">
-      <a class="navbar-brand pl-0" href="{% url 'index' %}"><img src="{% static 'images/nucleusLogo.svg' %}" alt="nucleus logo" class="img"/></a>
+      <a class="navbar-brand pl-0 mb-2" href="{% url 'index' %}"><img src="{% static 'images/nucleusLogo.svg' %}" alt="nucleus logo" class="img"/></a>
 
       <button class="navbar-toggler navbar-toggler-right mt-4" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,8 +12,8 @@
 
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ml-auto pl-2 pr-2">
-          <a class="btn btn-secondary nav-item mr-1 ml-1" href="{% url 'account' %}" role="button">My Account</a>
-          <a class="btn btn-secondary nav-item mr-1 ml-1" href="{% url 'user_logout' %}" role="button">Logout</a>
+          <a class="btn btn-secondary nav-item mr-1 ml-1 mb-2" href="{% url 'account' %}" role="button">My Account</a>
+          <a class="btn btn-secondary nav-item mr-1 ml-1 mb-2" href="{% url 'user_logout' %}" role="button">Logout</a>
         </ul>
       </div>
 
