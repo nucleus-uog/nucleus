@@ -54,3 +54,7 @@ RUN npm install
 
 # Install python dependencies
 RUN pip install -r requirements.txt
+
+# Run gulp build
+RUN gulp build:favicon
+RUN gulp build
