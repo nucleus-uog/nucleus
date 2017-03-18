@@ -83,7 +83,10 @@ def all_students(request):
             if test_run.status == 'Complete':
                 totalScore += score
 
-    context_dict["average"] = totalScore/ len(context_dict['students'])
+    if len(context_dict['students']) == 0:
+        context_dict['average'] = 0
+    else:
+        context_dict["average"] = totalScore / len(context_dict['students'])
     context_dict["totalTests"] = Test.objects.all().count()
 
     return render(request, 'nucleus/students.html', context=context_dict)
