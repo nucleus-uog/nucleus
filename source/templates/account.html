@@ -20,9 +20,10 @@
       <a class="btn btn-success btn-block" href="{% url 'password_reset' %}">Change Password</a>
     </div>
 
-    <form class="accountBox">
+    <form class="accountBox" method="post">
+      {% csrf_token %}
       <div class="form-group">
-        <input type="text" placeholder="{{ repository_url }}" id="accountRepo" class="form-control">
+        <input type="text" placeholder="{{ repository_url }}" name="newRepo" id="accountRepo" class="form-control">
         <label for="accountRepo" class="pull-left text-muted"><small>Git Repository</small></label>
       </div>
 

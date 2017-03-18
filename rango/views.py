@@ -17,6 +17,7 @@ from .models import (
 )
 from .forms import UserForm
 from django.db.models import Count
+from django.views.generic.edit import UpdateView
 
 
 @login_required
@@ -46,6 +47,10 @@ def register(request):
 
 @login_required
 def account(request):
+    if request.method == "POST":
+        userToUpdate = User.objects.get(email=request.user.email)
+        userToUpdate.repository_url = request.POST.get("newRepo", "")
+        userToUpdate.save()
     context_dict = {'email': request.user.email, 'repository_url': request.user.repository_url}
     return render(request, 'nucleus/account.html', context_dict)
 
