@@ -3,7 +3,10 @@ services:
   redis:
     image: redis:alpine
   db:
-    image: postgres:alpine
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=nucleus
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
     env_file:
       - ./nucleus.env
   web:
