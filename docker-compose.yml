@@ -13,7 +13,7 @@ services:
     env_file:
       - ./nucleus.env
   web:
-    image: nucleus:local
+    image: registry.gitlab.com/devine-industries/nucleus:master
     links:
       - db
       - redis
@@ -23,7 +23,7 @@ services:
       - ./nucleus.env
     command: daphne -b 0.0.0.0 -p 8000 nucleus.asgi:channel_layer
   worker:
-    image: nucleus:local
+    image: registry.gitlab.com/devine-industries/nucleus:master
     links:
       - db
       - redis
