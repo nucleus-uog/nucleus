@@ -71,7 +71,7 @@
       "css": "./static/css",
       "js": "./static/js",
       "images": "./static/images",
-      "templates": "./templates/nucleus",
+      "templates": "./templates",
       "fonts": "./static/fonts",
       "favicon": "./static/favicon"
     },

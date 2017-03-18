@@ -1,0 +1,35 @@
+{% extends 'layout/navigation.html'  %}
+{% load staticfiles %}
+
+{% block title %}Students{% endblock %}
+{% block main %}
+	{% if students %}
+		<div class="row align-items-center">
+			<div class="col-md mb-3">
+				<h2>All Students</h2>
+				Number of registered students: {{ students|length }}<br>
+				Average number of tests passed: {{ average }}/{{ totalTests }}
+			</div>
+			<div class="col-md text-center mb-3">
+				<a role="button" class="btn btn-success btn-lg w-75 " href="#">Run All Tests</a>
+			</div>
+		</div>
+
+		<div class="list-group all_students">
+			{% for student in students %}
+				<a class="list-group-item justify-content-between list-group-item-action" href="{% url 'student' student.guid %}">
+					{{ student.name }} ({{ student.guid }})
+					{% if student.status != "Complete" %}
+						<span class="badge badge-default badge-pill badge-warning {% if test.status == 'Error' %} badge-danger {% endif %}"> {{ student.status }} </span>
+					{% elif student.max_score == -1 %}
+						<span class="badge badge-default badge-pill"> N/A </span>
+					{% else %}
+						<span class="badge badge-default badge-pill {% if student.score == student.max_score %} badge-success {% endif %}"> {{ student.score }}/{{ student.max_score }} </span>
+					{% endif %}
+				</a>
+			{% endfor %}
+		</div>
+	{% else %}
+		<strong>There are no registered students.</strong>
+	{% endif %}
+{% endblock %}

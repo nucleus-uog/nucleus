@@ -1,9 +1,7 @@
-{% extends 'nucleus/single-col.html'  %}
+{% extends 'layout/single-col.html'  %}
 {% load staticfiles %}
 
-{% block title %}
-  My Account
-{% endblock %}
+{% block title %}My Account{% endblock %}
 
 {% block form %}
   <div class="form-signin">
@@ -25,7 +23,7 @@
       <div class="form-group">
         <input type="text" placeholder="{{ repository_url }}" name="newRepo" id="accountRepo" class="form-control">
         <label for="accountRepo" class="pull-left text-muted"><small>Git Repository</small></label>
-      </div> 
+      </div>
       <button type="submit" class="btn btn-success btn-block">Update Repository URL</button>
     </form>
   </div>
@@ -34,5 +32,4 @@
     <a class="text-muted" href="{% url 'index' %}">Return To Tests</a> &emsp;
     <a class="text-muted" href="{% url 'user_logout' %}">Logout</a>
   </small>
-
 {% endblock %}
