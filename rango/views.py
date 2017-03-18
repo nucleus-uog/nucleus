@@ -94,7 +94,7 @@ def student(request, student_guid):
     context_dict={'tests': []}
 
     student = User.objects.get(email=student_guid+"@student.gla.ac.uk")
-    context_dict['student'] = {'guid': student_guid, 'name': student.get_full_name}
+    context_dict['student'] = {'guid': student_guid, 'name': student.get_full_name, 'repository_url': student.repository_url}
     test_runs = TestRun.objects.filter(student=student).order_by('-date_run')
 
     for test_run in test_runs:
