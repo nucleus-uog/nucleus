@@ -182,4 +182,4 @@ templates/
 results/
 
 # Deployment
-deploy/*.env
+*.env
