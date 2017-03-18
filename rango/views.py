@@ -48,6 +48,7 @@ def account(request):
         userToUpdate = User.objects.get(email=request.user.email)
         userToUpdate.repository_url = request.POST.get("newRepo", "")
         userToUpdate.save()
+        return HttpResponseRedirect(reverse('account'))
     context_dict = {'email': request.user.email, 'repository_url': request.user.repository_url}
     return render(request, 'nucleus/account.html', context_dict)
 
