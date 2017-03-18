@@ -54,12 +54,12 @@ def run_tests(message):
     Runs the test suite and outputs the results
     in the results folder.
 
-    You can run this as below, passing the 
+    You can run this as below, passing the
     id of a TestRun model instance.
-    
+
     ```python
     from channels import Channel
-    
+
     Channel('run-tests').send({
         'id': 2 # change to new instance id
     })
@@ -94,7 +94,7 @@ def run_tests(message):
     # Log the start time.
     start = time.time()
 
-    # Set up our environment variables and 
+    # Set up our environment variables and
     # volumes for running the container.
     environment = {
         'TESTS_STUDENT': student_email,
@@ -118,7 +118,7 @@ def run_tests(message):
     container = client.containers.run(image.id, environment=environment,
                                       volumes=VOLUMES, detach=True)
 
-    # As the logs come in, stream them back to the 
+    # As the logs come in, stream them back to the
     # listening websocket, if it exists.
     for line in container.logs(stream=True):
         _send_message(student_email, 'Running', line.decode('utf-8'))
@@ -142,12 +142,14 @@ def run_tests(message):
 
 def _collect_results(student_email, run):
     # Check if we can find the results directory for the student.
-    _check_path(path=join(OUTPUT_DIRECTORY_WIN, student_email),
+    _check_path(student_email=student_email,
+                path=join(OUTPUT_DIRECTORY_WIN, student_email),
                 error='Can\'t find output directory for {}'.format(student_email),
                 run=run)
 
     # Check if we can find the results directory for the student.
-    _check_path(path=join(OUTPUT_DIRECTORY_WIN, student_email, 'results.json'),
+    _check_path(student_email=student_email,
+                path=join(OUTPUT_DIRECTORY_WIN, student_email, 'results.json'),
                 error='Can\'t find results.json for {}'.format(student_email),
                 run=run)
 
@@ -157,7 +159,7 @@ def _collect_results(student_email, run):
     # Load the json from the primary results.json file.
     with open(join(OUTPUT_DIRECTORY_WIN, student_email, 'results.json')) as f:
         data = json.loads(f.read())
-    
+
     for t in data['tests']:
         # Our Test model instances are populated automatically from running tests
         # so new tests are automatically from the first time they are run.
@@ -176,7 +178,8 @@ def _collect_results(student_email, run):
             error_file = t['error']
             path = join(OUTPUT_DIRECTORY_WIN, student_email, error_file)
             # Check that the error file exists.
-            _check_path(path=path, error=message, run=run)
+            _check_path(student_email=student_email,
+                        path=path, error=message, run=run)
 
             # Read the contents of the error file.
             with open(path) as f:
@@ -194,7 +197,7 @@ def _collect_results(student_email, run):
     run.save()
 
 
-def _check_path(path, error, run):
+def _check_path(student_email, path, error, run):
     # Check if we can find the results directory for the student.
     if not exists(path):
         _send_message(student_email, 'Failed', ':: {}'.format(error))
