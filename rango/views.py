@@ -120,9 +120,9 @@ def demo(request):
 
 
 @login_required
-def demo_run(request):
+def test_run(request):
     run = TestRun(student=request.user,
-                  repository_url='https://github.com/charlie-thomas/django-lab.git')
+                  repository_url=request.user.repository_url)
     run.save()
 
     Channel('run-tests').send({'id': run.id})
