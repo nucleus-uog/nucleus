@@ -72,11 +72,12 @@ def all_students(request):
                     'guid': student.guid,
                     'name': student.get_full_name,
                     'max_score': max_score,
-                    'score': score
+                    'score': score,
+                    'status': test_run.status
                 })
-            if max_score != 0:
+            if test_run.status == 'Complete':
                 totalScore += score
-                
+
     context_dict["average"] = totalScore/ len(context_dict['students'])
     context_dict["totalTests"] = Test.objects.all().count()
 
@@ -100,6 +101,7 @@ def student(request, student_guid):
             'version': test_run.test_version,
             'time': test_run.time_taken,
             'url': test_run.repository_url,
+            'status': test_run.status,
             'score': test_details.filter(passed=True).count(),
             'max_score': test_details.count()
          })
