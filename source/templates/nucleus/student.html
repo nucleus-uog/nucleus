@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-  Student Tests
+  - Student Tests
 {% endblock %}
 
 {% block top %}
@@ -17,12 +17,12 @@
       <h4>{{ student.name }} ({{ student.guid }})</h4>
     </div>
     <div class="col-md text-center mb-3">
-      <div class="input-group">
+      <form class="input-group" action="" method="post">
         <input type="text" class="form-control" value="{{ student.repository_url }}" placeholder="{% if not student.repository_url %} Enter Git Repository Url Here {% endif %}">
         <span class="input-group-btn">
-          <button class="btn btn-success" id="runTests" type="button">Run Tests</button>
+          <button class="btn btn-success" id="runTests" type="submit">Run Tests</button>
         </span>
-      </div>
+      </form>
     </div>
   </div>
 
