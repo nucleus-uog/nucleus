@@ -18,7 +18,7 @@ RUN apk add libffi libffi-dev build-base
 # Install dependencies for Pillow.
 RUN apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev
 # Install dependencies for psycopg2
-RUN apk add postgresql-dev linux-headers
+RUN apk add mariadb-dev linux-headers
 # Install dependencies for some npm packages.
 RUN apk add automake autoconf file bash nasm pkgconfig libtool
 # Install nodejs for Gulp and Docker for test runner.
