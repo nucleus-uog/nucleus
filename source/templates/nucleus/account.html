@@ -18,14 +18,16 @@
       <a class="btn btn-success btn-block" href="{% url 'password_change' %}">Change Password</a>
     </div>
 
-    <form class="accountBox" method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <input type="text" placeholder="{{ repository_url }}" name="newRepo" id="accountRepo" class="form-control">
-        <label for="accountRepo" class="pull-left text-muted"><small>Git Repository</small></label>
-      </div>
-      <button type="submit" class="btn btn-success btn-block">Update Repository URL</button>
-    </form>
+    {% if not user.is_staff %}
+      <form class="accountBox" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" placeholder="{{ repository_url }}" name="newRepo" id="accountRepo" class="form-control">
+          <label for="accountRepo" class="pull-left text-muted"><small>Git Repository</small></label>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Update Repository URL</button>
+      </form>
+    {% endif %}
   </div>
 
   <small>
