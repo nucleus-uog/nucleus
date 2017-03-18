@@ -120,7 +120,7 @@ def demo(request):
 
 
 @login_required
-def test_run(request):
+def demo_run(request):
     run = TestRun(student=request.user,
                   repository_url=request.user.repository_url)
     run.save()
