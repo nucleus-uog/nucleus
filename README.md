@@ -24,14 +24,19 @@ Once properly configured, run the following:
 ```
 $ docker login registry.gitlab.com
 $ docker-compose up -d
-$ docker-compose exec web python manage.py migrate
+$ docker-compose exec web python3 manage.py migrate
+$ docker-compose exec web python3 manage.py createsuperuser
 $ docker-compose scale worker=6
 $ docker-compose logs
 ```
 
 This will first prompt to login to GitLab's registries, you'll need to log in using the same values you set `NUCLEUS_REGISTRY_USERNAME` and `NUCLEUS_REGISTRY_PASSWORD` to.
 
-Then, this will download and run the containers, as configured in the `docker-compose.yml` file. After this, we run the migrate command within the web container to create the database tables defined by the application.
+Then, this will download and run the containers, as configured in the `docker-compose.yml` file.
+
+**You may need to run `docker-compose start worker` after running `docker-compose up -d` if the `db` container doesn't start quick enough for the workers.**
+
+After this, we run the migrate command within the web container to create the database tables defined by the application.
 
 Next, we scale the worker container up to 6 containers - this means there are many more workers available to handle websockets and running the tests.
 
