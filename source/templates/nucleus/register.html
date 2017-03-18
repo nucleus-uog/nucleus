@@ -1,8 +1,7 @@
-{% extends 'nucleus/single-col.html'  %}
+{% extends 'layout/single-col.html'  %}
 {% load staticfiles %}
 
 {% block title %}Login{% endblock %}
-
 {% block form %}
 	<div class="container text-center">
 		<form class="form-signin" id="user_form" method="post" action="{% url 'register' %}">
@@ -13,7 +12,6 @@
 					You are registered!<br>
 					<a href="{% url 'sign_in' %}">Click here to sign in!</a>
 				</div>
-
 			{% else %}
 				<div class="form-group">
 					{{ user_form.first_name }}
@@ -38,7 +36,6 @@
 
 				<input type="submit" class="btn btn-success btn-block" value="Register" />
 				<small><a class="text-muted" href="{% url 'sign_in' %}">Already registered? Sign in</a></small>
-
 			{% endif %}
 		</form>
 	</div>

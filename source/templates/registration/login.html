@@ -1,0 +1,38 @@
+{% extends 'layout/single-col.html'  %}
+{% load staticfiles %}
+
+{% block title %}Sign In{% endblock %}
+{% block form %}
+	{% if form.errors %}
+		<p class="text-danger">Your username and password didn't match. Please try again.</p>
+	{% endif %}
+
+	{% if next %}
+		{% if user.is_authenticated %}
+			<p class="text-danger">Your account doesn't have access to this page. To proceed,
+			please login with an account that has access.</p>
+		{% else %}
+			<p class="text-danger">Please login to see this page.</p>
+		{% endif %}
+	{% endif %}
+
+	<form class="form-signin" id="sign_in_form" method="post" action="{% url 'sign_in' %}">
+		{% csrf_token %}
+
+		<div class="form-group">
+			<input type="text" name="{{ form.username.html_name }}" id="{{ form.username.id_for_label }}" class="form-control mb-2">
+			<label for="{{ form.username.id_for_label }}" class="pull-left text-muted"><small>Student Email</small></label>
+		</div>
+		<div class="form-group">
+			<input type="password" name="{{ form.password.html_name }}" id="{{ form.password.id_for_label }}" class="form-control mb-4">
+			<label for="{{ form.password.id_for_label }}" class="pull-left text-muted"><small>Password</small></label>
+		</div>
+
+		<input type="submit" class="btn btn-success btn-block mb-1 mt-3" value="Sign In">
+		<input type="hidden" name="next" value="{{ next }}">
+	</form>
+	<small>
+		<a class="text-muted" href="{% url 'register' %}">Register</a> &emsp;
+		<a class="text-muted" href="{% url 'forgot_password' %}">Forgot Password?</a>
+	</small>
+{% endblock %}

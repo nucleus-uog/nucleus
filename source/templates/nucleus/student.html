@@ -1,0 +1,52 @@
+{% extends 'layout/navigation.html'  %}
+{% load staticfiles %}
+
+{% block title %}Student Tests{% endblock %}
+
+{% block top %}
+	{% if user.is_staff %}
+		<a href="{% url 'all_students' %}" role="button" class="btn btn-warning"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Return to All Students</a>
+	{% endif %}
+{% endblock %}
+
+{% block main %}
+	<div class="row align-items-center">
+		<div class="col-md-4 mb-3">
+			<h4>{{ student.name }} ({{ student.guid }})</h4>
+		</div>
+		<div class="col-md text-center mb-3">
+			<div class="input-group">
+				<input type="text" class="form-control" value="{{ student.repository_url }}">
+				<span class="input-group-btn">
+					<button class="btn btn-success" id="runTests" type="button">Run Tests</button>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	{% if tests %}
+		<div class="list-group student_test_list">
+			{% for test in tests %}
+				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+					<div class="d-flex w-100 justify-content-between">
+						<dt class="mb-1">{{ test.date }}</dt>
+						{% if test.status != "Complete" %}
+							<span class="badge badge-default badge-pill badge-warning {% if test.status == 'Error' %} badge-danger {% endif %}"> {{ test.status }} </span>
+						{% else %}
+							<span class="badge badge-default badge-pill {% if test.score == test.max_score %} badge-success {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
+						{% endif %}
+					</div>
+					<div class="test_data">
+						{% if test.max_score != 0 %}
+							Test Version: &ensp; {{ test.version }}<br>
+							Time Taken: &ensp; {{ test.time }}<br>
+						{% endif %}
+						Git URL: &ensp; {{ test.url }}
+					</div>
+				</a>
+			{% endfor %}
+		</div>
+	{% else %}
+		<strong>No tests have been ran for this student.</strong>
+	{% endif %}
+{% endblock %}
