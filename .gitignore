@@ -183,3 +183,4 @@ results/
 
 # Deployment
 *.env
+dist/
