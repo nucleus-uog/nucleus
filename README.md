@@ -34,56 +34,11 @@ This will first prompt to login to GitLab's registries, you'll need to log in us
 
 Then, this will download and run the containers, as configured in the `docker-compose.yml` file.
 
-**You may need to run `docker-compose start worker` after running `docker-compose up -d` if the `db` container doesn't start quick enough for the workers.**
-
 After this, we run the migrate command within the web container to create the database tables defined by the application.
 
 Next, we scale the worker container up to 6 containers - this means there are many more workers available to handle websockets and running the tests.
 
 Finally, we view the logs of all of the running containers. You should then be able to visit `localhost:8000` to see the running application.
-
-### Docker for Windows
-
-If using Docker for Windows, you'll need to modify the Docker daemon settings to run using a TCP connection rather than a named pipe, this is required as the Linux application container is unable to use named pipes.
-
-This can be done by modifying `%ProgramData%\docker\config\daemon.json` and adding (or modifying if the key exists) the following:
-
-```json
-{
-    "hosts": ["tcp://127.0.0.1:2376", "npipe://"]
-}
-```
-
-You can then restart the Docker for Windows application. This can be verified by running the following:
-
-```
-$ docker -H npipe:////./pipe/docker_engine info
-$ docker -H tcp://127.0.0.1:2376 info
-```
-
-You can then set the `DOCKER_HOST` variable in `nucleus.env` as follows:
-
-```
-DOCKER_HOST=tcp://127.0.0.1:2376
-```
-
-You will also have to expose the port to the container so that the application can see the host Docker daemon.
-
-### Docker Toolbox
-If using Docker Toolbox, you are already using a TCP connection, and therefore will need to set the `DOCKER_HOST` variable as below:
-
-```
-DOCKER_HOST=tcp://127.0.0.1:<port>
-```
-
-Replacing the `<port>` with the port used by Docker Toolbox. This will typically be shown in the information printed when the Docker Toolbox console is started.
-
-### Docker on Linux
-If using Docker on a Linux system, you will likely have Docker set to use `/var/run/docker.sock`, add this as a volume to the same path in the container, and then set `DOCKER_HOST` in `nucleus.env` to the path.
-
-```
-DOCKER_HOST=unix:///var/run/docker.sock
-```
 
 ## Manual
 If you opt to run this manually, you'll need the following installed:

@@ -1,5 +1,8 @@
 version: "3"
 services:
+  docker:
+    image: docker:dind
+    privileged: true
   redis:
     image: redis:alpine
   db:
@@ -11,20 +14,21 @@ services:
       - ./nucleus.env
   web:
     image: nucleus:local
+    links:
+      - db
+      - redis
     ports:
       - "8000:8000"
-    links:
-      - redis
-      - db
     env_file:
       - ./nucleus.env
     command: daphne -b 0.0.0.0 -p 8000 nucleus.asgi:channel_layer
   worker:
     image: nucleus:local
     links:
-      - redis
       - db
+      - redis
+      - docker
     env_file:
       - ./nucleus.env
-    command: python3 manage.py runworker
+    command: bash -c 'export DOCKER_HOST=tcp://docker:2375; sleep 20; python3 manage.py runworker'
 
