@@ -4,9 +4,6 @@ MAINTAINER Devine Industries
 # Check the nucleus.env.example file for what
 # environment variables this container expects.
 
-# Use the production settings.
-ENV DJANGO_SETTINGS_MODULE nucleus.production_settings
-
 # Create working directory.
 RUN mkdir /nucleus
 WORKDIR /nucleus
@@ -35,4 +32,7 @@ RUN pip install -r requirements.txt
 
 # Run gulp build
 RUN gulp build:favicon
-RUN gulp build
+RUN python3 manage.py collectstatic --noinput
+
+# Use the production settings.
+ENV DJANGO_SETTINGS_MODULE nucleus.production_settings
