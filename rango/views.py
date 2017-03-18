@@ -66,19 +66,26 @@ def all_students(request):
                 test_details = TestRunDetail.objects.filter(record=test_run)
                 max_score = test_details.count()
                 score = test_details.filter(passed=True).count()
-            except:
-                max_score = -1
-                score = -1
 
-            context_dict['students'].append({
-                    'guid': student.guid,
-                    'name': student.get_full_name,
-                    'max_score': max_score,
-                    'score': score,
-                    'status': test_run.status
-                })
-            if test_run.status == 'Complete':
-                totalScore += score
+                context_dict['students'].append({
+                        'guid': student.guid,
+                        'name': student.get_full_name,
+                        'max_score': max_score,
+                        'score': score,
+                        'status': test_run.status
+                    })
+                if test_run.status == 'Complete':
+                    totalScore += score
+            except:
+                context_dict['students'].append({
+                        'guid': student.guid,
+                        'name': student.get_full_name,
+                        'max_score': -1,
+                        'score': -1,
+                        'status': 'Complete',
+                    })
+
+
 
     if len(context_dict['students']) == 0:
         context_dict['average'] = 0
