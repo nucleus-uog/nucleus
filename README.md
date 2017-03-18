@@ -13,25 +13,11 @@ Firstly, to install Docker to your system, follow the guides on the [Docker webs
 
 Windows users without Hyper-V (Windows 10 Home users) will need to run the unsupported [Docker Toolbox](https://www.docker.com/products/docker-toolbox) rather than the new [Docker for Windows](https://docs.docker.com/docker-for-windows/) - the application should still work but will have to be run within the Docker Toolbox VM.
 
-There are then two ways to run the application with Docker - using [the supplied docker-compose.yml](deploy/docker-compose.yml) (recommended) or manually - we'll only cover using the [docker-compose.yml](deploy/docker-compose.yml) method in this guide.
+There are then two ways to run the application with Docker - using [the supplied docker-compose.yml](docker-compose.yml) (recommended) or manually - we'll only cover using the [docker-compose.yml](docker-compose.yml) method in this guide.
 
-In order to get started, download the [docker-compose.yml](deploy/docker-compose.yml) file and the [nucleus.env.example](deploy/nucleus.env.example) file and keep them in the same folder.
+In order to get started, download the [docker-compose.yml](docker-compose.yml) file and the [nucleus.env.example](nucleus.env.example) file and keep them in the same folder.
 
-Make a copy of the `nucleus.env.example` file and name it `nucleus.env`. Then, edit the file and set the variables correctly according to the table below.
-
-Variable                   | Explaination
----------------------------|-------------
-`NUCLEUS_REGISTRY_USERNAME`|Enter your GitLab username. This is used to download the `nucleus-tests` image from the GitLab registry.
-`NUCLEUS_REGISTRY_PASSWORD`|Enter your GitLab password, or if you use two factor authentication, enter your personal access token. This is used to download the `nucleus-tests` image from the GitLab registry.
-`NUCLEUS_SECRET_KEY`|Enter the secret key for this deployment of the application. You can [read more about Django's secret keys here](https://docs.djangoproject.com/en/dev/ref/settings/#secret-key) and [generate secret keys here](http://www.miniwebtool.com/django-secret-key-generator/).
-`DOCKER_HOST`|URL to the Docker host. This is used by [the Docker SDK for Python](https://docker-py.readthedocs.io/en/stable/client.html#docker.client.from_env) to connect to the running Docker daemon. See the next section for more details.
-`NUCLEUS_DB_NAME` & `POSTGRES_DB`|Enter the name of the database that should be used by the application.
-`NUCLEUS_DB_USERNAME` & `POSTGRES_USER`|Enter the username of the database user that should be used to connect to the PostgreSQL database.
-`NUCLEUS_DB_PASSWORD` & `POSTGRES_PASSWORD`|Enter the password of the database user that should be used to connect to the PostgreSQL database.
-`NUCLEUS_DB_HOST`|Enter the host of the PostgreSQL database. If using the docker-compose configuration, this will be `db`.
-`NUCLEUS_DB_PORT`|Enter the port of the PostgreSQL database. If using the docker-compose configuration or the default port, this will be `5432`.
-`NUCLEUS_REDIS_HOST`|Enter the host of the Redis instance. If using the docker-compose configuration, this will be `redis`.
-`NUCLEUS_REDIS_PORT`|Enter the port of the Redis database. If using the docker-compose configuration or the default port, this will be `6379`.
+Make a copy of the `nucleus.env.example` file and name it `nucleus.env`. Then, edit the file and set the variables correctly according to the comments in the file.
 
 Once properly configured, run the following:
 
@@ -45,19 +31,21 @@ $ docker-compose logs
 
 This will first prompt to login to GitLab's registries, you'll need to log in using the same values you set `NUCLEUS_REGISTRY_USERNAME` and `NUCLEUS_REGISTRY_PASSWORD` to.
 
-Then, this will download and run the containers, as configured in the `docker-compose.yml` file. Next, we scale the worker container up to 6 containers - this means there are many more workers available to handle websockets and running the tests.
+Then, this will download and run the containers, as configured in the `docker-compose.yml` file. After this, we run the migrate command within the web container to create the database tables defined by the application.
+
+Next, we scale the worker container up to 6 containers - this means there are many more workers available to handle websockets and running the tests.
 
 Finally, we view the logs of all of the running containers. You should then be able to visit `localhost:8000` to see the running application.
 
 ### Docker for Windows
 
-If using Docker for Windows, you'll need to modify the Docker daemon settings to run using a tcp connection rather than a named pipe, this is required as the Linux application container is unable to use named pipes.
+If using Docker for Windows, you'll need to modify the Docker daemon settings to run using a TCP connection rather than a named pipe, this is required as the Linux application container is unable to use named pipes.
 
 This can be done by modifying `%ProgramData%\docker\config\daemon.json` and adding (or modifying if the key exists) the following:
 
 ```json
 {
-    "hosts": ["tcp://127.0.0.1:2375", "npipe://"]
+    "hosts": ["tcp://127.0.0.1:2376", "npipe://"]
 }
 ```
 
@@ -65,19 +53,25 @@ You can then restart the Docker for Windows application. This can be verified by
 
 ```
 $ docker -H npipe:////./pipe/docker_engine info
-$ docker -H tcp://127.0.0.1:2375 info
+$ docker -H tcp://127.0.0.1:2376 info
 ```
 
-You can then set the `DOCKER_HOST` variable as follows:
+You can then set the `DOCKER_HOST` variable in `nucleus.env` as follows:
 
 ```
-DOCKER_HOST=tcp://127.0.0.1:2375
+DOCKER_HOST=tcp://127.0.0.1:2376
 ```
 
 You will also have to expose the port to the container so that the application can see the host Docker daemon.
 
 ### Docker Toolbox
-If using Docker Toolbox, you are already using a tcp connection, and therefore will only have to expose the port to the container.
+If using Docker Toolbox, you are already using a TCP connection, and therefore will need to set the `DOCKER_HOST` variable as below:
+
+```
+DOCKER_HOST=tcp://127.0.0.1:<port>
+```
+
+Replacing the `<port>` with the port used by Docker Toolbox. This will typically be shown in the information printed when the Docker Toolbox console is started.
 
 ### Docker on Linux
 If using Docker on a Linux system, you will likely have Docker set to use `/var/run/docker.sock`, add this as a volume to the same path in the container, and then set `DOCKER_HOST` in `nucleus.env` to the path.
