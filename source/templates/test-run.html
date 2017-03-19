@@ -37,7 +37,7 @@
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start mb-1">
                 <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{test.name}}</h5>
-                <span class="badge badge-pill badge-warning">{{test.passed}}</span>
+                <span class="badge badge-success badge-pill {% if test.passed != True %} badge-warning {% endif %}">{{test.passed}}</span>
                 </div>
                 <p class="mb-1">{{test.description}}</p>
 
