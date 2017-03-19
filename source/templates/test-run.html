@@ -46,9 +46,11 @@
         </div>
 
         <div class="tab-pane" id="log" role="tabpanel">
-            <div class="container" style="background-color: black; height: 800px; width: 1200px; color: white;">
-                Error Log of All Tests Run!
-            </div>
+            {% for log in logs %}
+                <div class="container" style="background-color: black; height: 100%; width: 100%; color: white;">
+                    {{ log.log }}
+                </div>
+            {% endfor %}
         </div>
 
     </div>

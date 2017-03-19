@@ -154,7 +154,7 @@ def testlog(request, student_guid, runid):
     test_run = TestRun.objects.get(student=student, test_version=runid)
 
     test_details = TestRunDetail.objects.filter(record=test_run)
-    context_dict = {'tests': [], 'chapter_test': []}
+    context_dict = {'tests': [], 'chapter_test': [], 'logs':[]}
 
 
 
@@ -170,6 +170,11 @@ def testlog(request, student_guid, runid):
         context_dict['chapter_test'].append({
             'name': chapter_test.test,
             'passed': chapter_test.passed
+        })
+
+    for logs in test_details:
+        context_dict['logs'].append({
+            'log': logs.log
         })
 
 
