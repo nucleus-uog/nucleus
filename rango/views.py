@@ -29,22 +29,17 @@ def index(request):
     return HttpResponseRedirect(reverse('student', kwargs={"student_guid":request.user.guid()}))
 
 def register(request):
-    registered = False
     if request.method =='POST':
-        user_form=UserForm(data=request.POST)
-        if user_form.is_valid() and user_form.cleaned_data['password'] == user_form.cleaned_data['confirmPW']:
-            user=user_form.save()
+        form = UserForm(data=request.POST)
+        if form.is_valid():
+            user = form.save()
             user.set_password(user.password)
             user.save()
-            registered=True
-        elif user_form.data['password'] != user_form.data['confirmPW']:
-            user_form.add_error('confirmPW', 'The passwords do not match')
-        else:
-            print(user_form.errors)
+            return HttpResponseRedirect(reverse('index'))
     else:
-        user_form=UserForm()
+        form = UserForm()
 
-    return render(request, 'nucleus/register.html',{'user_form':user_form, 'registered':registered})
+    return render(request, 'nucleus/register.html', {'form': form})
 
 
 @login_required
