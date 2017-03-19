@@ -144,10 +144,25 @@ def student(request, student_guid):
             'url': test_run.repository_url,
             'status': test_run.status,
             'score': test_details.filter(passed=True).count(),
-            'max_score': test_details.count()
+            'max_score': test_details.count(),
+            'id': test_run.id
          })
-
     return render(request, 'nucleus/student.html', context=context_dict)
+
+
+@login_required
+def check_status(request, runid):
+    status = TestRun.objects.get(id=runid).status
+    statusClasses = {
+        'Failed': ' badge-danger ',
+        'Pending': ' badge-warning ',
+        'Running': ' badge-warning '
+    }
+    className = "badge badge-pill " + statusClasses[status]
+    if status != "Complete" and status != "Failed":
+        className += " status-check"
+    return JsonResponse({'status': status, 'id': runid, 'class': className})
+
 
 @login_required
 def demo(request):

@@ -35,10 +35,10 @@
 
           <div class="d-flex w-100 justify-content-between">
             <dt class="mb-1">{{ test.date }}</dt>
-            {% if test.status != "Complete" %}
-              <span class="badge badge-default badge-pill badge-warning {% if test.status == 'Failed' %} badge-danger {% endif %}"> {{ test.status }} </span>
-            {% else %}
+            {% if test.status == 'Complete' %}
               <span class="badge badge-default badge-pill {% if test.score == test.max_score %} badge-success {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
+            {% else %}
+              <span class="badge badge-pill badge-warning status-check" id="status-{{ test.id }}"> {{ test.status }} </span>
             {% endif %}
           </div>
           <div class="test_data">
