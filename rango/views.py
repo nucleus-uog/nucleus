@@ -2,13 +2,17 @@ from channels import Channel
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import (
+    login_required,
+    user_passes_test
+)
+from django.db.models import Count
 from django.http import (
     HttpResponseRedirect,
     HttpResponse,
     JsonResponse
 )
-from django.contrib.auth.decorators import user_passes_test
+from django.views.generic.edit import UpdateView
 from .models import (
     User,
     Test,
@@ -16,8 +20,6 @@ from .models import (
     TestRunDetail
 )
 from .forms import UserForm
-from django.db.models import Count
-from django.views.generic.edit import UpdateView
 
 
 @login_required
