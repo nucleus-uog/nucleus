@@ -12,14 +12,14 @@ from django.http import (
     HttpResponse,
     JsonResponse
 )
-from django.views.generic.edit import UpdateView
 from .models import (
     User,
     Test,
     TestRun,
     TestRunDetail
 )
-from .forms import UserForm
+from .forms import UserForm, RepoForm
+from django.db.models import Count
 
 
 @login_required
@@ -45,11 +45,18 @@ def register(request):
 @login_required
 def account(request):
     if request.method == "POST":
-        userToUpdate = User.objects.get(email=request.user.email)
-        userToUpdate.repository_url = request.POST.get("newRepo", "")
-        userToUpdate.save()
+        form = RepoForm(request.POST)
+        if form.is_valid():
+            userToUpdate = User.objects.get(email=form.cleaned_data['student_email'])
+            userToUpdate.repository_url = form.cleaned_data['repository_url']
+            userToUpdate.save()
         return HttpResponseRedirect(reverse('account'))
-    context_dict = {'email': request.user.email, 'repository_url': request.user.repository_url}
+    else:
+        form = RepoForm()
+
+    context_dict = {'email': request.user.email,
+                    'repository_url': request.user.repository_url,
+                    'form': form}
     return render(request, 'nucleus/account.html', context_dict)
 
 
@@ -99,12 +106,33 @@ def all_students(request):
 
 @login_required
 def student(request, student_guid):
-    context_dict={'tests': []}
+    if request.method == "POST":
+        form = RepoForm(request.POST)
+        if form.is_valid():
+            userToUpdate = User.objects.get(email=form.cleaned_data['student_email'])
+            userToUpdate.repository_url = form.cleaned_data['repository_url']
+            userToUpdate.save()
 
+            run = TestRun(student=userToUpdate,
+                          repository_url=userToUpdate.repository_url)
+            run.save()
+            Channel('run-tests').send({'id': run.id})
+        return HttpResponseRedirect(reverse('student', kwargs={"student_guid": student_guid}))
+
+    form = RepoForm()
     student = User.objects.get(email=student_guid+"@student.gla.ac.uk")
-    context_dict['student'] = {'guid': student_guid, 'name': student.get_full_name, 'repository_url': student.repository_url}
-    test_runs = TestRun.objects.filter(student=student).order_by('-date_run')
+    context_dict={
+        'tests': [],
+        'form': form,
+        'student': {
+            'guid': student_guid,
+            'email': student.email,
+            'name': student.get_full_name,
+            'repository_url': student.repository_url
+        }
+    }
 
+    test_runs = TestRun.objects.filter(student=student).order_by('-date_run')
     for test_run in test_runs:
 
         test_details = TestRunDetail.objects.filter(record=test_run)
@@ -120,7 +148,6 @@ def student(request, student_guid):
          })
 
     return render(request, 'nucleus/student.html', context=context_dict)
-
 
 @login_required
 def demo(request):
