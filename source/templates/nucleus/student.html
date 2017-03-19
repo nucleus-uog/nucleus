@@ -17,9 +17,10 @@
       <h4>{{ student.name }} ({{ student.guid }})</h4>
     </div>
     <div class="col-md text-center mb-3">
-      <form class="input-group" action="" method="post">
+      <form class="input-group" action="{% url 'student' student.guid %}" method="post">
         {% csrf_token %}
-        <input type="text" class="form-control" value="{{ student.repository_url }}" placeholder="{% if not student.repository_url %} Enter Git Repository Url Here {% endif %}">
+        <input type="hidden" name="{{ form.student_email.html_name }}" id="{{ form.student_email.id_for_label }}" value="{{ student.email }}">
+        <input type="text" name="{{ form.repository_url.html_name }}" id="{{ form.repository_url.id_for_label }}" value="{{ student.repository_url }}" class="form-control">
         <span class="input-group-btn">
           <button class="btn btn-success" id="runTests" type="submit">Run Tests</button>
         </span>

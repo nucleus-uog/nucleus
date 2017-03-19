@@ -50,3 +50,8 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'password')
+
+
+class RepoForm(forms.Form):
+    repository_url = forms.URLField(widget=forms.TextInput(attrs={'class':"form-control mb-2", 'id':"repoUrl"}), label="Repository")
+    student_email = forms.EmailField(widget=forms.HiddenInput(attrs={'id': "studentEmail"}))
