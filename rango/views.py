@@ -80,7 +80,8 @@ def all_students(request):
                         'name': student.get_full_name,
                         'max_score': max_score,
                         'score': score,
-                        'status': test_run.status
+                        'status': test_run.status,
+                        'runid': test_run.id
                     })
                 if test_run.status == 'Complete':
                     totalScore += score
