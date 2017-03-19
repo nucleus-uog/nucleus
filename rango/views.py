@@ -151,7 +151,7 @@ def student(request, student_guid):
 @login_required
 def testlog(request, student_guid, runid):
     student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
-    test_run = TestRun.objects.get(student=student, test_version=runid)
+    test_run = TestRun.objects.get(student=student, id=runid)
 
     test_details = TestRunDetail.objects.filter(record=test_run)
     context_dict = {'tests': [], 'chapter_test': [], 'logs':[]}
@@ -172,10 +172,8 @@ def testlog(request, student_guid, runid):
             'passed': chapter_test.passed
         })
 
-    for logs in test_details:
-        context_dict['logs'].append({
-            'log': logs.log
-        })
+
+    context_dict['logs'] = test_run.log
 
 
 
