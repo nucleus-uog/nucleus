@@ -7,17 +7,18 @@
     <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{test.header}}</h5>
-            <small class="badge badge-pill badge-warning">{{test.mark}}</small>
+            <h5 class="mb-1">{{name}}</h5>
+            <small class="badge badge-success badge-pill {% if passed != True %} badge-warning {% endif %}">{{passed}}</small>
             </div>
             <p class="mb-1">{{test.description}}</p>
         </a>
 
     </div>
 
-    
-    <div class="container" style="background-color: black; height: 800px; width: 1200px; color: white;">
-        Error Log of All Tests Run!
+    <div class = "container" color = "black">
+        <pre><code>
+            {{log}}
+        </code></pre>
     </div>
 
 
