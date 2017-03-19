@@ -122,7 +122,7 @@ def demo(request):
 @login_required
 def demo_run(request):
     run = TestRun(student=request.user,
-                  repository_url=request.user.repository_url)
+                  repository_url='https://github.com/davidtwco/uog-wad2.git')
     run.save()
 
     Channel('run-tests').send({'id': run.id})
