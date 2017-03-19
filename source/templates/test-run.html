@@ -4,14 +4,17 @@
 {% block main %}
     <div class="list-group">
     </div>
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start disabled">
         <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">{{testInfo.date}}</h5>
 
         </div>
-        <p class="mb-1">Test Version: &ensp; {{testInfo.version}} &ensp;
-                        Time Taken: &ensp; {{testInfo.timeTaken}} <br>
-                        URL: &ensp; {{testInfo.url}}</p>
+            {% for test in tests %}
+                <p class="mb-1">Test Version: &ensp; {{test.version}} &ensp;
+                        Time Taken: &ensp; {{test.time}} <br>
+                        URL: &ensp; {{test.url}}</p>
+            {% endfor %}
+
 
     </a>
 
@@ -30,11 +33,11 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="tests" role="tabpanel">
-        {% for test in tests %}
+        {% for test in chapter_test %}
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start mb-1">
                 <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{test.header}}</h5>
-                <span class="badge badge-pill badge-warning">{{test.mark}}</span>
+                <h5 class="mb-1">{{test.name}}</h5>
+                <span class="badge badge-pill badge-warning">{{test.passed}}</span>
                 </div>
                 <p class="mb-1">{{test.description}}</p>
 
