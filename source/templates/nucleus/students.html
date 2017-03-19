@@ -23,12 +23,12 @@
       {% for student in students %}
         <a class="list-group-item justify-content-between list-group-item-action" href="{% url 'student' student.guid %}">
           {{ student.name }} ({{ student.guid }})
-          {% if student.status != "Complete" %}
-            <span class="badge badge-default badge-pill badge-warning {% if test.status == 'Failed' %} badge-danger {% endif %}"> {{ student.status }} </span>
-          {% elif student.max_score == -1 %}
+          {% if student.max_score == -1 %}
             <span class="badge badge-default badge-pill"> N/A </span>
-          {% else %}
+          {% elif student.status == 'Complete' %}
             <span class="badge badge-default badge-pill {% if student.score == student.max_score %} badge-success {% endif %}"> {{ student.score }}/{{ student.max_score }} </span>
+          {% else %}
+            <span class="badge badge-pill badge-warning status-check" id="status-{{ test.id }}"> {{ student.status }} </span>
           {% endif %}
         </a>
       {% endfor %}
