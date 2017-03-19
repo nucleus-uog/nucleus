@@ -31,11 +31,21 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class UserForm(forms.ModelForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2", 'id':"fNameInput"}), label="First Name")
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2", 'id':"lNameInput"}), label="Last Name")
-    email = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2", 'id':"emailInput"}), label="Student Email")
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control mb-2", 'id':"passInput"}), label="Password")
-    confirmPW = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control", 'id':"confirmPassInput"}), label="Confirm Password")
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="First Name")
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="Last Name")
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="Student Email")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control mb-2"}), label="Password")
+    confirm = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control"}), label="Confirm Password")
+
+    def clean_confirm(self):
+        password = self.cleaned_data.get('password')
+        confirm = self.cleaned_data.get('confirm')
+
+        if not confirm:
+            raise forms.ValidationError("You must confirm your password.")
+        if password != confirm:
+            raise forms.ValidationError("Your passwords do not match.")
+        return confirm
 
     class Meta:
         model = User

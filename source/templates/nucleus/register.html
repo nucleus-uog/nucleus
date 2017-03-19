@@ -1,42 +1,60 @@
 {% extends 'layout/single-col.html'  %}
 {% load staticfiles %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 {% block form %}
-	<div class="container text-center">
-		<form class="form-signin" id="user_form" method="post" action="{% url 'register' %}">
-			{% csrf_token %}
-
-			{% if registered %}
-				<div>
-					You are registered!<br>
-					<a href="{% url 'sign_in' %}">Click here to sign in!</a>
-				</div>
+	{% if form.errors %}
+		<p class="text-danger">
+			{% if form.errors.items|length == 1 %}
+				Please correct the error below.
 			{% else %}
-				<div class="form-group">
-					{{ user_form.first_name }}
-					<label for="fNameInput" class="pull-left text-muted"><small>First Name</small></label>
-				</div>
-				<div class="form-group">
-					{{ user_form.last_name }}
-					<label for="lNameInput" class="pull-left text-muted"><small>Last Name</small></label>
-				</div>
-				<div class="form-group">
-					{{ user_form.email }}
-					<label for="emailInput" class="pull-left text-muted"><small>Student Email</small></label>
-				</div>
-				<div class="form-group">
-					{{ user_form.password }}
-					<label for="passInput" class="pull-left text-muted"><small>Password</small></label>
-				</div>
-				<div class="form-group">
-					{{ user_form.confirmPW }}
-					<label for="confirmPassInput" class="pull-left text-muted"><small>Confirm Password</small></label>
-				</div>
-
-				<input type="submit" class="btn btn-success btn-block" value="Register" />
-				<small><a class="text-muted" href="{% url 'sign_in' %}">Already registered? Sign in</a></small>
+				Please correct the errors below.
 			{% endif %}
-		</form>
-	</div>
+		</p>
+	{% endif %}
+
+	<form class="form-signin" id="register_form" method="post" action="{% url 'register' %}">
+		{% csrf_token %}
+
+		<div class="form-group{% if form.first_name.errors %} has-danger{% endif %}">
+			{{ form.first_name }}
+			<label for="{{ form.first_name.id_for_label }}" class="pull-left text-muted"><small>{{ form.first_name.label }}</small></label>
+			{% if form.first_name.errors %}
+				<div class="form-control-feedback">{{ form.first_name.errors }}</div>
+			{% endif %}
+		</div>
+		<div class="form-group{% if form.last_name.errors %} has-danger{% endif %}">
+			{{ form.last_name }}
+			<label for="{{ form.last_name.id_for_label }}" class="pull-left text-muted"><small>{{ form.last_name.label }}</small></label>
+			{% if form.last_name.errors %}
+				<div class="form-control-feedback">{{ form.last_name.errors }}</div>
+			{% endif %}
+		</div>
+		<div class="form-group{% if form.email.errors %} has-danger{% endif %}">
+			{{ form.email }}
+			<label for="{{ form.email.id_for_label }}" class="pull-left text-muted"><small>{{ form.email.label }}</small></label>
+			{% if form.email.errors %}
+				<div class="form-control-feedback">{{ form.email.errors }}</div>
+			{% endif %}
+		</div>
+		<div class="form-group{% if form.password.errors %} has-danger{% endif %}">
+			{{ form.password }}
+			<label for="{{ form.password.id_for_label }}" class="pull-left text-muted"><small>{{ form.password.label }}</small></label>
+			{% if form.password.errors %}
+				<div class="form-control-feedback">{{ form.password.errors }}</div>
+			{% endif %}
+		</div>
+		<div class="form-group{% if form.confirm.errors %} has-danger{% endif %}">
+			{{ form.confirm }}
+			<label for="{{ form.confirm.id_for_label }}" class="pull-left text-muted"><small>{{ form.confirm.label }}</small></label>
+			{% if form.confirm.errors %}
+				<div class="form-control-feedback">{{ form.confirm.errors }}</div>
+			{% endif %}
+		</div>
+
+		<input type="submit" class="btn btn-success btn-block" value="Register" />
+	</form>
+	<small>
+		<a class="text-muted" href="{% url 'sign_in' %}">Already registered? Sign in!</a>
+	</small>
 {% endblock %}
