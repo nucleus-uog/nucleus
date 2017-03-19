@@ -63,7 +63,6 @@ PASSWORD_HASHERS = (
 
 ROOT_URLCONF = 'nucleus.urls'
 
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -116,7 +115,8 @@ LOGIN_URL = '/sign-in'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/sign-in'
 
-
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
