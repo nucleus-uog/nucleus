@@ -20,7 +20,10 @@
       <form class="input-group" action="{% url 'student' student.guid %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="{{ form.student_email.html_name }}" id="{{ form.student_email.id_for_label }}" value="{{ student.email }}">
-        <input type="text" name="{{ form.repository_url.html_name }}" id="{{ form.repository_url.id_for_label }}" value="{{ student.repository_url }}" class="form-control">
+        <input type="text" name="{{ form.repository_url.html_name }}"
+            id="{{ form.repository_url.id_for_label }}"
+            value="{{ student.repository_url }}" class="form-control"
+            placeholder="Enter Repository URL Here">
         <span class="input-group-btn">
           <button class="btn btn-success" id="runTests" type="submit">Run Tests</button>
         </span>

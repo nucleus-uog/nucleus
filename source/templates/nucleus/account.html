@@ -23,7 +23,11 @@
         {% csrf_token %}
         <input type="hidden" name="{{ form.student_email.html_name }}" id="{{ form.student_email.id_for_label }}" value="{{ email }}" class="form-control mb-2">
         <div class="form-group">
-          <input type="text" name="{{ form.repository_url.html_name }}" id="{{ form.repository_url.id_for_label }}" value="{{ repository_url }}" class="form-control mb-2">
+          <input type="text" name="{{ form.repository_url.html_name }}"
+              id="{{ form.repository_url.id_for_label }}"
+              value="{{ repository_url }}"
+              class="form-control mb-2"
+              placeholder="Enter Repository URL">
   				<label for="{{ form.repository_url.id_for_label }}" class="pull-left text-muted"><small>{{ form.repository_url.label }}</small></label>
         </div>
         <button type="submit" class="btn btn-success btn-block">Update Repository URL</button>
