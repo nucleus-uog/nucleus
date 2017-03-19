@@ -28,6 +28,7 @@ def index(request):
         return HttpResponseRedirect(reverse('all_students'))
     return HttpResponseRedirect(reverse('student', kwargs={"student_guid":request.user.guid()}))
 
+
 def register(request):
     if request.method =='POST':
         form = UserForm(data=request.POST)
@@ -68,7 +69,6 @@ def all_students(request):
     totalScore = 0
     for student in student_list:
         if not student.is_staff and student.is_active:
-
             try:
                 test_run = TestRun.objects.filter(student=student).order_by('-date_run')[0]
                 test_details = TestRunDetail.objects.filter(record=test_run)
@@ -92,8 +92,6 @@ def all_students(request):
                         'score': -1,
                         'status': 'Complete',
                     })
-
-
 
     if len(context_dict['students']) == 0:
         context_dict['average'] = 0
@@ -154,14 +152,28 @@ def student(request, student_guid):
 def check_status(request, runid):
     status = TestRun.objects.get(id=runid).status
     statusClasses = {
-        'Failed': ' badge-danger ',
-        'Pending': ' badge-warning ',
-        'Running': ' badge-warning '
+        'Failed': 'badge-danger',
+        'Pending': 'badge-warning',
+        'Running': 'badge-warning',
+        'Complete': 'badge-default'
     }
     className = "badge badge-pill " + statusClasses[status]
     if status != "Complete" and status != "Failed":
         className += " status-check"
     return JsonResponse({'status': status, 'id': runid, 'class': className})
+
+
+@user_passes_test(lambda u: u.is_staff)
+def run_all(request):
+    students = User.objects.all().filter(is_staff=False, is_active=True)
+    for student in students:
+        if student.repository_url != "":
+            run = TestRun(student=student,
+                          repository_url=student.repository_url)
+            run.save()
+            Channel('run-tests').send({'id': run.id})
+
+    return HttpResponseRedirect(reverse('all_students'))
 
 
 @login_required
