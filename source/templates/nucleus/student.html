@@ -41,7 +41,7 @@
             {% endif %}
           </div>
           <div class="test_data">
-            {% if test.max_score != 0 %}
+            {% if test.status == "Complete" %}
               Test Version: &ensp; {{ test.version }}<br>
               Time Taken: &ensp; {{ test.time }}<br>
             {% endif %}
