@@ -19,6 +19,7 @@ from .models import (
     TestRunDetail
 )
 from .forms import UserForm, RepoForm
+from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
 
 
@@ -175,21 +176,19 @@ def testlog(request, student_guid, runid):
 
     context_dict['logs'] = test_run.log
 
-
-
-
     return render(request,'nucleus/test-run.html', context=context_dict)
 
-#'@login_required
+@login_required
 def specificTest(request, student_guid,runid,testid):
-    context_dict = {
-        'test':
-            {
-                'header': "Category navigates to desired page",
-                'description': "This test is about navigating and accessing categories defined in the population script",
-                'mark': "FAIL"
-            },
-    }
+    student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
+    test_run = TestRun.objects.get(student=student, id=runid)
+
+    test_details = TestRunDetail.objects.get(record=test_run, id=testid)
+
+    context_dict = {'name': test_details.test,
+                    'passed': test_details.passed,
+                    'log': test_details.log}
+
     return render(request, 'nucleus/test-feedback.html', context_dict)
 
 @login_required
