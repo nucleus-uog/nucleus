@@ -28,7 +28,7 @@
           {% elif student.status == 'Complete' %}
             <span class="badge badge-default badge-pill {% if student.score == student.max_score %} badge-success {% endif %}"> {{ student.score }}/{{ student.max_score }} </span>
           {% else %}
-            <span class="badge badge-pill badge-warning status-check" id="status-{{ test.id }}"> {{ student.status }} </span>
+            <span class="badge badge-pill badge-warning status-check" id="status-{{ student.runid }}"> {{ student.status }} </span>
           {% endif %}
         </a>
       {% endfor %}
