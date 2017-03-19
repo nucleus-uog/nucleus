@@ -149,29 +149,36 @@ def student(request, student_guid):
     return render(request, 'nucleus/student.html', context=context_dict)
 
 @login_required
-def testlog(request, student_guid):
-    context_dict = {
-        'testInfo':{'date': "Sunday April 6th 2014", 'version': "1.1a", 'timeTaken': "1 mins 45 secs", 
-                    'url': "https://github.com/pied-piper/video-chat.git"},
+def testlog(request, student_guid, runid):
+    student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
+    test_run = TestRun.objects.get(student=student, test_version=runid)
 
-        'tests': [
-            {
-                'header': "Created new category via the admin site",
-                'description': "The objective is to create a new category using Django administration pages. ",
-                'mark': "PASS"
-            },
+    test_details = TestRunDetail.objects.filter(record=test_run)
+    context_dict = {'tests': [], 'chapter_test': []}
 
-            {
-                'header': "Category navigates to desired page",
-                'description': "This test is about navigating and accessing categories defined in the population script",
-                'mark': "FAIL"
-            },
-        ]
-    }
+
+
+    context_dict['tests'].append({
+
+        'version': test_run.test_version,
+        'time': test_run.time_taken,
+        'url': test_run.repository_url,
+    })
+
+    for chapter_test in test_details:
+
+        context_dict['chapter_test'].append({
+            'name': chapter_test.test,
+            'passed': chapter_test.passed
+        })
+
+
+
+
     return render(request,'nucleus/test-run.html', context=context_dict)
 
 #'@login_required
-def specificTest(request, student_guid):
+def specificTest(request, student_guid,runid,testid):
     context_dict = {
         'test':
             {
