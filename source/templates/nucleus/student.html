@@ -34,7 +34,7 @@
   {% if tests %}
     <div class="list-group student_test_list">
       {% for test in tests %}
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="{% url 'testlog' student.guid test.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
 
           <div class="d-flex w-100 justify-content-between">
             <dt class="mb-1">{{ test.date }}</dt>

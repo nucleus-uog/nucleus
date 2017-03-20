@@ -8,19 +8,17 @@
 {% block main %}
     <div class="list-group">
     </div>
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start disabled">
-        <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{testInfo.date}}</h5>
+        <div class="list-group-item flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{testInfo.date}}</h5>
 
+          </div>
+              {% for test in tests %}
+                  <p class="mb-1">Test Version: &ensp; {{test.version}} &ensp;
+                          Time Taken: &ensp; {{test.time}} <br>
+                          URL: &ensp; {{test.url}}</p>
+              {% endfor %}
         </div>
-            {% for test in tests %}
-                <p class="mb-1">Test Version: &ensp; {{test.version}} &ensp;
-                        Time Taken: &ensp; {{test.time}} <br>
-                        URL: &ensp; {{test.url}}</p>
-            {% endfor %}
-
-
-    </a>
 
 
     <ul class="nav nav-tabs" id = "myTab" role="tablist">
@@ -38,7 +36,7 @@
     <div class="tab-content">
         <div class="tab-pane active" id="tests" role="tabpanel">
         {% for test in chapter_test %}
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start mb-1">
+            <a href="{% url 'specificTest' guid runid test.testid %}" class="list-group-item list-group-item-action flex-column align-items-start mb-1">
                 <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{test.name}}</h5>
                 <span class="badge badge-success badge-pill {% if test.passed != True %} badge-warning {% endif %}">{{test.passed}}</span>
