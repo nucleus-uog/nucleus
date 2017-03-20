@@ -156,8 +156,7 @@ def testlog(request, student_guid, runid):
 
     test_details = TestRunDetail.objects.filter(record=test_run)
     context_dict = {'tests': [], 'chapter_test': [], 'logs':[]}
-
-
+    context_dict['guid'] = student_guid
 
     context_dict['tests'].append({
 
@@ -180,14 +179,20 @@ def testlog(request, student_guid, runid):
 
 @login_required
 def specificTest(request, student_guid,runid,testid):
+
     student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
     test_run = TestRun.objects.get(student=student, id=runid)
 
     test_details = TestRunDetail.objects.get(record=test_run, id=testid)
 
+
     context_dict = {'name': test_details.test,
                     'passed': test_details.passed,
-                    'log': test_details.log}
+                    'log': test_details.log,
+                    'guid': student_guid,
+                    'runid': runid}
+
+
 
     return render(request, 'nucleus/test-feedback.html', context_dict)
 
