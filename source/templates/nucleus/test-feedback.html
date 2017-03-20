@@ -9,32 +9,22 @@
   <div class="container">
     <div class="row">
       <div class="card w-100 mb-3 mt-3">
-        <div class="card-block">
-          <div class="row">
-            <div class="col-11">
-              <h4>{{ name }}</h4>
-              <div class="test_data">
-                <div>{{ group }}</div>
-                <div>{{ description }}</div>
-              </div>
-            </div>
-            <div class="col-1">
-              <small class="badge badge-success badge-pill {% if passed != "Pass" %} badge-danger {% endif %}">{{ passed }}</small></h4>
-            </div>
+        <div class="card-block w-100 flex-column align-items-start d-flex">
+          <div class=" d-flex justify-content-between w-100">
+            <h4>{{ name }}</h4>
+            <small class="badge badge-pill badge-danger">{{ passed }}</small></h4>
+          </div>
+          <div class="test_data">
+            <div>{{ group }}</div>
+            <div>{{ description }}</div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="card w-100">
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Log</a>
-            </li>
-          </ul>
-        </div>
         <div class="card-block">
+          <h5 class="mb-2">Log</h5>
           <pre><code>{{ log }}</code></pre>
         </div>
       </div>
