@@ -26,8 +26,8 @@
         <div class="card w-100">
           <ul class="list-group list-group-flush">
             {% for student in students %}
-              <li class="list-group-item">
-                <a class="w-100 d-flex justify-content-between" href="{% url 'student' student.guid %}">
+              <li class="list-group-item list-group-item-action">
+                <a class="w-100 d-flex justify-content-between nucleus-link" href="{% url 'student' student.guid %}">
 
                       <dt class="mt-1">{{ student.name }} ({{ student.guid }})</dt>
 

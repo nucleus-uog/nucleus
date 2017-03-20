@@ -9,21 +9,14 @@ body {
   width: 200px;
 }
 
-.main {
-    background-color: #fff;
-    margin: 15px auto 100px auto;
-    box-shadow: 0 0 20px 10px rgba(0,0,0,0.1);
-    padding: 20px;
-}
+.nucleus-link {
+  text-decoration: none;
+  color: inherit;
 
-.run_button {
-  width: 50%;
-  margin: 0px auto 20px auto;
-  display: block;
-}
-
-.list-group {
-  border: none;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 .test_data {

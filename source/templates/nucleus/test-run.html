@@ -37,8 +37,8 @@
                 <div class="tab-pane active" id="tests" role="tabpanel">
                   <ul class="list-group list-group-flush mt-1">
                     {% for test in chapter_test %}
-                    <li class="list-group-item">
-                      <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="w-100 flex-column align-items-start d-flex">
+                    <li class="list-group-item {% if test.passed == "Fail" %} list-group-item-action {% endif %}">
+                      <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="w-100 flex-column align-items-start d-flex nucleus-link">
                         <div class="d-flex justify-content-between w-100">
                           <strong class="mb-1">{{test.name}}</strong>
                           <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
