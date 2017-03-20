@@ -17,6 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ("email", "repository_url")
 
+
 class CustomUserChangeForm(UserChangeForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
@@ -32,6 +33,9 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class UserForm(forms.ModelForm):
+    """
+    Creates a form that validates the registration of a user.
+    """
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="First Name")
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="Last Name")
     email = forms.EmailField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="Student Email")
@@ -39,18 +43,23 @@ class UserForm(forms.ModelForm):
     confirm = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control"}), label="Confirm Password")
 
     def clean_email(self):
+        """Check that a email matches a Glasgow University student email."""
         email = self.cleaned_data.get('email')
 
+        # Raise a ValidationError if the regex does not match.
         if not re.match(r'\d{7}[A-Za-z]@student.gla.ac.uk', email):
             raise forms.ValidationError("You must use your student email.")
         return email
 
     def clean_confirm(self):
+        """Check that the password confirmation matches the password."""
         password = self.cleaned_data.get('password')
         confirm = self.cleaned_data.get('confirm')
 
+        # Check that are supplied a password confirmation, else bail out.
         if not confirm:
             raise forms.ValidationError("You must confirm your password.")
+        # Check that the password confirmation matches the password, else bail out.
         if password != confirm:
             raise forms.ValidationError("Your passwords do not match.")
         return confirm
@@ -61,5 +70,7 @@ class UserForm(forms.ModelForm):
 
 
 class RepoForm(forms.Form):
+    """Validates a repository url for a given student."""
     repository_url = forms.URLField(widget=forms.TextInput(attrs={'class':"form-control mb-2", 'id':"repoUrl"}), label="Repository")
     student_email = forms.EmailField(widget=forms.HiddenInput(attrs={'id': "studentEmail"}))
+
