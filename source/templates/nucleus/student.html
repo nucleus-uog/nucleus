@@ -29,7 +29,7 @@
                   value="{{ student.repository_url }}" class="form-control"
                   placeholder="Enter Repository URL Here">
               <span class="input-group-btn">
-                <button class="btn btn-success" id="runTests" type="submit">Run Tests</button>
+                <button class="btn btn-success" id="runTests" type="submit" {% if tests.0.status == "Running" or tests.0.status == "Pending" %} disabled {% endif %}>Run Tests</button>
               </span>
             </form>
           </div>
