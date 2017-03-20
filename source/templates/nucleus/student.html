@@ -12,50 +12,67 @@
 {% endblock %}
 
 {% block main %}
-  <div class="row align-items-center">
-    <div class="col-md-4 mb-3">
-      <h4>{{ student.name }} ({{ student.guid }})</h4>
-    </div>
-    <div class="col-md text-center mb-3">
-      <form class="input-group" action="{% url 'student' student.guid %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="{{ form.student_email.html_name }}" id="{{ form.student_email.id_for_label }}" value="{{ student.email }}">
-        <input type="text" name="{{ form.repository_url.html_name }}"
-            id="{{ form.repository_url.id_for_label }}"
-            value="{{ student.repository_url }}" class="form-control"
-            placeholder="Enter Repository URL Here">
-        <span class="input-group-btn">
-          <button class="btn btn-success" id="runTests" type="submit">Run Tests</button>
-        </span>
-      </form>
+<div class="container">
+  <div class="row">
+    <div class="card w-100 mb-3 mt-3">
+      <div class="card-block">
+        <div class="row">
+          <div class="col-md-4 d-flex">
+            <h4 class="align-self-center">{{ student.name }} ({{ student.guid }})</h4>
+          </div>
+          <div class="col-md text-center">
+            <form class="input-group" action="{% url 'student' student.guid %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="{{ form.student_email.html_name }}" id="{{ form.student_email.id_for_label }}" value="{{ student.email }}">
+              <input type="text" name="{{ form.repository_url.html_name }}"
+                  id="{{ form.repository_url.id_for_label }}"
+                  value="{{ student.repository_url }}" class="form-control"
+                  placeholder="Enter Repository URL Here">
+              <span class="input-group-btn">
+                <button class="btn btn-success" id="runTests" type="submit">Run Tests</button>
+              </span>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  {% if tests %}
-    <div class="list-group student_test_list">
-      {% for test in tests %}
-        <a {% if test.status == "Complete" or test.status == "Failed" %} href="{% url 'testlog' student.guid test.id %}" {% else %} disabled {% endif %} class="list-group-item list-group-item-action flex-column align-items-start">
-
-          <div class="d-flex w-100 justify-content-between">
-            <dt class="mb-1">{{ test.date }}</dt>
-            {% if test.status == 'Complete' %}
-              <span class="badge badge-primary badge-pill {% if test.score == test.max_score %} badge-success {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
-            {% else %}
-              <span class="badge badge-pill badge-warning status-check" id="status-{{ test.id }}"> {{ test.status }} </span>
-            {% endif %}
+  <div class="row">
+    {% if tests %}
+      <div class="card w-100">
+        <ul class="list-group list-group-flush">
+          {% for test in tests %}
+          <li class="list-group-item">
+            <a {% if test.status == "Complete" or test.status == "Failed" %} href="{% url 'testlog' student.guid test.id %}" {% endif %} class="w-100 flex-column align-items-start d-flex">
+                  <div class="d-flex justify-content-between w-100">
+                    <dt class="mb-1">{{ test.date }}</dt>
+                    {% if test.status == 'Complete' %}
+                      <span class="badge badge-pill {% if test.score == test.max_score %} badge-success {% else %} badge-primary {% endif %}"> {{ test.score }}/{{ test.max_score }} </span>
+                    {% else %}
+                      <span class="badge badge-pill badge-warning status-check" id="status-{{ test.id }}"> {{ test.status }} </span>
+                    {% endif %}
+                  </div>
+                  <div class="test_data">
+                    {% if test.status == "Complete" %}
+                      Test Version: &ensp; {{ test.version }}<br>
+                      Time Taken: &ensp; {{ test.time }}<br>
+                    {% endif %}
+                    Git URL: &ensp; {{ test.url }}
+                  </div>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="card w-100 text-center">
+        <div class="card-block">
+          <div class="card-text">
+            No tests have been ran for this student.
           </div>
-          <div class="test_data">
-            {% if test.status == "Complete" %}
-              Test Version: &ensp; {{ test.version }}<br>
-              Time Taken: &ensp; {{ test.time }}<br>
-            {% endif %}
-            Git URL: &ensp; {{ test.url }}
-          </div>
-        </a>
-      {% endfor %}
-    </div>
-  {% else %}
-    <strong>No tests have been ran for this student.</strong>
-  {% endif %}
-
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock %}

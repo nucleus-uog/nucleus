@@ -6,24 +6,35 @@
 {% endblock %}
 
 {% block main %}
-
-
-    <div class="list-group">
-        <div class="list-group-item flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{name}}</h5>
-            <small class="badge badge-success badge-pill {% if passed != "Pass" %} badge-danger {% endif %}">{{passed}}</small>
+  <div class="container">
+    <div class="row">
+      <div class="card w-100 mb-3 mt-3">
+        <div class="card-block">
+          <div class="row">
+            <div class="col-11">
+              <h4>{{ name }}</h4>
+              <p>{{ test.description }}</p>
             </div>
-            <p class="mb-1">{{test.description}}</p>
+            <div class="col-1">
+              <small class="badge badge-success badge-pill {% if passed != "Pass" %} badge-danger {% endif %}">{{ passed }}</small></h4>
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
-
-    <div class = "container" color = "black">
-        <pre><code>
-            {{log}}
-        </code></pre>
+    <div class="row">
+      <div class="card w-100">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Log</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-block">
+          <pre><code>{{ log }}</code></pre>
+        </div>
+      </div>
     </div>
-
-
+  </div>
 {% endblock %}

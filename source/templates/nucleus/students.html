@@ -1,40 +1,52 @@
 {% extends 'layout/navigation.html'  %}
 {% load staticfiles %}
 
-{% block title %}
-  - Students
-{% endblock %}
+{% block title %}- Students{% endblock %}
 
 {% block main %}
-
-  {% if students %}
-    <div class="row align-items-center">
-      <div class="col-md mb-3">
-        <h2>All Students</h2>
-        Number of registered students: {{ students|length }}<br>
-        Average number of tests passed: {{ average }}/{{ totalTests }}
+  <div class="container">
+    {% if students %}
+      <div class="row">
+        <div class="card w-100 mb-3 mt-3">
+          <div class="card-block">
+            <div class="row">
+              <div class="col-md-8">
+                <h2>All Students</h2>
+                Number of registered students: {{ students|length }}<br>
+                Average number of tests passed: {{ average }}/{{ totalTests }}
+              </div>
+              <div class="col-md-4 d-flex">
+                <a role="button" class="btn btn-success btn-lg btn-block align-self-center" href="{% url 'run_all' %}">Run All Tests</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-md text-center mb-3">
-        <a role="button" class="btn btn-success btn-lg w-75 " href="{% url 'run_all' %}">Run All Tests</a>
-      </div>
-    </div>
+      <div class="row">
+        <div class="card w-100">
+          <ul class="list-group list-group-flush">
+            {% for student in students %}
+              <li class="list-group-item">
+                <a class="w-100 d-flex justify-content-between" href="{% url 'student' student.guid %}">
 
-    <div class="list-group all_students">
-      {% for student in students %}
-        <a class="list-group-item justify-content-between list-group-item-action" href="{% url 'student' student.guid %}">
-          {{ student.name }} ({{ student.guid }})
-          {% if student.max_score == -1 %}
-            <span class="badge badge-default badge-pill"> N/A </span>
-          {% elif student.status == 'Complete' %}
-            <span class="badge badge-primary badge-pill {% if student.score == student.max_score %} badge-success {% endif %}"> {{ student.score }}/{{ student.max_score }} </span>
-          {% else %}
-            <span class="badge badge-pill badge-warning status-check" id="status-{{ student.runid }}"> {{ student.status }} </span>
-          {% endif %}
-        </a>
-      {% endfor %}
-    </div>
-  {% else %}
-    <strong>There are no registered students.</strong>
-  {% endif %}
+                      <dt class="mt-1">{{ student.name }} ({{ student.guid }})</dt>
+
+                      {% if student.max_score == -1 %}
+                        <span class="badge badge-default badge-pill mt-1"> N/A </span>
+                      {% elif student.status == 'Complete' %}
+                        <span class="badge badge-primary badge-pill mt-1 {% if student.score == student.max_score %} badge-success {% endif %}"> {{ student.score }}/{{ student.max_score }} </span>
+                      {% else %}
+                        <span class="badge badge-pill badge-warning status-check mt-1" id="status-{{ student.runid }}"> {{ student.status }} </span>
+                      {% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% else %}
+      <strong>There are no registered students.</strong>
+    {% endif %}
+  </div>
 
 {% endblock %}

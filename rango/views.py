@@ -196,7 +196,7 @@ def specificTest(request, student_guid,runid,testid):
     else:
         passed = "Fail"
 
-    context_dict = {'name': test_details.test,
+    context_dict = {'name': test_details.case,
                     'passed': passed,
                     'log': test_details.log,
                     'guid': student_guid,
@@ -215,7 +215,7 @@ def check_status(request, runid):
         'Running': 'badge-warning',
         'Complete': 'badge-primary'
     }
-    className = "badge badge-pill " + statusClasses[status]
+    className = "badge badge-pill mt-1 " + statusClasses[status]
     if status != "Complete" and status != "Failed":
         className += " status-check"
     return JsonResponse({'status': status, 'id': runid, 'class': className})
