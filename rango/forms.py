@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import User
+import re
 
 class CustomUserCreationForm(UserCreationForm):
     """
@@ -36,6 +37,13 @@ class UserForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'class':"form-control mb-2"}), label="Student Email")
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control mb-2"}), label="Password")
     confirm = forms.CharField(widget=forms.PasswordInput(attrs={'class':"form-control"}), label="Confirm Password")
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if not re.match(r'\d{7}[A-Za-z]@student.gla.ac.uk', email):
+            raise forms.ValidationError("You must use your student email.")
+        return email
 
     def clean_confirm(self):
         password = self.cleaned_data.get('password')
