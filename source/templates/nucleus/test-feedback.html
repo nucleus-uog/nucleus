@@ -12,7 +12,7 @@
         <div class="list-group-item flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{name}}</h5>
-            <small class="badge badge-success badge-pill {% if passed != True %} badge-warning {% endif %}">{{passed}}</small>
+            <small class="badge badge-success badge-pill {% if passed != "Pass" %} badge-danger {% endif %}">{{passed}}</small>
             </div>
             <p class="mb-1">{{test.description}}</p>
         </div>
