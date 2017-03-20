@@ -205,7 +205,7 @@ def check_status(request, runid):
         'Failed': 'badge-danger',
         'Pending': 'badge-warning',
         'Running': 'badge-warning',
-        'Complete': 'badge-default'
+        'Complete': 'badge-primary'
     }
     className = "badge badge-pill " + statusClasses[status]
     if status != "Complete" and status != "Failed":
