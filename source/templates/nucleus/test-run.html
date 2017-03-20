@@ -6,50 +6,62 @@
 {% endblock %}
 
 {% block main %}
-  <div class="container">
-        <div class="list-group-item flex-column align-items-start mb-3">
-          <div class="d-flex justify-content-between">
-          <h5 class="mb-1">{{ date }}</h5>
+    <div class="container">
+      <div class="row">
+        <div class="card w-100 mb-3 mt-3">
+          <div class="card-block">
+            <h4 class="card-title">{{ date }}</h4>
+            <p class="card-text">Test Version: &ensp;{{test.version}} &ensp;<br>
+                    Time Taken: &ensp; {{test.time}} <br>
+                    URL: &ensp; {{test.url}}
+            </p>
+          </div>
         </div>
-          <p class="mb-1">Test Version: &ensp;{{test.version}} &ensp;<br>
-                  Time Taken: &ensp; {{test.time}} <br>
-                  URL: &ensp; {{test.url}}</p>
-        </div>
+      </div>
+      <div class="row">
+        <div class="card w-100">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+              {% if status == "Complete" %}
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tests" role = "tab" aria-controls="tests">Tests</a>
+                </li>
+              {% endif %}
+              <li class="nav-item">
+                  <a class="nav-link {% if status != "Complete" %} active {% endif %}" data-toggle="tab" href="#log" role = "tab" aria-controls="log">Log</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            {% if status == "Complete" %}
+                <div class="tab-pane active" id="tests" role="tabpanel">
+                  <ul class="list-group list-group-flush mt-1">
+                    {% for test in chapter_test %}
+                    <li class="list-group-item">
+                      <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="w-100 flex-column align-items-start d-flex">
+                        <div class="d-flex justify-content-between w-100">
+                          <strong class="mb-1">{{test.name}}</strong>
+                          <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
+                        </div>
+                        <p class="mb-1">{{test.description}}</p>
 
-
-      <ul class="nav nav-tabs" id = "myTab" role="tablist">
-        {% if status == "Complete" %}
-          <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#tests" role = "tab" aria-controls="tests">Tests</a>
-          </li>
-        {% endif %}
-        <li class="nav-item">
-            <a class="nav-link {% if status != "Complete" %} active {% endif %}" data-toggle="tab" href="#log" role = "tab" aria-controls="log">Log</a>
-        </li>
-      </ul>
-
-      <div class="list-group">
-        <!-- Tab panes -->
-        <div class="tab-content">
-          {% if status == "Complete" %}
-              <div class="tab-pane active" id="tests" role="tabpanel">
-              {% for test in chapter_test %}
-                <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                    <h6 class="mb-1">{{test.name}}</h6>
-                    <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
-                    </div>
-                    <div class="mb-1">{{test.description}}</div>
-                  </a>
-              {% endfor %}
+                      </a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+              <div class="tab-pane {% if status != "Complete" %} active {% endif %}" id="log" role="tabpanel">
+                <div class="card-block">
+                  <pre><code>{{ logs }}</code></pre>
+                </div>
               </div>
-            {% endif %}
-            <div class="tab-pane {% if status != "Complete" %} active {% endif %}" id="log" role="tabpanel">
-                <pre><code>{{ logs }}</code></pre>
             </div>
         </div>
       </div>
     </div>
+
+
 
 
 {% endblock %}
