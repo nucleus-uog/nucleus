@@ -154,16 +154,21 @@ def student(request, student_guid):
 def testlog(request, student_guid, runid):
     student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
     test_run = TestRun.objects.get(student=student, id=runid)
-
     test_details = TestRunDetail.objects.filter(record=test_run)
-    context_dict = {'tests': [], 'chapter_test': [], 'logs':[], 'runid': runid, 'status': test_run.status}
-    context_dict['guid'] = student_guid
 
-    context_dict['tests'].append({
-        'version': test_run.test_version,
-        'time': test_run.time_taken,
-        'url': test_run.repository_url
-    })
+    context_dict = {
+        'test': {
+            'version': test_run.test_version,
+            'time': test_run.time_taken,
+            'url': test_run.repository_url
+        },
+        'chapter_test': [],
+        'logs': test_run.log,
+        'runid': runid,
+        'status': test_run.status,
+        'date': test_run.date_run,
+        'guid': student_guid
+    }
 
     for chapter_test in test_details:
         if chapter_test.passed == True:
@@ -176,9 +181,6 @@ def testlog(request, student_guid, runid):
             'passed': passed,
             'testid': chapter_test.id
         })
-
-
-    context_dict['logs'] = test_run.log
 
     return render(request,'nucleus/test-run.html', context=context_dict)
 
