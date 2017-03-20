@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
 
+# Add the url patterns used in the application itself.
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^students/$', views.all_students, name="all_students"),

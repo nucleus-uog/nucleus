@@ -5,6 +5,8 @@ from .settings import *
 DEBUG = False
 SECRET_KEY = os.environ['NUCLEUS_SECRET_KEY']
 
+# Configure a mysql backend for the production
+# configuration using environment variables.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -16,6 +18,8 @@ DATABASES = {
     }
 }
 
+# Configure a redis channels backend for the production
+# configuration using environment variables.
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",

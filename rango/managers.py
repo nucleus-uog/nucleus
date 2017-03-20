@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
 
+# We create a user manager that can handle our custom abstract base user.
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -21,17 +22,27 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, email, password=None, **extra_fields):
+        """
+        Creates and saves a user with the default is_superuser and is_staff
+        properties set to false.
+        """
         extra_fields.setdefault('is_superuser', False)
         extra_fields.setdefault('is_staff', False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
+        """
+        Creates and saves a user with is_staff and is_superuser properties as
+        true.
+        """
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_staff', True)
 
+        # Bail out if the is_superuser property isn't true.
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
+        # Bail out if the is_staff property isn't true.
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
 

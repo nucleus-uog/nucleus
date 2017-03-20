@@ -36,16 +36,21 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 
+# We don't have any special configuration for the admin of test categories.
 class TestCategoryAdmin(admin.ModelAdmin):
     pass
 
 
+# We configure the Tests in the Admin Panel so that we can't add them - the
+# test runner does this.
 class TestAdmin(admin.ModelAdmin):
     readonly_fields=('test', 'case',)
 
     def has_add_permission(self, request):
             return False
 
+# We configure the Test Run in the Admin Panel so that we can't add them - the
+# test runner does this.
 class TestRunAdmin(admin.ModelAdmin):
     readonly_fields=('repository_url', 'date_run', 'test_version',
                      'log', 'time_taken', 'status', 'student',)
@@ -54,6 +59,8 @@ class TestRunAdmin(admin.ModelAdmin):
             return False
 
 
+# We configure the Test Run Detail in the Admin Panel so that we can't add them - the
+# test runner does this.
 class TestRunDetailAdmin(admin.ModelAdmin):
     readonly_fields=('record', 'test', 'passed', 'log',)
 
