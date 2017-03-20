@@ -19,6 +19,11 @@ services:
       - redis
     ports:
       - "8000:8000"
+    environment:
+      - NUCLEUS_DB_HOST=db
+      - NUCLEUS_DB_PORT=3306
+      - NUCLEUS_REDIS_HOST=redis
+      - NUCLEUS_REDIS_PORT=6379
     env_file:
       - ./nucleus.env
     command: daphne -b 0.0.0.0 -p 8000 nucleus.asgi:channel_layer
@@ -28,7 +33,25 @@ services:
       - db
       - redis
       - docker
+    environment:
+      - NUCLEUS_DB_HOST=db
+      - NUCLEUS_DB_PORT=3306
+      - NUCLEUS_REDIS_HOST=redis
+      - NUCLEUS_REDIS_PORT=6379
     env_file:
       - ./nucleus.env
-    command: bash -c 'export DOCKER_HOST=tcp://docker:2375; sleep 20; python3 manage.py runworker'
+    command: bash -c 'export DOCKER_HOST=tcp://docker:2375; sleep 20; python3 manage.py runworker --exclude-channels=http.*'
+  http_worker:
+    image: registry.gitlab.com/devine-industries/nucleus:latest
+    links:
+      - db
+      - redis
+    environment:
+      - NUCLEUS_DB_HOST=db
+      - NUCLEUS_DB_PORT=3306
+      - NUCLEUS_REDIS_HOST=redis
+      - NUCLEUS_REDIS_PORT=6379
+    env_file:
+      - ./nucleus.env
+    command: bash -c 'sleep 20; python3 manage.py runworker --include-channels=http.*'
 
