@@ -5,7 +5,7 @@
 
 {% block form %}
   <div class="form-signin">
-    <div class="accountBox">
+    <div class="accountBox mb-3">
       <div class="form-group">
         <input type="text" value="{{ email }}" id="accountEmail" class="form-control mb-2" disabled>
         <label for="accountEmail" class="pull-left text-muted"><small>Email</small></label>
@@ -19,7 +19,7 @@
     </div>
 
     {% if not user.is_staff %}
-      <form class="accountBox mt-5" method="post" action="{% url 'account' %}">
+      <form class="accountBox mb-3" method="post" action="{% url 'account' %}">
         {% csrf_token %}
         <input type="hidden" name="{{ form.student_email.html_name }}" id="{{ form.student_email.id_for_label }}" value="{{ email }}" class="form-control mb-2">
         <div class="form-group">
