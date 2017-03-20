@@ -9,36 +9,19 @@ The application provides automated testing for students completing the Tango wit
 
 # How do I get this working?
 ## Docker (recommended)
-Firstly, to install Docker to your system, follow the guides on the [Docker website](https://www.docker.com/products/overview).
-
-Windows users without Hyper-V (Windows 10 Home users) will need to run the unsupported [Docker Toolbox](https://www.docker.com/products/docker-toolbox) rather than the new [Docker for Windows](https://docs.docker.com/docker-for-windows/) - the application should still work but will have to be run within the Docker Toolbox VM.
-
-There are then two ways to run the application with Docker - using [the supplied docker-compose.yml](docker-compose.yml) (recommended) or manually - we'll only cover using the [docker-compose.yml](docker-compose.yml) method in this guide.
-
-In order to get started, download the [docker-compose.yml](docker-compose.yml) file and the [nucleus.env.example](nucleus.env.example) file and keep them in the same folder.
-
-Make a copy of the `nucleus.env.example` file and name it `nucleus.env`. Then, edit the file and set the variables correctly according to the comments in the file.
-
-Once properly configured, run the following:
-
-```
-$ docker login registry.gitlab.com
-$ docker-compose up -d
-$ docker-compose exec web python3 manage.py migrate
-$ docker-compose exec web python3 manage.py createsuperuser
-$ docker-compose scale worker=6
-$ docker-compose logs
-```
-
-This will first prompt to login to GitLab's registries, you'll need to log in using the same values you set `NUCLEUS_REGISTRY_USERNAME` and `NUCLEUS_REGISTRY_PASSWORD` to.
-
-Then, this will download and run the containers, as configured in the `docker-compose.yml` file.
-
-After this, we run the migrate command within the web container to create the database tables defined by the application.
-
-Next, we scale the worker container up to 6 containers - this means there are many more workers available to handle websockets and running the tests.
-
-Finally, we view the logs of all of the running containers. You should then be able to visit `localhost:8000` to see the running application.
+1. Install [Docker Compose](https://docs.docker.com/compose/install/).
+2. Download [docker-compose.yml](docker-compose.yml) and the [nucleus.env.example](nucleus.env.example) files.
+3. Rename `nucleus.env.example` to `nucleus.env`.
+4. Edit the configuration in `nucleus.env`, following the instructions in the comments.
+5. Run `docker login registry.gitlab.com`, providing your GitLab login details (this may include a personal access token).
+6. Run `docker-compose up -d` - this will download the containers from the official Docker registry and from the GitLab registry and start them, you'll be able to visit the application at `localhost:8000`.
+7. Run `docker-compose exec web python3 manage.py migrate`, this will create the tables in the MariaDB database. You may have to wait a moment to run this command for the database container to start up.
+8. Run `docker-compose exec web python3 populate.py` to populate the database with sample data.
+9. Run `docker-compose exec web python3 manage.py createsuperuser` to create your admin user in the application.
+10. Run `docker-compose scale worker=6` to scale the test worker to six containers.
+11. Run `docker-compose scale http_worker=2` to scale the http worker to two containers.
+12. Run `docker-compose logs -f` to view the logs for the application.
+13. When finished, you can run `docker-compose down` to kill the containers.
 
 ## Manual
 If you opt to run this manually, you'll need the following installed:
