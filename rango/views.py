@@ -167,10 +167,14 @@ def testlog(request, student_guid, runid):
     })
 
     for chapter_test in test_details:
+        if chapter_test.passed == True:
+            passed = "Pass"
+        else:
+            passed = "Fail"
 
         context_dict['chapter_test'].append({
             'name': chapter_test.test,
-            'passed': chapter_test.passed,
+            'passed': passed,
             'testid': chapter_test.id
         })
 
@@ -186,10 +190,13 @@ def specificTest(request, student_guid,runid,testid):
     test_run = TestRun.objects.get(student=student, id=runid)
 
     test_details = TestRunDetail.objects.get(record=test_run, id=testid)
-
+    if test_details.passed == True:
+        passed = "Pass"
+    else:
+        passed = "Fail"
 
     context_dict = {'name': test_details.test,
-                    'passed': test_details.passed,
+                    'passed': passed,
                     'log': test_details.log,
                     'guid': student_guid,
                     'runid': runid}
