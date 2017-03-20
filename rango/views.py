@@ -70,7 +70,7 @@ def all_students(request):
     student_list = User.objects.all().order_by("last_name")
     totalScore = 0
     for student in student_list:
-        if not student.is_staff and student.is_active:
+        if not student.is_staff and student.is_active and student.guid():
             try:
                 test_run = TestRun.objects.filter(student=student).order_by('-date_run')[0]
                 test_details = TestRunDetail.objects.filter(record=test_run)
