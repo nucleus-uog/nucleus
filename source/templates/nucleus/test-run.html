@@ -22,40 +22,36 @@
 
 
     <ul class="nav nav-tabs" id = "myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#tests" role = "tab" aria-controls="tests">Tests</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#log" role = "tab" aria-controls="log">Log</a>
-    </li>
+      {% if status == "Complete" %}
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#tests" role = "tab" aria-controls="tests">Tests</a>
+        </li>
+      {% endif %}
+      <li class="nav-item">
+          <a class="nav-link {% if status != "Complete" %} active {% endif %}" data-toggle="tab" href="#log" role = "tab" aria-controls="log">Log</a>
+      </li>
     </ul>
 
     <div class="list-group">
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane active" id="tests" role="tabpanel">
-        {% for test in chapter_test %}
+      {% if status == "Complete" %}
+          <div class="tab-pane active" id="tests" role="tabpanel">
+          {% for test in chapter_test %}
             <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="list-group-item list-group-item-action flex-column align-items-start mb-1">
                 <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{test.name}}</h5>
                 <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
                 </div>
                 <p class="mb-1">{{test.description}}</p>
-
-            </a>
-        {% endfor %}
+              </a>
+          {% endfor %}
+          </div>
+        {% endif %}
+        <div class="tab-pane {% if status != "Complete" %} active {% endif %}" id="log" role="tabpanel">
+            <pre><code>{{ logs }}</code></pre>
         </div>
-
-        <div class="tab-pane" id="log" role="tabpanel">
-
-
-            <pre><code>
-                {{ logs }}
-            </code></pre>
-
-        </div>
-
     </div>
     </div>
 
