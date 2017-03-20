@@ -23,6 +23,8 @@ The application provides automated testing for students completing the Tango wit
 12. Run `docker-compose logs -f` to view the logs for the application.
 13. When finished, you can run `docker-compose down` to kill the containers.
 
+Any emails that the application would send are printed to the console. When testing the reset password, check there.
+
 ## Manual
 If you opt to run this manually, you'll need the following installed:
 
