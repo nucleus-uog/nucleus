@@ -1,6 +1,10 @@
 {% extends 'nucleus/navigation.html' %}
 {% load staticfiles %}
 
+{% block top %}
+    <a href="{% url 'testlog' guid runid %}" role="button" class="btn btn-warning"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>  Return to All Tests</a>
+{% endblock %}
+
 {% block main %}
 
     
