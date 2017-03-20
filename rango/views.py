@@ -176,8 +176,15 @@ def testlog(request, student_guid, runid):
         else:
             passed = "Fail"
 
+        if chapter_test.test.name:
+            name = chapter_test.test.name
+        else:
+            name = chapter_test.test.test
+
         context_dict['chapter_test'].append({
-            'name': chapter_test.test.test,
+            'name': name,
+            'description': chapter_test.test.description,
+            'group': chapter_test.test.category,
             'passed': passed,
             'testid': chapter_test.id
         })
@@ -196,7 +203,14 @@ def specificTest(request, student_guid,runid,testid):
     else:
         passed = "Fail"
 
-    context_dict = {'name': test_details.test.test,
+    if test_details.test.name:
+        name = test_details.test.name
+    else:
+        name = test_details.test.test
+
+    context_dict = {'name': name,
+                    'description': test_details.test.description,
+                    'group': test_details.test.category,
                     'passed': passed,
                     'log': test_details.log,
                     'guid': student_guid,

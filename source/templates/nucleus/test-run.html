@@ -43,8 +43,10 @@
                           <strong class="mb-1">{{test.name}}</strong>
                           <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
                         </div>
-                        <p class="mb-1">{{test.description}}</p>
-
+                        <div class="test_data">
+                          <div> {{ test.group }} </div>
+                          <div>{{test.description}}</div>
+                        </div>
                       </a>
                     </li>
                     {% endfor %}
