@@ -177,7 +177,7 @@ def testlog(request, student_guid, runid):
             passed = "Fail"
 
         context_dict['chapter_test'].append({
-            'name': chapter_test.test,
+            'name': chapter_test.test.test,
             'passed': passed,
             'testid': chapter_test.id
         })
@@ -196,13 +196,11 @@ def specificTest(request, student_guid,runid,testid):
     else:
         passed = "Fail"
 
-    context_dict = {'name': test_details.case,
+    context_dict = {'name': test_details.test.test,
                     'passed': passed,
                     'log': test_details.log,
                     'guid': student_guid,
                     'runid': runid}
-
-
 
     return render(request, 'nucleus/test-feedback.html', context_dict)
 
@@ -213,7 +211,8 @@ def check_status(request, runid):
         'Error': 'badge-danger',
         'Pending': 'badge-warning',
         'Running': 'badge-warning',
-        'Complete': 'badge-primary'
+        'Complete': 'badge-primary',
+        'Failed': 'badge-danger'
     }
     className = "badge badge-pill mt-1 " + statusClasses[status]
     if status != "Complete" and status != "Error":

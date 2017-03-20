@@ -42,8 +42,8 @@
       <div class="card w-100">
         <ul class="list-group list-group-flush">
           {% for test in tests %}
-          <li class="list-group-item">
-            <a {% if test.status == "Complete" or test.status == "Error" %} href="{% url 'testlog' student.guid test.id %}" {% endif %} class="w-100 flex-column align-items-start d-flex">
+          <li class="list-group-item {% if test.status == "Complete" or test.status == "Error" %} list-group-item-action {% endif %}">
+            <a {% if test.status == "Complete" or test.status == "Error" %} href="{% url 'testlog' student.guid test.id %}" {% endif %} class="w-100 flex-column align-items-start d-flex nucleus-link">
                   <div class="d-flex justify-content-between w-100">
                     <dt class="mb-1">{{ test.date }}</dt>
                     {% if test.status == 'Complete' %}
