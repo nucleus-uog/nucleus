@@ -210,13 +210,13 @@ def specificTest(request, student_guid,runid,testid):
 def check_status(request, runid):
     status = TestRun.objects.get(id=runid).status
     statusClasses = {
-        'Failed': 'badge-danger',
+        'Error': 'badge-danger',
         'Pending': 'badge-warning',
         'Running': 'badge-warning',
         'Complete': 'badge-primary'
     }
     className = "badge badge-pill mt-1 " + statusClasses[status]
-    if status != "Complete" and status != "Failed":
+    if status != "Complete" and status != "Error":
         className += " status-check"
     return JsonResponse({'status': status, 'id': runid, 'class': className})
 

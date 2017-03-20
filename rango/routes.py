@@ -72,7 +72,7 @@ def run_tests(message):
     try:
         run = TestRun.objects.get(id=message.content.get('id'))
     except TestRun.DoesNotExist:
-        _send_message(None, message.user.email, 'Failed', ':: Could not find test run instance.');
+        _send_message(None, message.user.email, 'Error', ':: Could not find test run instance.');
         return
 
     if run.status == 'Complete':
@@ -139,9 +139,9 @@ def run_tests(message):
 
         _collect_results(student_email, run)
     except Exception as e:
-        run.status = 'Failed'
+        run.status = 'Error'
         run.save()
-        _send_message(run, student_email, 'Failed', str(e))
+        _send_message(run, student_email, 'Error', str(e))
 
 
 def _collect_results(student_email, run):
@@ -204,9 +204,9 @@ def _collect_results(student_email, run):
 def _check_path(student_email, path, error, run):
     # Check if we can find the results directory for the student.
     if not exists(path):
-        _send_message(run, student_email, 'Failed', ':: {}'.format(error))
+        _send_message(run, student_email, 'Error', ':: {}'.format(error))
         run.log += '\n{}\n'.format(error)
-        run.status = 'Failed'
+        run.status = 'Error'
         run.save()
         raise NucleusException(error)
 
