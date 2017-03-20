@@ -36,7 +36,7 @@
     <div class="tab-content">
         <div class="tab-pane active" id="tests" role="tabpanel">
         {% for test in chapter_test %}
-            <a href="{% url 'specificTest' guid runid test.testid %}" class="list-group-item list-group-item-action flex-column align-items-start mb-1">
+            <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="list-group-item list-group-item-action flex-column align-items-start mb-1">
                 <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{test.name}}</h5>
                 <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
