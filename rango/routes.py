@@ -23,11 +23,17 @@ from .exceptions import NucleusException
 
 REPOSITORY = 'registry.gitlab.com/devine-industries/nucleus-tests'
 TAG = 'latest'
+
 CURRENT_DIRECTORY = os.getcwd()
 # We keep track of the path in the regular Windows format for later.
 OUTPUT_DIRECTORY_WIN = join(CURRENT_DIRECTORY, 'results')
 # Docker expects our Windows paths to be in the form: /c/Users/Batman/...
 OUTPUT_DIRECTORY_DOCKER = OUTPUT_DIRECTORY_WIN.replace('C:\\', '/c/').replace('\\', '/')
+# If we are running inside the compose configuration, instruct the dind container
+# to write it to the /nucleus folder.
+if os.environ.get('NUCLEUS_IN_CONTAINER', False):
+    OUTPUT_DIRECTORY_DOCKER = '/nucleus'
+
 VOLUMES = {
     OUTPUT_DIRECTORY_DOCKER: {
         'bind': '/nucleus/results',
@@ -72,7 +78,7 @@ def run_tests(message):
     try:
         run = TestRun.objects.get(id=message.content.get('id'))
     except TestRun.DoesNotExist:
-        _send_message(None, message.user.email, 'Error', ':: Could not find test run instance.');
+        _send_message(None, message.user.email, 'Failed', ':: Could not find test run instance.');
         return
 
     if run.status == 'Complete':
@@ -139,9 +145,9 @@ def run_tests(message):
 
         _collect_results(student_email, run)
     except Exception as e:
-        run.status = 'Error'
+        run.status = 'Failed'
         run.save()
-        _send_message(run, student_email, 'Error', str(e))
+        _send_message(run, student_email, 'Failed', str(e))
 
 
 def _collect_results(student_email, run):
@@ -204,9 +210,9 @@ def _collect_results(student_email, run):
 def _check_path(student_email, path, error, run):
     # Check if we can find the results directory for the student.
     if not exists(path):
-        _send_message(run, student_email, 'Error', ':: {}'.format(error))
+        _send_message(run, student_email, 'Failed', ':: {}'.format(error))
         run.log += '\n{}\n'.format(error)
-        run.status = 'Error'
+        run.status = 'Failed'
         run.save()
         raise NucleusException(error)
 
@@ -220,10 +226,10 @@ def _send_message(run, student_email, status, message):
 
     # Log to the console.
     if run:
-        print('{} (id={}): {}\n{}'.format(
+        print(':: Test Run for {} ({}): {}: {}'.format(
                 student_email, run.id, status, message))
     else:
-        print('{}: {}\n{}'.format(
+        print(':: Test Run for {}: {}: {}'.format(
                 student_email, status, message))
 
     data = {

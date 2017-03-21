@@ -3,10 +3,14 @@ services:
   docker:
     image: docker:dind
     privileged: true
+    volumes:
+      - results:/nucleus
   redis:
     image: redis:alpine
   db:
     image: mariadb:latest
+    volumes:
+      - data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=nucleus
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
@@ -33,7 +37,10 @@ services:
       - db
       - redis
       - docker
+    volumes:
+      - results:/nucleus
     environment:
+      - NUCLEUS_IN_CONTAINER=True
       - NUCLEUS_DB_HOST=db
       - NUCLEUS_DB_PORT=3306
       - NUCLEUS_REDIS_HOST=redis
@@ -54,4 +61,6 @@ services:
     env_file:
       - ./nucleus.env
     command: bash -c 'sleep 20; python3 manage.py runworker --only-channels=http.*'
-
+volumes:
+  results: {}
+  data: {}
