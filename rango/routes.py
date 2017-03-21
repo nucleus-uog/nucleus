@@ -32,6 +32,7 @@ OUTPUT_DIRECTORY_DOCKER = OUTPUT_DIRECTORY_WIN.replace('C:\\', '/c/').replace('\
 # If we are running inside the compose configuration, instruct the dind container
 # to write it to the /nucleus folder.
 if os.environ.get('NUCLEUS_IN_CONTAINER', False):
+    OUTPUT_DIRECTORY_WIN = '/nucleus'
     OUTPUT_DIRECTORY_DOCKER = '/nucleus'
 
 VOLUMES = {
