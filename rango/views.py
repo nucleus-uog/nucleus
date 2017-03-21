@@ -304,11 +304,15 @@ def run_all(request):
     for student in students:
         # Check if the student has a repository url.
         if student.repository_url != "":
-            # Queue up a test run for the user.
-            run = TestRun(student=student,
-                          repository_url=student.repository_url)
-            run.save()
-            Channel('run-tests').send({'id': run.id})
+
+            # Check if a student currently has a test runnning
+            recent_test_run = TestRun.objects.filter(student=student).order_by('-date_run')[0]
+            if recent_test_run.status != "Running" and recent_test_run.status != "Pending":
+                # Queue up a test run for the user.
+                run = TestRun(student=student,
+                              repository_url=student.repository_url)
+                run.save()
+                Channel('run-tests').send({'id': run.id})
 
     # Redirect back to all students.
     return HttpResponseRedirect(reverse('all_students'))
