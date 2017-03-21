@@ -303,20 +303,3 @@ def run_all(request):
 
     # Redirect back to all students.
     return HttpResponseRedirect(reverse('all_students'))
-
-
-@login_required
-def demo(request):
-    # Return a basic demo page.
-    return render(request, 'nucleus/demo.html', context={})
-
-
-#@login_required
-def demo_run(request):
-    # Queue up a test run against the current user with a default test url.
-    run = TestRun(student=request.user,
-                  repository_url='https://github.com/davidtwco/uog-wad2.git')
-    run.save()
-
-    Channel('run-tests').send({'id': run.id})
-    return JsonResponse({'status': 'Started..', 'message': 'Started..'})
