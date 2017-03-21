@@ -53,5 +53,5 @@ services:
       - NUCLEUS_REDIS_PORT=6379
     env_file:
       - ./nucleus.env
-    command: bash -c 'sleep 20; python3 manage.py runworker --include-channels=http.*'
+    command: bash -c 'sleep 20; python3 manage.py runworker --only-channels=http.*'
 
