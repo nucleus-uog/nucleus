@@ -141,6 +141,7 @@ class LoginViewTest(TestCase):
 #     #     print response
 
 class IndexViewTest(TestCase):
+    """Checks what page a valid user goes to depending on if they have staff status"""
     def setUp(self):
         self.admin = User.objects.create(
             email='jerry.seinfeld@email.com',
@@ -152,8 +153,8 @@ class IndexViewTest(TestCase):
             is_staff=True,
             is_active=True
         )
+        self.admin.set_password('George')
         self.admin.save()
-
 
         self.student = User.objects.create(
             email='2162978D@student.gla.ac.uk',
@@ -163,6 +164,7 @@ class IndexViewTest(TestCase):
             is_staff=False,
             is_active=True,
         )
+        self.student.set_password('Blueisthecolour')
         self.student.save()
 
     def test_login_staff_redirect(self):
@@ -174,6 +176,20 @@ class IndexViewTest(TestCase):
         self.assertRedirects(response, reverse('all_students'), status_code=302,
                              target_status_code=200, msg_prefix="",
                              fetch_redirect_response=True)
+        self.assertIn('Steve Jobs (2162978D)', response.content)
+
+    def test_login_student_redirect(self):
+        response = self.client.post(reverse('sign_in'), data={
+            'username': self.student.email,
+            'password': 'Blueisthecolour'
+        }, follow=True)
+
+        self.assertRedirects(response, reverse('student', kwargs={'student_guid': '2162978D'}),
+                             status_code=302, target_status_code=200, msg_prefix="",
+                             fetch_redirect_response=True)
+
+        self.assertIn('No tests have been ran for this student.', response.content)
+
 
 
 
