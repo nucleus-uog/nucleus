@@ -11,9 +11,9 @@
         <div class="card w-100 mb-3 mt-3">
           <div class="card-block">
             <h4 class="card-title">{{ date }}</h4>
-            <p class="card-text">Test Version: &ensp;{{test.version}} &ensp;<br>
+            <p class="card-text test_data">Test Version: &ensp;{{test.version}} &ensp;<br>
                     Time Taken: &ensp; {{test.time}} <br>
-                    URL: &ensp; {{test.url}}
+                    URL: &ensp; <a href='{{ test.url }}'>{{test.url}}</a>
             </p>
           </div>
         </div>
