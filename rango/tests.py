@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.contrib import auth
 from .models import *
 from .forms import *
 
@@ -42,6 +43,8 @@ class LoginViewSuccessTest(TestCase):
     def test_login_credentials_valid(self):
         user_login = self.client.login(email='2162978D@student.gla.ac.uk', password='Blueisthecolour')
         self.assertTrue(user_login)
+        user = auth.get_user(self.client)
+        assert user.is_authenticated()
         response = self.client.get(reverse('student', kwargs={'student_guid':'2162978D'}))
         self.assertEqual(response.status_code, 200)
 
@@ -55,6 +58,30 @@ class LoginViewSuccessTest(TestCase):
         self.assertEqual(response.status_code, 200)
         # Check that error message is displayed.
         self.assertIn("Your username and password didn't match. Please try again.", response.content)
+
+    '''Check to make sure that a user who is already logged in can't do so again.'''
+    def test_user_authenticated_login_success(self):
+        # Sign in user using given values.
+        user_login = self.client.login(email='2162978D@student.gla.ac.uk', password='Blueisthecolour')
+        self.assertTrue(user_login)
+        user = auth.get_user(self.client)
+        assert user.is_authenticated()
+
+    '''Check to make sure that a user is not authenticated if login fails'''
+
+    def test_user_authenticated_login_failure(self):
+        user_login = self.client.login(email='john@email.com', password='password')
+        self.assertFalse(user_login)
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated())
+
+
+
+
+
+
+
+
 
 
 
