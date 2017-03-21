@@ -23,6 +23,6 @@ function changeStatus(){
     var data = JSON.parse(this.responseText);
     var el = document.getElementById('status-'+data['id']);
     el.className = data['class'];
-    el.innerHTML = data['status'];
+    el.innerHTML = '<i class="' + data['icon'].replace("\"", '') + '"></i> ' + data['status'];
   }
 }
