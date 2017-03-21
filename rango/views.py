@@ -21,6 +21,7 @@ from .models import (
 from .forms import UserForm, RepoForm
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
+from .decorators import correct_student
 
 
 @login_required
@@ -133,6 +134,7 @@ def all_students(request):
 
 
 @login_required
+@correct_student
 def student(request, student_guid):
     # If we are submitting a repository url change (by pressing 'run tests').
     if request.method == "POST":
@@ -185,7 +187,9 @@ def student(request, student_guid):
 
     return render(request, 'nucleus/student.html', context=context_dict)
 
+
 @login_required
+@correct_student
 def testlog(request, student_guid, runid):
     # Find the current student and test run for given url parameters.
     student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
@@ -231,6 +235,7 @@ def testlog(request, student_guid, runid):
     return render(request,'nucleus/test-run.html', context=context_dict)
 
 @login_required
+@correct_student
 def specificTest(request, student_guid, runid, testid):
     # Get the student, test run and test detail for the given parameters.
     student = User.objects.get(email=student_guid + "@student.gla.ac.uk")
