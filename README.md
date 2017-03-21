@@ -16,7 +16,7 @@ The application provides automated testing for students completing the Tango wit
 5. Run `docker login registry.gitlab.com`, providing your GitLab login details (this may include a personal access token).
 6. Run `docker-compose up -d` - this will download the containers from the official Docker registry and from the GitLab registry and start them, you'll be able to visit the application at `localhost:8000`.
 7. Run `docker-compose exec web python3 manage.py migrate`, this will create the tables in the MariaDB database. You may have to wait a moment to run this command for the database container to start up.
-8. Run `docker-compose exec web python3 populate.py` to populate the database with sample data.
+8. Run `docker-compose exec web python3 populate_nucleus.py` to populate the database with sample data.
 9. Run `docker-compose exec web python3 manage.py createsuperuser` to create your admin user in the application.
 10. Run `docker-compose scale worker=6` to scale the test worker to six containers.
 11. Run `docker-compose scale http_worker=2` to scale the http worker to two containers.
