@@ -6,8 +6,10 @@ from .forms import *
 
 
 class RegisterUserFormTest(TestCase):
-    '''Checks that data must be entered into the form fields '''
+   
     def test_UserForm_valid(self):
+        """Checks that data must be entered into the form fields """
+        
         form = UserForm(data={
             'first_name': 'John',
             'last_name': 'Devine',
@@ -27,8 +29,9 @@ class RegisterUserFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
 
-    '''Checks that a user has been successfully registered'''
     def test_user_registration_success(self):
+        """Checks that a user has been successfully registered"""
+
         response = self.client.post(reverse('register'), {'first_name': 'John',
                                                          'last_name': 'Devine',
                                                          'email': '2162978D@student.gla.ac.uk',
@@ -43,7 +46,6 @@ class RegisterUserFormTest(TestCase):
 
 class LoginViewSuccessTest(TestCase):
 
-
     def setUp(self):
         self.user = User.objects.create(
             first_name='John',
@@ -53,19 +55,19 @@ class LoginViewSuccessTest(TestCase):
         self.user.set_password('Blueisthecolour')
         self.user.save()
 
-    '''Checks that a valid user can login'''
     def test_login_credentials_valid(self):
+        """Checks that a valid user can login"""
+
         user_login = self.client.login(email='2162978D@student.gla.ac.uk', password='Blueisthecolour')
         self.assertTrue(user_login)
         user = auth.get_user(self.client)
         assert user.is_authenticated()
-        response = self.client.get(reverse('student', kwargs={'student_guid':'2162978D'}))
+        response = self.client.get(reverse('student', kwargs={'student_guid': '2162978D'}))
         self.assertEqual(response.status_code, 200)
 
-
-
-    '''Check that invalid user can't login'''
     def test_login_credentials_invalid(self):
+        """Check that invalid user can't login"""
+
         response = self.client.post(reverse('sign_in'), {'username': 'wronguser', 'password': 'wrongpass'})
 
         # The sign is page should be reloaded.
@@ -73,21 +75,25 @@ class LoginViewSuccessTest(TestCase):
         # Check that error message is displayed.
         self.assertIn("Your username and password didn't match. Please try again.", response.content)
 
-    '''Check to make sure that a user who is already logged in can't do so again.'''
     def test_user_authenticated_login_success(self):
+        """Check to make sure that a user who is already logged in can't do so again."""
+
         # Sign in user using given values.
         user_login = self.client.login(email='2162978D@student.gla.ac.uk', password='Blueisthecolour')
         self.assertTrue(user_login)
         user = auth.get_user(self.client)
         assert user.is_authenticated()
 
-    '''Check to make sure that a user is not authenticated if login fails'''
-
     def test_user_authenticated_login_failure(self):
+        """Check to make sure that a user is not authenticated if login fails"""
+
         user_login = self.client.login(email='john@email.com', password='password')
         self.assertFalse(user_login)
         user = auth.get_user(self.client)
         self.assertFalse(user.is_authenticated())
+
+    def tearDown(self):
+        self.user.delete()
 
 
 
