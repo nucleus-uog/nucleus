@@ -6,10 +6,9 @@ from .forms import *
 
 
 class RegisterUserFormTest(TestCase):
-   
-    def test_UserForm_valid(self):
-        """Checks that data must be entered into the form fields """
+    """Checks that data must be entered into the form fields """
 
+    def test_UserForm_valid(self):
         form = UserForm(data={
             'first_name': 'John',
             'last_name': 'Devine',
@@ -20,33 +19,55 @@ class RegisterUserFormTest(TestCase):
 
         self.assertTrue(form.is_valid())
 
-#     def test_UserForm_invalid(self):
-#         form = UserForm(data={
-#             'first_name': '',
-#             'last_name': 'Devine',
-#             'email': '2162978D@gmail.com',
-#             'password': 'Blueisthecolour',
-#             'confirmPW': 'Blueisthe'
-#         })
-#         self.assertFalse(form.is_valid())
-#
+    def test_UserForm_different_passwords(self):
+        form = UserForm(data={
+            'first_name': 'John',
+            'last_name': 'Devine',
+            'email': '2162978D@student.gla.ac.uk',
+            'password': 'Blueisthecolour',
+            'confirm': 'Blueisthe'
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_UserForm_wrong_email_suffix(self):
+        form = UserForm(data={
+            'first_name': 'John',
+            'last_name': 'Devine',
+            'email': '2162978D@gmail.com',
+            'password': 'Blueisthecolour',
+            'confirm': 'Blueisthecolour'
+        })
+        self.assertFalse(form.is_valid())
+
+    def test_UserForm_wrong_email_prefix(self):
+        form = UserForm(data={
+            'first_name': 'John',
+            'last_name': 'Devine',
+            'email': 'johndevine@student.gla.ac.uk',
+            'password': 'Blueisthecolour',
+            'confirm': 'Blueisthecolour'
+        })
+        self.assertFalse(form.is_valid())
+
     def test_user_registration_success(self):
         """Checks that a user has been successfully registered"""
 
         response = self.client.post(reverse('register'), data={'first_name': 'John',
-                                                         'last_name': 'Devine',
-                                                         'email': '2162978D@student.gla.ac.uk',
-                                                         'password': 'correctpassword',
-                                                         'confirm': 'correctpassword'}, follow=True)
+                                                               'last_name': 'Devine',
+                                                               'email': '2162978D@student.gla.ac.uk',
+                                                               'password': 'correctpassword',
+                                                               'confirm': 'correctpassword'}, follow=True)
 
         user = User.objects.get(email='2162978D@student.gla.ac.uk')
 
-        self.assertRedirects(response, reverse('student', kwargs={'student_guid': user.guid()}), status_code=302, target_status_code=200, msg_prefix="",
+        self.assertRedirects(response, reverse('student', kwargs={'student_guid': user.guid()}), status_code=302,
+                             target_status_code=200, msg_prefix="",
                              fetch_redirect_response=True)
         self.assertEqual('John Devine', user.get_full_name())
 
 
-class LoginViewSuccessTest(TestCase):
+class LoginViewTest(TestCase):
+    """Test different scenarios that the login """
 
     def setUp(self):
         self.user = User.objects.create(
@@ -100,40 +121,59 @@ class LoginViewSuccessTest(TestCase):
 
 # class StatusCheckTest(TestCase):
 #
-#     def setUp(self):
-#         self.test_run = TestRun.objects.create(
-#             student='2162978D@student.gla.ac.uk',
-#             repository_url= "https://www.github.com/james/project",
-#             date_run="05/05/17",
-#             tets_version='0.01a',
-#             log='',
-#             time_taken='0.003',
-#             status='Error'
-#         )
-#
-#         self.test_run.save()
-#
-#
-#     def test_check_status_view_classes(self):
-#
-#         response = self.client.get(reverse('student', kwargs='2162978D'))
-#         print response
+#     # def setUp(self):
+#     #     self.test_run = TestRun.objects.create(
+#     #         student='2162978D@student.gla.ac.uk',
+#     #         repository_url= "https://www.github.com/james/project",
+#     #         date_run="05/05/17",
+#     #         tets_version='0.01a',
+#     #         log='',
+#     #         time_taken='0.003',
+#     #         status='Error'
+#     #     )
+#     #
+#     #     self.test_run.save()
+#     #
+#     #
+#     # def test_check_status_view_classes(self):
+#     #
+#     #     response = self.client.get(reverse('student', kwargs='2162978D'))
+#     #     print response
+
+class IndexViewTest(TestCase):
+    def setUp(self):
+        self.admin = User.objects.create(
+            email='jerry.seinfeld@email.com',
+            password='George',
+            first_name='Jerry',
+            last_name='Seinfeld',
+            date_joined='12/12/12',
+            repository_url='https://gitlab.com/batman',
+            is_staff=True,
+            is_active=True
+        )
+        self.admin.save()
 
 
+        self.student = User.objects.create(
+            email='2162978D@student.gla.ac.uk',
+            password='Blueisthecolour',
+            first_name='Steve',
+            last_name='Jobs',
+            is_staff=False,
+            is_active=True,
+        )
+        self.student.save()
 
+    def test_login_staff_redirect(self):
+        response = self.client.post(reverse('sign_in'), data={
+            'username': self.admin.email,
+            'password': 'George'
+        }, follow=True)
 
-
-
-
-
-
-
-
-
-
-
-
-
+        self.assertRedirects(response, reverse('all_students'), status_code=302,
+                             target_status_code=200, msg_prefix="",
+                             fetch_redirect_response=True)
 
 
 
