@@ -7,17 +7,18 @@ from .forms import *
 
 class RegisterUserFormTest(TestCase):
    
-    # def test_UserForm_valid(self):
-    #     """Checks that data must be entered into the form fields """
-    #
-    #     form = UserForm(data={
-    #         'first_name': 'John',
-    #         'last_name': 'Devine',
-    #         'email': '2162978D@student.gla.ac.uk',
-    #         'password': 'Blueisthecolour'
-    #     })
-    #     print form
-    #     self.assertTrue(form.is_valid())
+    def test_UserForm_valid(self):
+        """Checks that data must be entered into the form fields """
+
+        form = UserForm(data={
+            'first_name': 'John',
+            'last_name': 'Devine',
+            'email': '2162978D@student.gla.ac.uk',
+            'password': 'Blueisthecolour',
+            'confirm': 'Blueisthecolour'
+        })
+
+        self.assertTrue(form.is_valid())
 
 #     def test_UserForm_invalid(self):
 #         form = UserForm(data={
