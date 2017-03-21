@@ -277,6 +277,15 @@ def check_status(request, runid):
         'Failed': 'badge-danger'
     }
 
+    # Declare our mapping of badge icons to status'.
+    iconClasses = {
+        'Error': 'fa fa-exclamation-triangle',
+        'Pending': 'fa fa-circle-o-notch fa-spin fa-fw',
+        'Running': 'fa fa-circle-o-notch fa-spin fa-fw',
+        'Complete': 'fa fa-check',
+        'Failed': 'fa fa-exclamation-triangle'
+    }
+
     # Build the class name based on the bootstrap classes and the given status.
     className = "badge badge-pill mt-1 " + statusClasses[status]
     if status != "Complete" and status != "Error":
@@ -284,7 +293,7 @@ def check_status(request, runid):
         className += " status-check"
 
     # Return json to be parsed by our javascript.
-    return JsonResponse({'status': status, 'id': runid, 'class': className})
+    return JsonResponse({'status': status, 'id': runid, 'class': className, 'icon': iconClasses[status]})
 
 
 @user_passes_test(lambda u: u.is_staff)

@@ -41,7 +41,11 @@
                       <a {% if test.passed == "Fail" %} href="{% url 'specificTest' guid runid test.testid %}" {% endif %} class="w-100 flex-column align-items-start d-flex nucleus-link">
                         <div class="d-flex justify-content-between w-100">
                           <strong class="mb-1">{{test.name}}</strong>
-                          <span class="badge badge-success badge-pill {% if test.passed != "Pass" %} badge-danger {% endif %}">{{test.passed}}</span>
+                          {% if test.passed == "Fail" %}
+                            <span class="badge badge-danger badge-pill"><i class="fa fa-times" aria-hidden="true"></i> {{ test.passed }}</span>
+                          {% else %}
+                            <span class="badge badge-success badge-pill"> <i class="fa fa-check" aria-hidden="true"></i> {{ test.passed }}</span>
+                          {% endif %}
                         </div>
                         <div class="test_data">
                           <em> {{ test.group }} </em>
