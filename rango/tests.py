@@ -27,6 +27,20 @@ class RegisterUserFormTest(TestCase):
         })
         self.assertFalse(form.is_valid())
 
+    '''Checks that a user has been successfully registered'''
+    def test_user_registration_success(self):
+        response = self.client.post(reverse('register'), {'first_name': 'John',
+                                                         'last_name': 'Devine',
+                                                         'email': '2162978D@student.gla.ac.uk',
+                                                         'password': 'correctpassword',
+                                                         'confirmPW': 'correctpassword'})
+
+        self.assertIn('You are registered!<br>', response.content)
+        self.assertIn('<a href="/sign-in">Click here to sign in!</a>', response.content)
+        user = User.objects.get(email='2162978D@student.gla.ac.uk')
+        self.assertEqual('John Devine', user.get_full_name())
+
+
 class LoginViewSuccessTest(TestCase):
 
 
