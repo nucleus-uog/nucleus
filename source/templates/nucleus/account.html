@@ -7,12 +7,16 @@
   <div class="form-signin">
     <div class="accountBox mb-3">
       <div class="form-group">
-        <input type="text" value="{{ email }}" id="accountEmail" class="form-control mb-2" disabled>
-        <label for="accountEmail" class="pull-left text-muted"><small>Email</small></label>
+        <label for="accountName" class="pull-left text-muted"><small>Full Name</small></label>
+        <input type="text" value="{{ fullname }}" id="accountName" class="form-control mb-2" disabled>
       </div>
       <div class="form-group">
-        <input type="password" value="***********" id="accountPass" class="form-control" disabled>
+        <label for="accountEmail" class="pull-left text-muted"><small>Email</small></label>
+        <input type="text" value="{{ email }}" id="accountEmail" class="form-control mb-2" disabled>
+      </div>
+      <div class="form-group">
         <label for="accountPass" class="pull-left text-muted"><small>Password</small></label>
+        <input type="password" value="***********" id="accountPass" class="form-control" disabled>
       </div>
 
       <a class="btn btn-success btn-block" href="{% url 'password_change' %}">Change Password</a>

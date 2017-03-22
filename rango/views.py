@@ -70,6 +70,7 @@ def account(request):
 
     # Get our context for the account page.
     context_dict = {
+        'fullname': request.user.get_full_name(),
         'email': request.user.email,
         'repository_url': request.user.repository_url,
         'form': form
