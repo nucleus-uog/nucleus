@@ -29,6 +29,6 @@ CHANNEL_LAYERS = {
                  int(os.environ['NUCLEUS_REDIS_PORT']))
             ],
         },
-        "ROUTING": "rango.routes.channel_routing"
+        "ROUTING": "nucleus_app.routes.channel_routing"
     },
 }

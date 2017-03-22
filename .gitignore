@@ -177,6 +177,8 @@ node_modules
 static/
 templates/
 !source/templates
+rango/migrations/
+nucleus_app/migrations/
 
 # Test Runner Output
 results/

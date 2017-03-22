@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 # Configure project-level url patterns.
 urlpatterns = [
-    url(r'^', include('rango.urls')),
+    url(r'^', include('nucleus_app.urls')),
     # Auth
     url(r'^sign-in$',auth_views.login, name="sign_in"),
     url(r'^logout$', auth_views.logout, name='user_logout'),

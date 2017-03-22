@@ -91,7 +91,7 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 
-This manual method assumes that Docker, Docker for Windows or Docker Toolbox is properly set up and configured. If this is the case, then the `docker.from_env()` call in [routes.py](rango/routes.py) will run successfully and be able to connect to your local Docker daemon.
+This manual method assumes that Docker, Docker for Windows or Docker Toolbox is properly set up and configured. If this is the case, then the `docker.from_env()` call in [routes.py](nucleus_app/routes.py) will run successfully and be able to connect to your local Docker daemon.
 
 ### TL;DR
 ```

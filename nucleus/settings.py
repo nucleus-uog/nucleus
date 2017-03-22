@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-FIXTURES_DIR = os.path.join(BASE_DIR, 'rango/fixtures')
+FIXTURES_DIR = os.path.join(BASE_DIR, 'nucleus_app/fixtures')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'channels',
-    'rango'
+    'nucleus_app'
 ]
 
 MIDDLEWARE = [
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-AUTH_USER_MODEL = 'rango.User'
+AUTH_USER_MODEL = 'nucleus_app.User'
 LOGIN_URL = '/sign-in'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/sign-in'
@@ -144,6 +144,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "rango.routes.channel_routing",
+        "ROUTING": "nucleus_app.routes.channel_routing",
     },
 }
