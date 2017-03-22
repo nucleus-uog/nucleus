@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import auth
 from .models import *
 from .forms import *
-
+import json
 
 class RegisterUserFormTest(TestCase):
     """Checks that data must be entered into the form fields """
@@ -114,40 +114,60 @@ class LoginViewTest(TestCase):
 class StatusCheckTest(TestCase):
 
     def setUp(self):
+        self.user = User.objects.create(
+            email='2162978D@student.gla.ac.uk',
+            password='Greenisthecolour',
+            first_name='John',
+            last_name='Devine',
+            repository_url='https://github.com/batman',
+        )
+
+        self.user.set_password('Greenisthecolour')
+        self.user.save()
         self.test_run1 = TestRun.objects.create(
-            student='2162978D@student.gla.ac.uk',
+            student=self.user,
             status='Error'
         )
-        self.test_run.save()
+        self.test_run1.save()
 
         self.test_run2 = TestRun.objects.create(
-            student='2164578G@student.gla.ac.uk',
+            student=self.user,
             status='Pending'
         )
         self.test_run2.save()
 
         self.test_run3 = TestRun.objects.create(
-            student='2178942T@student.gla.ac.uk',
+            student=self.user,
             status='Running'
         )
         self.test_run3.save()
 
         self.test_run4 = TestRun.objects.create(
-            student='2157894W@student.gla.ac.uk',
+            student=self.user,
             status='Complete'
         )
         self.test_run4.save()
 
         self.test_run5 = TestRun.objects.create(
-            student='2145873R@student.gla.ac.uk',
+            student=self.user,
             status='Failed'
         )
         self.test_run5.save()
 
-
-
+        self.client.login(email='2162978D@student.gla.ac.uk', password='Greenisthecolour')
 
     def test_check_status_Error_class(self):
+        response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run1.id})), follow=True)
+        content = json.loads(response.content)
+
+        self.assertEqual(content['status'], 'Error')
+        self.assertEqual(content['id'], str(self.test_run1.id))
+        self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-danger')
+        self.assertEqual(content['icon'], 'fa fa-exclamation-triangle')
+
+
+
+
 
 
 class IndexViewTest(TestCase):
