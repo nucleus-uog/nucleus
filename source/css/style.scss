@@ -9,6 +9,14 @@ body {
   width: 200px;
 }
 
+.navbar-toggler {
+  border: transparent;
+
+  &:focus {
+    color: transparent;
+  }
+}
+
 .nucleus-link {
   text-decoration: none;
   color: inherit;

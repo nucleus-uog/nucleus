@@ -32,7 +32,7 @@
                       <dt class="mt-1">{{ student.name }} ({{ student.guid }})</dt>
 
                       {% if student.max_score == -1 %}
-                        <span class="badge badge-default badge-pill mt-1"><i class="fa fa-question" aria-hidden="true"></i> N/A </span>
+                        <span class="badge badge-default badge-pill mt-1">N/A</span>
                       {% elif student.status == 'Complete' %}
                         <span class="badge badge-primary badge-pill mt-1 {% if student.score == student.max_score %} badge-success {% endif %}"><i class="fa fa-check" aria-hidden="true"></i> {{ student.score }}/{{ student.max_score }} </span>
                       {% else %}
