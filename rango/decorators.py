@@ -5,6 +5,6 @@ from django.http import HttpResponseRedirect
 def correct_student(funct):
     def _check_student(request, student_guid, *args, **kwargs):
         if not request.user.is_staff and request.user.guid() != student_guid:
-            return HttpResponseRedirect("{}?next={}".format( settings.LOGIN_URL, request.path))
+            return HttpResponseRedirect("{}?next={}".format(settings.LOGIN_URL, request.path))
         return funct(request, student_guid, *args, **kwargs)
     return _check_student
