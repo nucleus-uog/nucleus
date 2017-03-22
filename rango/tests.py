@@ -156,7 +156,7 @@ class StatusCheckTest(TestCase):
 
         self.client.login(email='2162978D@student.gla.ac.uk', password='Greenisthecolour')
 
-    def test_check_status_Error_class(self):
+    def test_check_status_prror_class(self):
         response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run1.id})), follow=True)
         content = json.loads(response.content)
 
@@ -164,6 +164,15 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['id'], str(self.test_run1.id))
         self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-danger')
         self.assertEqual(content['icon'], 'fa fa-exclamation-triangle')
+
+    def test_check_status_pending_class(self):
+        response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run2.id})), follow=True)
+        content = json.loads(response.content)
+
+        self.assertEqual(content['status'], 'Pending')
+        self.assertEqual(content['id'], str(self.test_run2.id))
+        self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-warning status-check')
+        self.assertEqual(content['icon'], 'fa fa-circle-o-notch fa-spin fa-fw')
 
 
 
