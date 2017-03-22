@@ -208,14 +208,6 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-danger status-check')
         self.assertEqual(content['icon'], 'fa fa-exclamation-triangle')
 
-    def tearDown(self):
-        self.user.delete()
-        self.test_run1.delete()
-        self.test_run2.delete()
-        self.test_run3.delete()
-        self.test_run4.delete()
-        self.test_run5.delete()
-
 
 class IndexViewTest(TestCase):
     """Checks user is redirected correctly from index."""
