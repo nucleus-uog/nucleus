@@ -174,6 +174,15 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-warning status-check')
         self.assertEqual(content['icon'], 'fa fa-circle-o-notch fa-spin fa-fw')
 
+    def test_check_status_running_class(self):
+        response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run3.id})), follow=True)
+        content = json.loads(response.content)
+
+        self.assertEqual(content['status'], 'Running')
+        self.assertEqual(content['id'], str(self.test_run3.id))
+        self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-warning status-check')
+        self.assertEqual(content['icon'], 'fa fa-circle-o-notch fa-spin fa-fw')
+
 
 
 
