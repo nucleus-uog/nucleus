@@ -5,6 +5,7 @@ from .models import *
 from .forms import *
 import json
 
+
 class RegisterUserFormTest(TestCase):
     """Checks that data must be entered into the form fields """
 
@@ -67,7 +68,7 @@ class RegisterUserFormTest(TestCase):
 
 
 class LoginViewTest(TestCase):
-    """Test different scenarios that the login """
+    """Tests different scenarios that could happen to a user who tries to login."""
 
     def setUp(self):
         self.user = User.objects.create(
@@ -112,6 +113,7 @@ class LoginViewTest(TestCase):
 
 
 class StatusCheckTest(TestCase):
+    """Checks that the status check view returns the correct JSON response, depending on the status of a test."""
 
     def setUp(self):
         self.user = User.objects.create(
@@ -157,6 +159,7 @@ class StatusCheckTest(TestCase):
         self.client.login(email='2162978D@student.gla.ac.uk', password='Greenisthecolour')
 
     def test_check_status_prror_class(self):
+        """Checks the JSONResponse for the check-status view returns the correct attributes for an Error statusClass"""
         response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run1.id})), follow=True)
         content = json.loads(response.content)
 
@@ -166,6 +169,7 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['icon'], 'fa fa-exclamation-triangle')
 
     def test_check_status_pending_class(self):
+        """Checks the JSONResponse for the check-status view returns the correct attributes for a Pending statusClass"""
         response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run2.id})), follow=True)
         content = json.loads(response.content)
 
@@ -175,6 +179,7 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['icon'], 'fa fa-circle-o-notch fa-spin fa-fw')
 
     def test_check_status_running_class(self):
+        """Checks the JSONResponse for the check-status view returns the correct attributes for a Running statusClass"""
         response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run3.id})), follow=True)
         content = json.loads(response.content)
 
@@ -184,6 +189,7 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['icon'], 'fa fa-circle-o-notch fa-spin fa-fw')
 
     def test_check_status_complete_class(self):
+        """Checks the JSONResponse for the check-status view returns the correct attributes for a Complete statusClass"""
         response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run4.id})), follow=True)
         content = json.loads(response.content)
 
@@ -193,6 +199,7 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['icon'], 'fa fa-check')
 
     def test_check_status_complete_class(self):
+        """Checks the JSONResponse for the check-status view returns the correct attributes for a Failed statusClass"""
         response = self.client.get((reverse('check_status', kwargs={'runid': self.test_run5.id})), follow=True)
         content = json.loads(response.content)
 
@@ -201,13 +208,17 @@ class StatusCheckTest(TestCase):
         self.assertEqual(content['class'], 'badge badge-pill mt-1 badge-danger status-check')
         self.assertEqual(content['icon'], 'fa fa-exclamation-triangle')
 
-
-
-
+    def tearDown(self):
+        self.user.delete()
+        self.test_run1.delete()
+        self.test_run2.delete()
+        self.test_run3.delete()
+        self.test_run4.delete()
+        self.test_run5.delete()
 
 
 class IndexViewTest(TestCase):
-    """Checks what page a valid user goes to depending on if they have staff status"""
+    """Checks user is redirected correctly from index."""
 
     def setUp(self):
         self.admin = User.objects.create(
@@ -254,8 +265,3 @@ class IndexViewTest(TestCase):
                              fetch_redirect_response=True)
 
         self.assertIn('No tests have been ran for this student.', response.content)
-
-
-
-
-
