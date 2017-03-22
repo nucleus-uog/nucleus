@@ -78,16 +78,6 @@ class LoginViewTest(TestCase):
         self.user.set_password('Blueisthecolour')
         self.user.save()
 
-    def test_login_credentials_valid(self):
-        """Checks that a valid user can login"""
-
-        user_login = self.client.login(email='2162978D@student.gla.ac.uk', password='Blueisthecolour')
-        self.assertTrue(user_login)
-        user = auth.get_user(self.client)
-        assert user.is_authenticated()
-        response = self.client.get(reverse('student', kwargs={'student_guid': '2162978D'}))
-        self.assertEqual(response.status_code, 200)
-
     def test_login_credentials_invalid(self):
         """Check that invalid user can't login"""
 
@@ -99,13 +89,15 @@ class LoginViewTest(TestCase):
         self.assertIn("Your username and password didn't match. Please try again.", response.content)
 
     def test_user_authenticated_login_success(self):
-        """Check to make sure that a user who is already logged in can't do so again."""
+        """Check to make sure that a user who has logged in, is authenticated."""
 
         # Sign in user using given values.
-        user_login = self.client.login(email='2162978D@student.gla.ac.uk', password='Blueisthecolour')
-        self.assertTrue(user_login)
-        user = auth.get_user(self.client)
-        assert user.is_authenticated()
+        self.client.post(reverse('sign_in'), data={
+            'username': self.user.email,
+            'password': 'Blueisthecolour'
+        }, follow=True)
+
+        self.assertTrue(self.user.is_authenticated())
 
     def test_user_authenticated_login_failure(self):
         """Check to make sure that a user is not authenticated if login fails"""
@@ -119,37 +111,52 @@ class LoginViewTest(TestCase):
         self.user.delete()
 
 
-# class StatusCheckTest(TestCase):
-#
-#     # def setUp(self):
-#     #     self.test_run = TestRun.objects.create(
-#     #         student='2162978D@student.gla.ac.uk',
-#     #         repository_url= "https://www.github.com/james/project",
-#     #         date_run="05/05/17",
-#     #         tets_version='0.01a',
-#     #         log='',
-#     #         time_taken='0.003',
-#     #         status='Error'
-#     #     )
-#     #
-#     #     self.test_run.save()
-#     #
-#     #
-#     # def test_check_status_view_classes(self):
-#     #
-#     #     response = self.client.get(reverse('student', kwargs='2162978D'))
-#     #     print response
+class StatusCheckTest(TestCase):
+
+    def setUp(self):
+        self.test_run1 = TestRun.objects.create(
+            student='2162978D@student.gla.ac.uk',
+            status='Error'
+        )
+        self.test_run.save()
+
+        self.test_run2 = TestRun.objects.create(
+            student='2164578G@student.gla.ac.uk',
+            status='Pending'
+        )
+        self.test_run2.save()
+
+        self.test_run3 = TestRun.objects.create(
+            student='2178942T@student.gla.ac.uk',
+            status='Running'
+        )
+        self.test_run3.save()
+
+        self.test_run4 = TestRun.objects.create(
+            student='2157894W@student.gla.ac.uk',
+            status='Complete'
+        )
+        self.test_run4.save()
+
+        self.test_run5 = TestRun.objects.create(
+            student='2145873R@student.gla.ac.uk',
+            status='Failed'
+        )
+        self.test_run5.save()
+
+
+
+
+    def test_check_status_Error_class(self):
+
 
 class IndexViewTest(TestCase):
     """Checks what page a valid user goes to depending on if they have staff status"""
+
     def setUp(self):
         self.admin = User.objects.create(
             email='jerry.seinfeld@email.com',
             password='George',
-            first_name='Jerry',
-            last_name='Seinfeld',
-            date_joined='12/12/12',
-            repository_url='https://gitlab.com/batman',
             is_staff=True,
             is_active=True
         )
@@ -168,6 +175,7 @@ class IndexViewTest(TestCase):
         self.student.save()
 
     def test_login_staff_redirect(self):
+        """Checks that when a staff user signs in that it redirects them to the correct page."""
         response = self.client.post(reverse('sign_in'), data={
             'username': self.admin.email,
             'password': 'George'
@@ -179,6 +187,7 @@ class IndexViewTest(TestCase):
         self.assertIn('Steve Jobs (2162978D)', response.content)
 
     def test_login_student_redirect(self):
+        """Checks that when a student user signs in that it redirects them to the correct page."""
         response = self.client.post(reverse('sign_in'), data={
             'username': self.student.email,
             'password': 'Blueisthecolour'
