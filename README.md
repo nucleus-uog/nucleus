@@ -2,14 +2,11 @@
 [![build status](https://gitlab.com/devine-industries/nucleus/badges/master/build.svg)](https://gitlab.com/devine-industries/nucleus/commits/master)
 [![coverage report](https://gitlab.com/devine-industries/nucleus/badges/master/coverage.svg)](https://gitlab.com/devine-industries/nucleus/commits/master)
 
-This project contains the Nucleus application for Web App Development 2 Group Project at University of Glasgow.
-tests used within the primary Nucleus application.
+This project contains the Nucleus application for Web App Development 2 Group Project at University of Glasgow. The application provides automated testing for students completing the Tango with Django project in the first part of the course.
 
-The application provides automated testing for students completing the Tango with Django project in the first part of the course.
-
-# How do I get this working?
+# Quick Start
 ## Docker (recommended)
-1. Install [Docker Compose](https://docs.docker.com/compose/install/).
+1. Install [Docker Compose](https://docs.docker.com/compose/install/). If using Windows, Docker for Windows must be used - the application does not work on the unsupported Docker Toolbox as it does not support the most recent - version 3 - compose file format.
 2. Download [docker-compose.yml](docker-compose.yml) and the [nucleus.env.example](nucleus.env.example) files.
 3. Rename `nucleus.env.example` to `nucleus.env`.
 4. Edit the configuration in `nucleus.env`, following the instructions in the comments.
@@ -23,7 +20,9 @@ The application provides automated testing for students completing the Tango wit
 12. Run `docker-compose logs -f` to view the logs for the application.
 13. When finished, you can run `docker-compose down` to kill the containers.
 
-Any emails that the application would send are printed to the console. When testing the reset password, check there.
+### Notes
+- Any emails that the application would send are printed to the console. When testing the reset password, check there.
+- Docker Compose is configured to set up volumes for storing the MySQL database and the results (so they can be read by the application), you can check and remove these volumes if necessary using `docker volume` and appropriate subcommands.
 
 ## Manual
 If you opt to run this manually, you'll need the following installed:
@@ -109,10 +108,8 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 
-# How does this all work?
-Coming soon.
 
-# How do I run the test task?
+# How do I run the tests in the code?
 In order to get the tests to run, create a `TestRun` instance with the repository url and student whose tests will run, as demonstrated below:
 
 ```python
@@ -127,7 +124,7 @@ Then, one can send a message on the `test-run` channel with the id of the previo
 Channel('run-tests').send({'id': run.id})
 ```
 
-From the frontend, a websocket connection can be created to `/` from a logged in user, this connection will then get updates on the status of any job for that student.
+From the frontend, a websocket connection can be created to `/` from a logged in user, this connection will then get updates on the status of any job for that student. This is not currently used in the application and struggles if there aren't many workers available.
 
 ```javascript
 socket = new WebSocket("ws://" + window.location.host);
@@ -137,16 +134,3 @@ socket.onmessage = function(e) {
     // data['message'] => Cloning repo..
 }
 ```
-
-## Using Redis
-If you wish to run the tasks with redis as a backend instead of in-memory, you must first install Redis - for Linux and Mac systems, follow the instructions on [the Redis website](https://redis.io/download); on Windows machines, install from [the MSOpenTech repository](https://github.com/MSOpenTech/redis/releases).
-
-Then, switch `CHANNEL_LAYERS` configuration in [the settings module](nucleus/settings.py). You can view an example configuration in [the production_settings module](nucleus_production_settings.py).
-
-Then, when running the application, you'll also need to run some workers. In different terminals, run `python manage.py runserver` once and `python manage.py runworker` many times.
-
-You'll need to set the registry environment variables on every terminal.
-
-You can also run workers to handle specific channels, for example, run `python manage.py runserver` once and also run `python manage.py runworker`, `python manage.py runworker --include-channels=run-tests` and `python manage.py runworker --include-channels=websockets.*`.
-
-Using Redis will improve the performance of some of the application's realtime functionality - the application will struggle to send messages back during the test run if not using Redis.
