@@ -46,8 +46,10 @@
             <a {% if test.status == "Complete" or test.status == "Error" %} href="{% url 'testlog' student.guid test.id %}" {% endif %} class="w-100 flex-column align-items-start d-flex nucleus-link">
                   <div class="d-flex justify-content-between w-100">
                     <dt class="mb-1">{{ test.date }}</dt>
-                    {% if test.status == 'Complete' %}
-                      <span class="badge badge-pill {% if test.score == test.max_score %} badge-success {% else %} badge-primary {% endif %}"><i class="fa fa-check" aria-hidden="true"></i> {{ test.score }}/{{ test.max_score }} </span>
+                      {% if test.status == 'Complete' %}
+                        <span class="badge badge-pill {% if test.score == test.max_score %} badge-success {% else %} badge-primary {% endif %}"><i class="fa fa-check" aria-hidden="true"></i> {{ test.score }}/{{ test.max_score }} </span>
+                      {% elif test.status == 'Error' %}
+                        <span class="badge badge-danger badge-pill"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ test.status }} </span>
                     {% else %}
                       <span class="badge badge-pill badge-warning status-check" id="status-{{ test.id }}"><i class="fa fa-question" aria-hidden="true"></i> {{ test.status }} </span>
                     {% endif %}

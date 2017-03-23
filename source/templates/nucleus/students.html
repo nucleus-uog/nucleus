@@ -35,6 +35,8 @@
                         <span class="badge badge-default badge-pill mt-1">N/A</span>
                       {% elif student.status == 'Complete' %}
                         <span class="badge badge-primary badge-pill mt-1 {% if student.score == student.max_score %} badge-success {% endif %}"><i class="fa fa-check" aria-hidden="true"></i> {{ student.score }}/{{ student.max_score }} </span>
+                      {% elif student.status == 'Error' %}
+                        <span class="badge badge-danger badge-pill mt-1"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ student.status }} </span>
                       {% else %}
                         <span class="badge badge-pill badge-warning status-check mt-1" id="status-{{ student.runid }}"><i class="fa fa-question" aria-hidden="true"></i> {{ student.status }} </span>
                       {% endif %}
