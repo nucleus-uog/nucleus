@@ -17,7 +17,7 @@ RUN apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-de
 # Install dependencies for psycopg2
 RUN apk add mariadb-dev linux-headers
 # Install dependencies for some npm packages.
-RUN apk add automake autoconf file bash nasm pkgconfig libtool
+RUN apk add automake autoconf file bash nasm pkgconfig libtool tar bzip2
 # Install nodejs for Gulp and Docker for test runner.
 RUN apk add docker nodejs
 
