@@ -127,7 +127,7 @@ def all_students(request):
     if len(context_dict['students']) == 0:
         context_dict['average'] = 0
     else:
-        context_dict["average"] = totalScore / len(context_dict['students'])
+        context_dict["average"] = int(totalScore / len(context_dict['students']))
     # Add the total number of tests to the context for the statistics.
     context_dict["totalTests"] = Test.objects.all().count()
 
